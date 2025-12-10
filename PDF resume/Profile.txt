@@ -1,0 +1,284 @@
+   
+Contact
+beaidya789@gmail.com
+www.linkedin.com/in/gilbert-baidya
+(LinkedIn)
+Top Skills
+Accessibility Insights
+Deque Axe DevTools
+AXE 
+Languages
+Bengali  (Professional Working)
+English  (Professional Working)
+Hindi  (Elementary)
+Certifications
+Lean Six Sigma Yellow Belt (ICYB)
+University of Provar | Provar
+Automation Advanced
+Katalon Practitioner Certification
+Continuous Delivery & DevOps
+Speaking Confidently and EffectivelyGilbert Baidya, PhD
+Senior QA Automation Engineer | Accessibility & Performance
+Testing | CI/CD & DevOps | Katalon, Selenium, API, Mobile, Web |
+SAFe 5.1 Certified | PhD, MBA
+Los Angeles Metropolitan Area
+Summary
+With over 12 years of experience in Software Quality Engineering
+and Test Automation, I specialize in designing and implementing
+end-to-end automation frameworks that accelerate delivery and
+ensure accessibility, performance, and quality across Web, Mobile,
+API, and Backend systems.
+I’ve led testing initiatives through all phases of the Software
+Development Life Cycle (SDLC), across both Agile and Waterfall
+methodologies. My expertise spans manual, automated, and ADA
+accessibility testing, ensuring each release aligns with WCAG 2.2
+and Section 508 standards for inclusive digital experiences.
+At Canoo Inc., I served as Interim QA Manager and Hiring Manager,
+where I built a QA department from scratch, hired and trained
+engineers, and transitioned the organization from manual to
+automation-first testing.
+I’m passionate about continuous improvement and DevOps
+integration, leveraging tools such as Jenkins, GitHub, and Azure
+DevOps for CI/CD automation. My experience includes mobile
+testing (iOS & Android using Appium), API automation (Postman,
+RestAssured), and backend validation using SQL.
+Known for mentorship, leadership, and analytical problem-solving, I
+foster collaboration between QA, development, and business teams
+to deliver reliable, accessible, and scalable software.
+Technical Proficiencies
+Automation Tools: Playwright, Selenium WebDriver/Grid, Provar,
+Katalon Studio, Appium, Zalenium, Docker, Charles Proxy
+  Page 1 of 8
+   
+Accessibility Testing: axe-core, Deque DevTools, Wave Evaluation
+Tool, Lighthouse Audit, Accessibility Insights for Web & Windows,
+NVDA, JAWS Screen Reader
+API Testing: RestAssured, Postman
+CI/CD: Jenkins, Azure DevOps, Maven
+Frameworks: TestNG, JUnit, Cucumber (BDD)
+Languages: Java, TypeScript, SQL, JSON, XML, Gherkin, HTML
+Databases: SQL Server, Oracle, MySQL, MongoDB
+Cloud Platforms: AWS, Microsoft Azure, SauceLabs
+Version Control: Git, GitHub, Bitbucket
+Bug Tracking: JIRA, HP ALM
+OS: Windows, macOS, Linux
+Other Tools: IntelliJ IDEA, Eclipse, MS Project, Excel, Word,
+PowerPoint
+Experience
+Deloitte
+QA Automation Lead
+May 2024 - Present  (1 year 8 months)
+Los Angeles, California, United States
+CoStar Group
+Sr. Software QA Automation Engineer
+November 2022 - April 2024  (1 year 6 months)
+Irvine, California, United States
+Canoo
+Sr. Software Test Engineer (Lead)
+June 2021 - December 2022  (1 year 7 months)
+Los Angeles Metropolitan Area
+- Created Mobile Phone app Test Plan for the organization
+- Author of dynamic/ robust Mobile App testing framework using Appium 2.20
+and Java11 from scratch.
+- Implemented cloud integration with CI/CD platform.
+- Closely monitoring offshore and shore resources.
+- Performing duty as a hiring manager.
+- Handle a diverse team of Quality Assurance specialists.
+- Assist continuous professional plans of QA team members.
+  Page 2 of 8
+   
+- Help in resource allocation and estimation efforts and delegate duties for
+routine activities.
+- Document and follow-through issues determined for prompt resolution.
+- Assist the QA environment team with the quality and availability of the QA
+test environment for each product.
+- Enhance QA methodology for test and defect management and tools
+supporting processes.
+- Maintain defect triage process and continuous defect review in a software
+organization.
+- Track customer-facing issues in the customer support tracking tool.
+- Escalate unresolved issues for suitable customer support levels.
+- Offer continuous improvement by assessing customer issues for root cause
+and future prevention.
+- Investigate and explore upcoming new technologies and suggest
+enhancements.
+- Handle vendor relationships to deliver services.
+- Conduct tests and demos and inspect to certify product readiness for quality
+gates.
+- Ensure and record requirements coverage by verification.
+Sallie Mae
+QA Automation Lead
+July 2017 - May 2021  (3 years 11 months)
+Reston, Virginia, United States
+Responsibilities:
+- Lead JAD sessions, eliciting precise business requirements, fostering
+stakeholder engagement.
+- Recommend process and technology improvements, optimizing business
+operations.
+- Manage project lifecycles using JIRA, including task planning and defect
+tracking.
+- Prioritize product backlog, aligning features with stakeholder needs for
+release cycles.
+- Translate business requirements into clear User Stories and Acceptance
+Criteria.
+- Facilitate Agile SCRUM ceremonies, driving sprint planning, retrospectives,
+and progress reviews.
+- Develop project plans in line with management standards, identifying and
+resolving potential issues.
+  Page 3 of 8
+   
+- Conduct User Acceptance Testing (UAT) to ensure functionality meets
+business expectations.
+- Collaborate with cross-functional teams to ensure thorough understanding of
+user requirements.
+- Utilize UML diagrams and wireframes for accurate UI design and analysis.
+- Devise Test Plans and Strategies, ensuring thorough coverage and
+adherence to quality standards.
+- Execute diverse testing methods, including GUI, Integration, Regression, and
+System Testing.
+- Utilize SQL for backend testing, verifying data integrity.
+- Implement Provar for Salesforce automation testing, and ensure ADA-
+compliance.
+- Analyze test data with Tableau Desktop, driving quality improvements.
+- Configure Java-based Automation frameworks with Selenium WebDriver,
+supporting multiple platforms.
+- Facilitate RESTful API testing using RestAssured and POSTMAN.
+- Manage Azure DevOps Infrastructure for consistent web and mobile app
+deployments.
+Environment: Power BI, Tableau, Java, Maven, Agile, Cucumber, SQL
+Server, Postman, TestNG, Selenium WebDriver & Grid, JUnit, Github, JIRA,
+SauceLab, RestAssured, Docker, Charles Proxy Jenkins, ngrok.
+UnitedHealth Group
+Sr. Software Test Engineer
+January 2016 - June 2017  (1 year 6 months)
+Minnetonka, Minnesota, United States
+Responsibilities:
+- Analyzed system requirements and designs to develop targeted test
+strategies.
+- Created detailed Test plans and cases from solution definitions and use case
+documents.
+- Designed Test scenarios and scripts for module analysis.
+- Performed performance testing with Neoload and automation testing with
+Katalon Studio.
+- Managed defects and generated defect status reports using JIRA.
+- Analyzed test data and results using Tableau Desktop.
+- Executed test cases and identified defects using Selenium WebDriver.
+- Developed automation scripts with Selenium WebDriver and Java, executing
+them via TestNG/JUnit.
+  Page 4 of 8
+   
+- Identified test case candidates for Cucumber automation.
+- Gained experience with AWS EC2 and deployment services.
+- Participated in daily Agile/Scrum stand-ups and weekly team meetings to
+discuss testing status.
+- Conducted UAT to confirm system functionality met business specifications.
+- Produced Status Reports and facilitated daily conferences and status
+meetings.
+- Scheduled business requirement gathering sessions, defining and translating
+requirements into functional designs.
+- Authored comprehensive Business Requirement Documents (BRD).
+- Updated project managers and tech teams with weekly status reports.
+- Advised on process improvements by analyzing business process flows.
+- Supported Product Owner with backlog grooming and prioritization.
+- Coordinated weekly sprint reviews, demonstrating features completed.
+- Clarified requirements with QA and Engineering teams using UML diagrams
+and wireframes.
+- Maintained up-to-date documentation, ensuring clarity and accessibility
+across teams.
+Environment: Confluence, TFS, Maven, Jenkins, HTML, JUnit, XML, MS
+Outlook, Oracle, Java, AGILE, UNIX, Windows, Selenium WebDriver,
+Cucumber, JIRA, JMeter, TestNG.
+Merck & Co.
+Sr. QA Analyst
+December 2014 - December 2015  (1 year 1 month)
+Kenilworth, New Jersey, United States
+Responsibilities:
+=> Wrote Test Scripts and Test Cases to meet assigned requirements.
+=> Used HP ALM to store and maintain the Test Repository and Document
+Generation.
+=> Evaluated and reported results and tracked bugs using JIRA.
+=> Performed Backend testing by running MongoDB No SQL Queries.
+=> Tested the Reports developed in Actuate, Business Objects to ensure the
+right data and calculations.
+=> Ensured to meet the project timelines and escalate the risk identified during
+the testing process.
+=> Developed and executed tests for Web services for GET, Post, Put and
+Delete for asynchronous and synchronous response testing using postman.
+=> Involved with test plans and test strategies..
+  Page 5 of 8
+   
+=> Communicated with support, business and development teams to resolve
+issues during test execution.
+=> Monitored project plan execution and project metrics reporting.
+=> Involved in performing UAT (User Acceptance Testing).
+=> Kept records of all bugs identified, producing progress reports on a regular
+basis.
+=> Involved in preparing Defect Summary report, Test execution report and
+Daily Status reports.
+Environment: JIRA, HP ALM, Windows, MacOS, UNIX, SQL, Java, UAT, XML,
+Outlook, MS Excel, MS Word, Postman, MongoDB NoSQL.
+Mutual Trust Bank Ltd.
+10 years 3 months
+Senior Officer (Manual Tester)
+January 2012 - March 2014  (2 years 3 months)
+Involved in preparation of Traceability Matrix, Test Project Metrics and
+Reports.
+❖ Executed the test cases directly in Quality Center/ALM logging the results
+and ensuring that all information entered was clear and complete.
+❖  Involved in coordinating with the development team for Raising Defects.
+❖  Involved in coordinating with the onsite team and Client for issues
+resolution.
+❖  Involved in mentoring the junior team members in their work assignments.
+❖  Involved in review calls for Business Requirement Document(BRD) and
+User Interface Document(UI)
+❖  Involved in reporting the daily status of testing activities to the testing
+Manager.
+❖ Involved in script creation, configuration, execution, retesting in order to load
+(performance) testing using JMETER 2.8.
+❖  Involved in weekly status meeting with teammates and Manager
+Environment: HP ALM, Windows,  MySQL, Outlook, MS Excel, MS Word,
+FloraBank, JMeter
+Officer - Business Analyst
+January 2004 - December 2011  (8 years)
+Dhaka, Bangladesh
+● Involved in the Foreign Trade Dept. of the branch.
+● Performed all the duties related to export and import business.
+  Page 6 of 8
+   
+● Scrutiny of Export contract, opening of Import L/Cs (both Back to Back &
+Cash) & passing of vouchers.
+● Preparation and submission Daily, Weekly, Monthly (Including commodity
+Statement) Statement to Head office and related correspondences.
+● Preparation and submission of Returns to Central Bank of Bangladesh and
+related correspondences etc.
+● Issuance & endorsement of FC CASH  & Travelers Cheque.
+● Overall SWIFT Alliance Module operation & Preparation of message in
+different types as necessary.
+● Processing Pre-Shipment inspection cases.
+Epsilon Computers and Technologies
+Computer Hardware Engineer
+May 2000 - December 2002  (2 years 8 months)
+Dhaka, Bangladesh
+Responsibilities:
+❖  Involved in assemble Windows based PC
+❖  Involved in installation OS and other necessary software
+❖  Involved in troubleshoot software and hardware related issues.
+❖  Involved in configuring and troubleshooting network related issues.
+Education
+Christian Life School of Theology Global
+Doctor of Philosophy - PhD, Theology/Theological Studies  · (February
+2024 - February 2025)
+International of School of Ministry
+Master's degree, Religion/Religious Studies  · (February 2023 - February 2024)
+International School of Ministry
+Bachelor's degree, Religion/Religious Studies  · (February 2022 - February
+2023)
+ATISH DIPANKAR UNIVERSITY OF SCIENCE AND
+TECHNOLOGY
+Master of Business Administration - MBA, Finance, General  · (November
+2007 - 2009)
+National University | Bangladesh
+  Page 7 of 8
+   
+Bachelor of Arts - BA, Social Sciences  · (2000 - 2002)
+  Page 8 of 8
