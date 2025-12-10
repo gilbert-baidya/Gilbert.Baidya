@@ -103,38 +103,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ========================================
-// Contact Form Handling
+// Contact Form Handling with Formspree
 // ========================================
 
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+        const formData = new FormData(contactForm);
         
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
+        // Show loading state
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitButton.disabled = true;
         
-        // Create mailto link with form data
-        const mailtoLink = `mailto:beaidya789@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-            `Name: ${formData.name}\n` +
-            `Email: ${formData.email}\n\n` +
-            `Message:\n${formData.message}`
-        )}`;
-        
-        // Open default email client
-        window.location.href = mailtoLink;
-        
-        // Show success message
-        showNotification('Thank you! Your message will open in your email client.', 'success');
-        
-        // Reset form
-        contactForm.reset();
+        // Formspree will handle the actual submission
+        // After submission, show success message
+        setTimeout(() => {
+            showNotification('Thank you! Your message has been sent successfully.', 'success');
+            contactForm.reset();
+            submitButton.innerHTML = originalButtonText;
+            submitButton.disabled = false;
+        }, 1000);
     });
 }
 
