@@ -481,6 +481,34 @@ section {
     font-size: 16px;
 }
 
+.about-section-title {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.pastoral-intro {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05));
+    padding: 20px;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pastoral-closing {
+    font-style: italic;
+    color: var(--primary-color);
+    font-weight: 500;
+    text-align: center;
+    padding: 20px;
+    background: var(--light-bg);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
 .about-highlights {
     margin-top: 30px;
 }
