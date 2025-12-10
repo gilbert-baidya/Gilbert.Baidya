@@ -1249,8 +1249,17 @@ section {
     }
     
     .hero-image {
-        max-width: 400px;
-        margin: 0 auto;
+        max-width: 350px;
+        margin: 40px auto 0;
+        order: -1;
+    }
+    
+    .hero-text {
+        order: 1;
+    }
+    
+    .profile-card {
+        position: relative;
     }
     
     .hero-stats {
@@ -1305,6 +1314,16 @@ section {
         display: flex;
     }
     
+    .hero-image {
+        max-width: 280px;
+        margin: 30px auto 0;
+    }
+    
+    .profile-img-wrapper {
+        width: 100%;
+        aspect-ratio: 1;
+    }
+    
     .name {
         font-size: 40px;
     }
@@ -1326,8 +1345,14 @@ section {
     }
     
     .hero-stats {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 20px;
+        justify-content: center;
+    }
+    
+    .stat {
+        flex: 0 0 calc(50% - 10px);
     }
     
     .hero-buttons {
@@ -1349,9 +1374,7 @@ section {
     }
     
     .floating-badge {
-        position: static;
-        display: inline-flex;
-        margin: 10px;
+        display: none;
     }
     
     .footer-content {
@@ -1367,6 +1390,19 @@ section {
 }
 
 @media (max-width: 480px) {
+    .hero-image {
+        max-width: 240px;
+        margin: 20px auto 0;
+    }
+    
+    .profile-img-wrapper {
+        border-radius: 15px;
+    }
+    
+    .profile-img {
+        border-radius: 15px;
+    }
+    
     .name {
         font-size: 32px;
     }
