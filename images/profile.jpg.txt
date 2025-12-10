@@ -1,0 +1,2 @@
+# Profile image should be placed here
+# The attached image needs to be saved as: images/profile.jpg
