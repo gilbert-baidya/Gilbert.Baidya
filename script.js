@@ -9,13 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (hamburger) {
         hamburger.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
+            const isExpanded = navMenu.classList.toggle('active');
+            
+            // Update ARIA attribute for accessibility
+            this.setAttribute('aria-expanded', isExpanded);
             
             // Animate hamburger
             const spans = this.querySelectorAll('span');
-            spans[0].style.transform = navMenu.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : '';
-            spans[1].style.opacity = navMenu.classList.contains('active') ? '0' : '1';
-            spans[2].style.transform = navMenu.classList.contains('active') ? 'rotate(-45deg) translate(7px, -6px)' : '';
+            spans[0].style.transform = isExpanded ? 'rotate(45deg) translate(5px, 5px)' : '';
+            spans[1].style.opacity = isExpanded ? '0' : '1';
+            spans[2].style.transform = isExpanded ? 'rotate(-45deg) translate(7px, -6px)' : '';
         });
     }
     
@@ -25,7 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
             
-            // Reset hamburger
+            // Reset ARIA attribute
+            hamburger.setAttribute('aria-expanded', 'false');
+            
+            // Reset hamburger animation
             const spans = hamburger.querySelectorAll('span');
             spans[0].style.transform = '';
             spans[1].style.opacity = '1';

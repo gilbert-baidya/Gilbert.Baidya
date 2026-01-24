@@ -8,6 +8,35 @@
     box-sizing: border-box;
 }
 
+/* Skip Navigation Link */
+.skip-link {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 20px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    z-index: 10000;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
 :root {
     /* Colors */
     --primary-color: #2563eb;
