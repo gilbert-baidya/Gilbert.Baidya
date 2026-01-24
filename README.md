@@ -1,6 +1,6 @@
 # Gilbert Baidya - Professional Portfolio Website
 
-A modern, responsive portfolio website showcasing the professional experience, skills, and expertise of Gilbert Baidya, PhD - Senior QA Automation Engineer.
+A modern, responsive portfolio website showcasing the professional experience, skills, and expertise of Gilbert Baidya, PhD - Senior QA Automation.
 
 ## 🌟 Features
 
@@ -188,7 +188,7 @@ This project is open source and available for personal use. Please credit the or
 ## 👤 Author
 
 **Gilbert Baidya, PhD**
-- Email: beaidya789@gmail.com
+- Email: gilbert.baidya@gmail.com
 - LinkedIn: [linkedin.com/in/gilbert-baidya](https://www.linkedin.com/in/gilbert-baidya)
 - Location: Los Angeles Metropolitan Area, California
 
@@ -201,11 +201,11 @@ This project is open source and available for personal use. Please credit the or
 ## 📞 Support
 
 For any questions or support, please contact:
-- Email: beaidya789@gmail.com
+- Email: gilbert.baidya@gmail.com
 - LinkedIn: [Gilbert Baidya](https://www.linkedin.com/in/gilbert-baidya)
 
 ---
 
-**Last Updated**: December 2025
+**Last Updated**: January 2026
 
 **Version**: 1.0.0

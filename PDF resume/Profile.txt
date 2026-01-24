@@ -1,6 +1,6 @@
    
 Contact
-beaidya789@gmail.com
+gilbert.baidya@gmail.com
 www.linkedin.com/in/gilbert-baidya
 (LinkedIn)
 Top Skills
@@ -17,21 +17,22 @@ University of Provar | Provar
 Automation Advanced
 Katalon Practitioner Certification
 Continuous Delivery & DevOps
-Speaking Confidently and EffectivelyGilbert Baidya, PhD
-Senior QA Automation Engineer | Accessibility & Performance
-Testing | CI/CD & DevOps | Katalon, Selenium, API, Mobile, Web |
-SAFe 5.1 Certified | PhD, MBA
+Speaking Confidently and Effectively
+Gilbert Baidya, PhD
+Senior QA Automation | AI-Powered QA & Accessibility Intelligence |
+Generative AI, RAG, Agentic AI | WCAG 2.1/2.2 & ADA | CI/CD & DevOps |
+Katalon, Selenium, API, Mobile, Web | SAFe 5.1 Certified | PhD, MBA
 Los Angeles Metropolitan Area
 Summary
 With over 12 years of experience in Software Quality Engineering
 and Test Automation, I specialize in designing and implementing
-end-to-end automation frameworks that accelerate delivery and
-ensure accessibility, performance, and quality across Web, Mobile,
-API, and Backend systems.
+end-to-end automation frameworks and AI-driven QA strategies that
+accelerate delivery and ensure accessibility, performance, and
+quality across Web, Mobile, API, and Backend systems.
 I’ve led testing initiatives through all phases of the Software
 Development Life Cycle (SDLC), across both Agile and Waterfall
 methodologies. My expertise spans manual, automated, and ADA
-accessibility testing, ensuring each release aligns with WCAG 2.2
+accessibility testing, ensuring each release aligns with WCAG 2.1/2.2
 and Section 508 standards for inclusive digital experiences.
 At Canoo Inc., I served as Interim QA Manager and Hiring Manager,
 where I built a QA department from scratch, hired and trained
@@ -41,7 +42,9 @@ I’m passionate about continuous improvement and DevOps
 integration, leveraging tools such as Jenkins, GitHub, and Azure
 DevOps for CI/CD automation. My experience includes mobile
 testing (iOS & Android using Appium), API automation (Postman,
-RestAssured), and backend validation using SQL.
+RestAssured), and backend validation using SQL. Currently, I serve
+as a QA Automation Lead at Deloitte, focused on AI-enabled quality
+engineering and accessibility intelligence for Fortune 500 clients.
 Known for mentorship, leadership, and analytical problem-solving, I
 foster collaboration between QA, development, and business teams
 to deliver reliable, accessible, and scalable software.
@@ -56,6 +59,7 @@ NVDA, JAWS Screen Reader
 API Testing: RestAssured, Postman
 CI/CD: Jenkins, Azure DevOps, Maven
 Frameworks: TestNG, JUnit, Cucumber (BDD)
+AI/Automation: Generative AI, RAG, Agentic AI
 Languages: Java, TypeScript, SQL, JSON, XML, Gherkin, HTML
 Databases: SQL Server, Oracle, MySQL, MongoDB
 Cloud Platforms: AWS, Microsoft Azure, SauceLabs
@@ -69,6 +73,8 @@ Deloitte
 QA Automation Lead
 May 2024 - Present  (1 year 8 months)
 Los Angeles, California, United States
+Leading enterprise QA automation and AI-driven accessibility
+intelligence initiatives for Fortune 500 clients.
 CoStar Group
 Sr. Software QA Automation Engineer
 November 2022 - April 2024  (1 year 6 months)
