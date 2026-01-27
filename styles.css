@@ -143,6 +143,16 @@ body.light-mode {
     padding: 0 20px;
 }
 
+a {
+    color: var(--text-accent);
+    text-decoration: none;
+    transition: var(--transition-base);
+}
+
+a:hover {
+    color: var(--text-gold);
+}
+
 /* ========================================
    Navigation Bar
    ======================================== */
@@ -346,10 +356,19 @@ body.light-mode .navbar {
     line-height: 1.1;
     margin-bottom: 15px;
     background: linear-gradient(to right, #f8fafc 20%, #94a3b8 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: fadeInUp 0.8s ease;
 }
+
+body.light-mode .name {
+    background: linear-gradient(to right, #0f172a 20%, #475569 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 
 .hero-subtitle {
     font-size: 32px;
@@ -681,6 +700,68 @@ section {
     border-radius: 12px;
     margin: 20px 0;
     border: 1px solid var(--border-subtle);
+}
+
+.featured-project {
+    background: var(--bg-glass);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid var(--border-subtle);
+    margin: 20px 0;
+    box-shadow: var(--shadow-glass);
+}
+
+.featured-project h4 {
+    color: var(--text-gold);
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.featured-project p {
+    font-size: 15px !important;
+    line-height: 1.6;
+    margin-bottom: 15px !important;
+}
+
+.featured-project ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.featured-project li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.featured-project li::before {
+    content: "→";
+    color: var(--text-accent);
+    font-weight: bold;
+}
+
+.featured-project .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--border-subtle);
+    transition: var(--transition-smooth);
+}
+
+.featured-project .github-link:hover {
+    background: var(--text-accent);
+    color: var(--bg-main);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
 }
 
 .pastoral-closing {
@@ -2087,5 +2168,99 @@ section {
 
     .page-subtitle {
         font-size: 16px;
+    }
+}
+
+/* ========================================
+   Recommendations Section
+   ======================================== */
+
+.recommendations {
+    padding: 100px 0;
+    background: var(--bg-main);
+    position: relative;
+    overflow: hidden;
+}
+
+.recommendations-slider {
+    padding: 40px 0 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.recommendation-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    padding: 60px;
+    text-align: center;
+    transition: var(--transition-smooth);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: var(--shadow-glass);
+}
+
+.quote-icon {
+    font-size: 40px;
+    color: var(--text-gold);
+    margin-bottom: 30px;
+    opacity: 0.6;
+}
+
+.recommendation-text {
+    font-size: 22px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    font-style: italic;
+    margin-bottom: 40px;
+}
+
+.recommender-info h4 {
+    font-size: 20px;
+    color: var(--text-gold);
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+}
+
+.recommender-info p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+/* Swiper custom styles */
+.swiper-pagination-bullet {
+    background: var(--text-gold) !important;
+    opacity: 0.2;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--text-gold) !important;
+    transform: scale(0.6);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 24px !important;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .recommendation-card {
+        padding: 40px 20px;
+    }
+
+    .recommendation-text {
+        font-size: 18px;
     }
 }

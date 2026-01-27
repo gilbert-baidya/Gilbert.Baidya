@@ -4,7 +4,7 @@
 
 let lenisInstance = null;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (typeof Lenis !== 'undefined') {
         document.documentElement.style.scrollBehavior = 'auto';
 
@@ -45,18 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
-    
+
     if (hamburger) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function () {
             const isExpanded = navMenu.classList.toggle('active');
-            
+
             // Update ARIA attribute for accessibility
             this.setAttribute('aria-expanded', isExpanded);
-            
+
             // Animate hamburger
             const spans = this.querySelectorAll('span');
             spans[0].style.transform = isExpanded ? 'rotate(45deg) translate(5px, 5px)' : '';
@@ -64,16 +64,16 @@ document.addEventListener('DOMContentLoaded', function() {
             spans[2].style.transform = isExpanded ? 'rotate(-45deg) translate(7px, -6px)' : '';
         });
     }
-    
+
     // Close mobile menu when clicking on a link
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
-            
+
             // Reset ARIA attribute
             hamburger.setAttribute('aria-expanded', 'false');
-            
+
             // Reset hamburger animation
             const spans = hamburger.querySelectorAll('span');
             spans[0].style.transform = '';
@@ -81,34 +81,34 @@ document.addEventListener('DOMContentLoaded', function() {
             spans[2].style.transform = '';
         });
     });
-    
+
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
+
         if (currentScroll <= 0) {
             navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
         } else {
             navbar.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
         }
-        
+
         lastScroll = currentScroll;
     });
-    
+
     // Active navigation link highlighting
     const sections = document.querySelectorAll('section[id]');
-    
+
     function highlightNavigation() {
         const scrollY = window.pageYOffset;
-        
+
         sections.forEach(section => {
             const sectionHeight = section.offsetHeight;
             const sectionTop = section.offsetTop - 100;
             const sectionId = section.getAttribute('id');
-            
+
             if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 document.querySelector('.nav-link[href*=' + sectionId + ']')?.classList.add('active');
             } else {
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     window.addEventListener('scroll', highlightNavigation);
 });
 
@@ -130,7 +130,7 @@ const observerOptions = {
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver(function (entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
@@ -140,9 +140,9 @@ const observer = new IntersectionObserver(function(entries) {
 }, observerOptions);
 
 // Observe elements for animation
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const animateElements = document.querySelectorAll('.expertise-card, .timeline-item, .education-item, .cert-item');
-    
+
     animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -162,7 +162,7 @@ function isValidEmail(email) {
 }
 
 if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
+    contactForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const nameInput = contactForm.querySelector('#name');
@@ -253,7 +253,7 @@ function showNotification(message, type = 'info') {
     if (existingNotification) {
         existingNotification.remove();
     }
-    
+
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -263,7 +263,7 @@ function showNotification(message, type = 'info') {
             <span>${message}</span>
         </div>
     `;
-    
+
     // Add styles
     notification.style.cssText = `
         position: fixed;
@@ -277,9 +277,9 @@ function showNotification(message, type = 'info') {
         z-index: 10000;
         animation: slideInRight 0.3s ease;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Remove after 5 seconds
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease';
@@ -328,7 +328,7 @@ document.head.appendChild(style);
 // Skills Progress Animation
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const skillFills = document.querySelectorAll('.skill-fill');
     if (skillFills.length === 0) return;
 
@@ -357,15 +357,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // Typing Effect for Hero Title
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const heroSubtitle = document.querySelector('.hero-subtitle');
-    
+
     if (heroSubtitle) {
         const text = heroSubtitle.textContent;
         heroSubtitle.textContent = '';
         heroSubtitle.style.borderRight = '2px solid';
         heroSubtitle.style.paddingRight = '5px';
-        
+
         let i = 0;
         const typeWriter = () => {
             if (i < text.length) {
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 500);
             }
         };
-        
+
         // Start typing after a short delay
         setTimeout(typeWriter, 1000);
     }
@@ -413,7 +413,7 @@ function animateCounter(element, target, duration = 2000) {
     requestAnimationFrame(step);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const statValues = document.querySelectorAll('.stat-value[data-target]');
 
     if (statValues.length === 0) return;
@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Reading Time Calculation
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const readingTargets = document.querySelectorAll('[data-reading-content]');
     const readingBadge = document.querySelector('.reading-time');
 
@@ -458,13 +458,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // Scroll to Top Button
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Create scroll to top button
     const scrollTopBtn = document.createElement('button');
     scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
     scrollTopBtn.className = 'scroll-top-btn';
     scrollTopBtn.setAttribute('aria-label', 'Scroll to top');
-    
+
     scrollTopBtn.style.cssText = `
         position: fixed;
         bottom: 30px;
@@ -483,9 +483,9 @@ document.addEventListener('DOMContentLoaded', function() {
         z-index: 999;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     `;
-    
+
     document.body.appendChild(scrollTopBtn);
-    
+
     // Show/hide button on scroll
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function() {
             scrollTopBtn.style.visibility = 'hidden';
         }
     });
-    
+
     // Scroll to top on click
     scrollTopBtn.addEventListener('click', () => {
         if (window.lenis) {
@@ -508,13 +508,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
+
     // Hover effect
     scrollTopBtn.addEventListener('mouseenter', () => {
         scrollTopBtn.style.transform = 'translateY(-5px) scale(1.1)';
         scrollTopBtn.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.2)';
     });
-    
+
     scrollTopBtn.addEventListener('mouseleave', () => {
         scrollTopBtn.style.transform = 'translateY(0) scale(1)';
         scrollTopBtn.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const heroContent = document.querySelector('.hero-content');
-    
+
     if (heroContent && scrolled < window.innerHeight) {
         heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
         heroContent.style.opacity = 1 - (scrolled / 600);
@@ -539,10 +539,10 @@ window.addEventListener('scroll', () => {
 // Cursor Trail Effect (Optional)
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const coords = { x: 0, y: 0 };
     const circles = document.querySelectorAll('.circle');
-    
+
     // Only add cursor effect on larger screens
     if (window.innerWidth > 768) {
         for (let i = 0; i < 20; i++) {
@@ -560,31 +560,31 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             document.body.appendChild(circle);
         }
-        
+
         const circles = document.querySelectorAll('.circle');
-        
-        window.addEventListener('mousemove', function(e) {
+
+        window.addEventListener('mousemove', function (e) {
             coords.x = e.clientX;
             coords.y = e.clientY;
         });
-        
+
         function animateCircles() {
             let x = coords.x;
             let y = coords.y;
-            
-            circles.forEach(function(circle, index) {
+
+            circles.forEach(function (circle, index) {
                 circle.style.left = x - 4 + 'px';
                 circle.style.top = y - 4 + 'px';
                 circle.style.transform = `scale(${(circles.length - index) / circles.length})`;
-                
+
                 const nextCircle = circles[index + 1] || circles[0];
                 x += (nextCircle.offsetLeft - circle.offsetLeft) * 0.3;
                 y += (nextCircle.offsetTop - circle.offsetTop) * 0.3;
             });
-            
+
             requestAnimationFrame(animateCircles);
         }
-        
+
         animateCircles();
     }
 });
@@ -601,7 +601,7 @@ function printResume() {
 // Theme Toggle (Dark Default)
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const themeToggle = document.getElementById('theme-toggle');
     const savedTheme = localStorage.getItem('theme');
 
@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Magnetic Button Hover (Desktop Only)
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-outline');
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.innerWidth > 768;
 
@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Spotlight Hover Effect (Desktop Only)
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const spotlightCards = document.querySelectorAll(
         '.expertise-card, .timeline-content, .education-item, .info-card'
     );
@@ -690,65 +690,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// ========================================
-// Theme Toggle (Dark/Light Mode)
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const icon = themeToggle?.querySelector('i');
-    
-    if (!themeToggle) return;
-    
-    // Load saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        body.classList.add('light-mode');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-        themeToggle.setAttribute('aria-label', 'Toggle dark mode');
-        themeToggle.setAttribute('aria-pressed', 'true');
-    }
-    
-    // Toggle theme on click
-    themeToggle.addEventListener('click', () => {
-        body.classList.toggle('light-mode');
-        const isLight = body.classList.contains('light-mode');
-        
-        // Update icon
-        if (isLight) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-            themeToggle.setAttribute('aria-label', 'Toggle dark mode');
-            themeToggle.setAttribute('aria-pressed', 'true');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-            themeToggle.setAttribute('aria-label', 'Toggle light mode');
-            themeToggle.setAttribute('aria-pressed', 'false');
-        }
-        
-        // Save preference
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    });
-});
 
 // ========================================
 // Animated Statistics Counter
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const statValues = document.querySelectorAll('.stat-value');
-    
+
     if (statValues.length === 0) return;
-    
+
     function animateCounter(element) {
         const target = parseInt(element.getAttribute('data-target'));
         const duration = 2000; // 2 seconds
         const increment = target / (duration / 16); // 60fps
         let current = 0;
-        
+
         const updateCounter = () => {
             current += increment;
             if (current < target) {
@@ -758,10 +715,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.textContent = target;
             }
         };
-        
+
         updateCounter();
     }
-    
+
     // Trigger animation on page load
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -772,7 +729,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     statValues.forEach(stat => observer.observe(stat));
 });
 
@@ -780,11 +737,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // Animated Skill Bars
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const skillFills = document.querySelectorAll('.skill-fill');
-    
+
     if (skillFills.length === 0) return;
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
@@ -797,6 +754,36 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.3 });
-    
+
     skillFills.forEach(fill => observer.observe(fill));
+});
+
+// ========================================
+// Swiper Slider Initialization
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof Swiper !== 'undefined') {
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
+        });
+    }
 });
