@@ -12,7 +12,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html">
+    <meta property="og:url" content="https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html">
     <meta property="og:title" content="Building an Accessibility-First QA Culture | Gilbert Baidya">
     <meta property="og:description" content="How to train cross-functional squads to prioritize inclusive design while keeping delivery timelines intact.">
     <meta property="og:image" content="https://gilbertbaidya.netlify.app/images/blog/og-example.jpg">
@@ -25,11 +25,10 @@
     <meta name="twitter:image" content="https://gilbertbaidya.netlify.app/images/blog/og-example.jpg">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html">
+    <link rel="canonical" href="https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/logo.svg">
-    <link rel="alternate icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.svg">
 
     <!-- Stylesheets -->
@@ -60,7 +59,7 @@
       },
       "datePublished": "2025-10-18",
       "dateModified": "2025-10-18",
-      "mainEntityOfPage": "https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html"
+      "mainEntityOfPage": "https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html"
     }
     </script>
 </head>
@@ -116,21 +115,322 @@
         <section class="article-section">
             <div class="container article-layout">
                 <article class="article-content" data-reading-content>
-                    <p>Intro paragraph that hooks the reader and explains the value of the post.</p>
+<p>Accessibility is not a feature; it is a quality standard. Yet many QA organizations still treat it as a late-stage checklist. An accessibility-first QA culture shifts that mindset. It makes inclusive testing a default practice, not a special project. This guide outlines how to build that culture with practical steps, measurable outcomes, and cross-functional alignment.</p>
 
-                    <h2>Section Heading</h2>
-                    <p>Provide insights, data points, and practical advice relevant to QA automation, AI testing, or accessibility strategy.</p>
+<h2>Why culture matters more than tools</h2>
+<p>Most teams have access to accessibility tools. What they lack is consistency. When accessibility depends on one person or one audit, the organization becomes fragile. A culture embeds accessibility into daily habits: planning, design reviews, test execution, and release gates.</p>
+<p>Culture changes when leadership makes accessibility visible, teams understand the "why," and processes make compliance repeatable.</p>
 
-                    <h3>Supporting Detail</h3>
-                    <p>Include examples, frameworks, or checklists that help the reader implement the idea.</p>
+<h2>What an accessibility-first culture looks like</h2>
+<ul>
+    <li>Accessibility requirements are defined in user stories.</li>
+    <li>Design reviews include focus styles and target sizes.</li>
+    <li>QA validates keyboard and screen reader flows for critical journeys.</li>
+    <li>Release gates include accessibility evidence.</li>
+    <li>Everyone understands their role in inclusive delivery.</li>
+</ul>
 
-                    <div class="article-callout">
-                        Highlight an important insight or memorable quote here.
-                    </div>
+<h2>Step 1: Set the standard</h2>
+<p>Culture starts with clarity. Define the accessibility standard your organization follows (WCAG 2.2 or equivalent) and communicate it in plain language. Avoid vague statements like "be accessible." Instead, specify requirements: focus visibility, keyboard access, target size, error messaging, and assistive technology compatibility.</p>
 
-                    <h2>Conclusion</h2>
-                    <p>Summarize the key takeaways and close with a clear next step or invitation to connect.</p>
-                </article>
+<h2>Step 2: Build accessibility into planning</h2>
+<p>If accessibility is not in the requirements, it will not be in the build. Add accessibility acceptance criteria to user stories, especially for new components and major workflows. This makes accessibility testable and measurable.</p>
+
+<h2>Step 3: Train QA with real scenarios</h2>
+<p>Training should not be theoretical. Use real product flows: login, checkout, onboarding. Teach QA how to use keyboard-only navigation, screen readers, and mobile accessibility features. Pair this training with hands-on exercises so the team gains confidence.</p>
+
+<h2>Step 4: Embed accessibility in design systems</h2>
+<p>Design systems are leverage. If core components are accessible, teams inherit compliance. Add accessibility requirements into component specs: focus styles, target sizes, ARIA patterns, and error states.</p>
+
+<h2>Step 5: Define clear QA workflows</h2>
+<p>Accessibility testing should be part of regression, not a separate project. Create a lightweight checklist for every release and a deeper audit checklist for major releases. This keeps the practice sustainable.</p>
+
+<h2>Sample accessibility QA checklist</h2>
+<ul>
+    <li>Keyboard-only navigation works across critical journeys.</li>
+    <li>Focus indicators are visible and consistent.</li>
+    <li>Form errors are announced and easy to recover from.</li>
+    <li>Touch targets meet minimum size requirements.</li>
+    <li>Drag-and-drop has a non-drag alternative.</li>
+</ul>
+
+<h2>Evidence and accountability</h2>
+<p>Evidence is what makes accessibility real. Capture screenshots, short videos, and test notes. Store evidence with release artifacts so leadership can see compliance status at a glance. Assign ownership for each accessibility check; if it is everyone's job, it is no one's job.</p>
+
+<h2>How to build leadership support</h2>
+<p>Leadership support grows when accessibility is tied to outcomes: reduced risk, improved usability, and better customer trust. Provide short reports showing progress, including pass rates on manual checks and reduction of post-release issues.</p>
+
+<h2>Cross-functional collaboration</h2>
+<p>Accessibility-first culture requires collaboration across design, engineering, QA, and product. Create shared rituals: accessibility review in sprint planning, joint QA/design validation, and retrospectives on accessibility defects.</p>
+
+<h2>Metrics that matter</h2>
+<ul>
+    <li>Percent of critical journeys passing manual accessibility checks.</li>
+    <li>Average time to remediate accessibility defects.</li>
+    <li>Number of accessibility issues found pre-release vs post-release.</li>
+    <li>Accessibility test coverage across design system components.</li>
+</ul>
+
+<h2>Common obstacles and how to overcome them</h2>
+<ul>
+    <li><strong>Time pressure:</strong> solve by making accessibility part of definition of done.</li>
+    <li><strong>Lack of skills:</strong> invest in short, repeated training sessions.</li>
+    <li><strong>Tool overload:</strong> keep a minimal, consistent toolkit.</li>
+    <li><strong>No accountability:</strong> assign clear owners for checks.</li>
+</ul>
+
+<h2>Make accessibility part of Definition of Done</h2>
+<p>Culture is reinforced by process. The simplest way to make accessibility non-negotiable is to add it to Definition of Done for critical features. This means a story cannot be closed until accessibility checks are completed and evidence is stored.</p>
+
+<h2>Embed accessibility in sprint rituals</h2>
+<p>Accessibility should appear in regular ceremonies, not as a separate meeting. Add a quick accessibility check to sprint planning and make it part of the demo checklist. When teams see accessibility as normal, it stops being a special task.</p>
+
+<h2>Build a lightweight accessibility playbook</h2>
+<p>Create a short internal guide that explains the top accessibility rules, common pitfalls, and testing methods. Keep it practical with screenshots and examples from your product. A good playbook reduces reliance on memory and makes onboarding faster.</p>
+
+<h2>Training program outline</h2>
+<ul>
+    <li><strong>Session 1:</strong> keyboard navigation and focus visibility.</li>
+    <li><strong>Session 2:</strong> screen reader basics and label validation.</li>
+    <li><strong>Session 3:</strong> mobile accessibility and target size.</li>
+    <li><strong>Session 4:</strong> auditing real product journeys.</li>
+</ul>
+
+<h2>Pairing QA with design</h2>
+<p>Many accessibility issues originate in design. Pair QA with design early to review focus styles, target sizes, and error messaging before implementation. This prevents costly fixes later.</p>
+
+<h2>Accessibility champions program</h2>
+<p>Appoint accessibility champions in each team. Champions become local experts who can answer questions, review issues, and keep accessibility top of mind. This scales impact without overloading a central team.</p>
+
+<h2>Scaling with a design system</h2>
+<p>When a design system includes accessible components, teams can move faster without re-litigating accessibility. Ensure components include:</p>
+<ul>
+    <li>Visible focus states by default</li>
+    <li>Minimum touch targets and spacing</li>
+    <li>Keyboard support and ARIA patterns where needed</li>
+    <li>Clear error messaging and validation states</li>
+</ul>
+
+<h2>How to handle pushback</h2>
+<p>Accessibility is sometimes seen as a blocker. Counter this by showing how accessibility improves overall usability and reduces legal risk. Share examples of accessibility fixes that improved customer satisfaction or reduced support tickets.</p>
+
+<h2>Audit cadence</h2>
+<p>Define a cadence for accessibility audits. Light checks can be part of every release, while deeper audits can be quarterly. This keeps the organization aligned and prevents regressions from accumulating.</p>
+
+<h2>Integrating tools without overwhelming teams</h2>
+<p>Use a small set of tools consistently. Overloading teams with multiple scanners or inconsistent reports creates fatigue. Pick one automated scanner, one manual checklist, and one evidence template.</p>
+
+<h2>Accessibility evidence templates</h2>
+<p>Create templates for evidence collection so results are comparable across releases. A good template includes:</p>
+<ul>
+    <li>Journey name and test date</li>
+    <li>Tester name and environment</li>
+    <li>Keyboard navigation screenshots</li>
+    <li>Screen reader notes</li>
+    <li>Known exceptions and remediation plans</li>
+</ul>
+
+<h2>Leadership reporting</h2>
+<p>Executives do not want long reports. Provide a one-page accessibility snapshot each quarter: pass rate, open issues, and trends. This helps maintain support and funding.</p>
+
+<h2>Long-term sustainability</h2>
+<p>Accessibility culture grows through repetition. Keep small, recurring practices: accessibility checks in PR reviews, short demos of fixes in team meetings, and recognition of teams that improve accessibility.</p>
+
+<h2>Behavior change: small habits that stick</h2>
+<p>Culture grows through small, repeated actions. Encourage teams to do a 5-minute keyboard sweep before every release. Ask designers to include focus states in every component review. Make these habits visible, and celebrate them when they happen.</p>
+
+<h2>Accessibility in hiring and onboarding</h2>
+<p>Include accessibility expectations in job descriptions and onboarding. When new team members see accessibility as a standard requirement, it becomes part of the team identity. This helps avoid the "optional" mindset.</p>
+
+<h2>Creating shared language</h2>
+<p>Teams move faster when they share a vocabulary. Define what "focus visibility" or "target size" means in your context, and publish examples. A shared language reduces debate and speeds up decisions.</p>
+
+<h2>Embedding accessibility into QA tooling</h2>
+<p>Integrate accessibility checks into your QA dashboards. A visible accessibility status signal keeps it from being forgotten. Even a simple "pass/fail" indicator on key journeys can shift behavior.</p>
+
+<h2>Handling legacy components</h2>
+<p>Legacy components are common sources of accessibility risk. Create a remediation backlog, prioritize by impact, and schedule incremental updates. Avoid leaving legacy fixes to the end of the roadmap.</p>
+
+<h2>Stakeholder empathy exercises</h2>
+<p>Short empathy exercises build awareness. Ask team members to complete a workflow using only a keyboard or a screen reader. This often changes perception faster than any training slide.</p>
+
+<h2>What to do when you fail an audit</h2>
+<p>Audit failures are moments to reinforce culture, not to assign blame. Use them to improve processes, update training, and revise checklists. Make the response constructive, not punitive.</p>
+
+<h2>Accessibility debt and how to pay it down</h2>
+<p>Accessibility debt accumulates like technical debt. Allocate a small percentage of each sprint to accessibility fixes. Over time, this prevents the backlog from becoming unmanageable.</p>
+
+<h2>Incentives and recognition</h2>
+<p>Publicly recognize teams that improve accessibility. Recognition reinforces behavior and signals leadership support. It can be as simple as a shout-out in a team meeting.</p>
+
+<h2>Risk management angle</h2>
+<p>Accessibility is a compliance and reputational risk. Framing it as risk reduction helps leadership prioritize it. Make the business case explicit: accessibility reduces legal exposure and improves customer trust.</p>
+
+<h2>Quality loop: measuring culture</h2>
+<p>Culture is hard to measure, but behavior is not. Track the percentage of stories with accessibility criteria, the number of accessibility issues found in QA, and the time it takes to resolve them. These are signals that culture is shifting.</p>
+
+<h2>Operationalizing accessibility reviews</h2>
+<p>Consistency requires a rhythm. Create a monthly accessibility review that focuses on one core journey. Rotate ownership across squads so knowledge spreads. This also prevents accessibility from becoming one person's responsibility.</p>
+
+<h2>Accessibility in metrics and OKRs</h2>
+<p>If accessibility is part of team objectives, it will be prioritized. Add a small number of accessibility metrics to team OKRs, such as reducing focus-related defects or increasing manual pass rates.</p>
+
+<h2>Handling product tradeoffs</h2>
+<p>Sometimes accessibility conflicts with tight deadlines. When that happens, document the decision, create a remediation ticket, and track it visibly. Hidden exceptions create long-term risk and weaken culture.</p>
+
+<h2>Partnering with support and customer success</h2>
+<p>Support teams often see accessibility pain first. Create a loop where support tickets tagged as accessibility issues are reviewed by QA and design. This helps identify real-world gaps and builds empathy.</p>
+
+<h2>Making accessibility visible to users</h2>
+<p>Some organizations choose to publish accessibility statements or include accessibility feedback channels. This accountability can strengthen internal culture by making the commitment public.</p>
+
+<p>A QA team added a five-minute keyboard check to every sprint demo. Within three months, focus defects dropped by half. The practice was small, but the compounding effect was real.</p>
+
+<h2>Conflict resolution</h2>
+<p>When accessibility issues cause debate, a clear standard helps resolve conflict. The standard should be documented, shared, and referenced in reviews. This prevents decisions from becoming subjective.</p>
+
+<h2>When to bring in external experts</h2>
+<p>External audits are valuable when entering new markets or launching high-risk products. They also help validate internal processes and refresh team knowledge.</p>
+
+<h2>Using automation wisely</h2>
+<p>Automation is helpful for catching obvious issues, but it should never be the only check. Make it clear that manual validation is required for focus, target size, and cognitive accessibility criteria.</p>
+
+<h2>Scaling across portfolios</h2>
+<p>If you manage multiple products, standardize accessibility checklists and evidence templates across all teams. This reduces variance and helps leadership compare progress.</p>
+
+<h2>Accessibility and performance are linked</h2>
+<p>Slow interfaces can be inaccessible for users who rely on assistive technology. Performance testing should therefore be part of accessibility culture. Track load times on core journeys and ensure assistive tech does not time out or fail due to performance delays.</p>
+
+<h2>Documentation style guide</h2>
+<p>Create a simple style guide for accessibility documentation so evidence is consistent. Include naming conventions, file formats, and a shared location for evidence storage.</p>
+
+<h2>Leadership messaging</h2>
+<p>Leaders set the tone. When leaders mention accessibility in all-hands meetings or quarterly updates, it signals that accessibility is a core value, not a side task.</p>
+
+<h2>Accessibility debt sprints</h2>
+<p>Consider occasional accessibility sprints to reduce accumulated issues. These sprints can focus on high-risk components or critical journeys. The visibility of these sprints reinforces culture.</p>
+
+<h2>Cross-training engineers and QA</h2>
+<p>Pair engineers with QA on accessibility tests. This reduces handoffs and improves shared understanding of what passing actually looks like.</p>
+
+<h2>Design review checklist</h2>
+<ul>
+    <li>Focus styles visible on all components</li>
+    <li>Target sizes meet minimum requirements</li>
+    <li>Error states are clear and actionable</li>
+    <li>Color contrast meets standards</li>
+</ul>
+
+<h2>QA review checklist</h2>
+<ul>
+    <li>Keyboard navigation across critical flows</li>
+    <li>Screen reader announcements correct</li>
+    <li>Touch targets spaced appropriately</li>
+    <li>Drag alternatives available</li>
+</ul>
+
+<h2>Product review checklist</h2>
+<ul>
+    <li>Accessibility acceptance criteria included</li>
+    <li>Remediation timelines defined</li>
+    <li>Evidence stored and reviewed</li>
+    <li>Accessibility risk assessed</li>
+</ul>
+
+<h2>When culture feels stuck</h2>
+<p>If accessibility culture is not improving, revisit incentives. Are teams rewarded for shipping quickly but not for shipping inclusively? Adjust goals so accessibility progress is visible and rewarded.</p>
+
+<h2>Accessibility in retrospectives</h2>
+<p>Include accessibility in sprint retrospectives. Ask what worked, what failed, and what needs attention next cycle. This keeps accessibility visible and aligns it with continuous improvement.</p>
+
+<p><strong>Is accessibility QA-only?</strong> No. QA validates, but design and engineering create the experience.</p>
+<p><strong>Is automation enough?</strong> No. Manual checks are required for focus, target size, and cognitive accessibility.</p>
+<p><strong>What if deadlines are tight?</strong> Document tradeoffs, prioritize high-risk flows, and plan remediation quickly.</p>
+
+<p>Accessibility-first culture is not a program you finish. It is a behavior you sustain. Once it becomes part of how you build, you will wonder how you ever shipped without it.</p>
+
+<h2>Accessibility and customer experience</h2>
+<p>Accessibility improvements often reduce friction for all users: clearer labels, stronger focus states, and more forgiving forms lead to fewer support tickets and higher conversion. Framing accessibility as customer experience helps teams prioritize it naturally.</p>
+
+<h2>Building a shared backlog</h2>
+<p>Create a centralized backlog for accessibility issues across teams. This makes progress visible and helps leadership allocate resources based on impact.</p>
+
+<h2>Mini audit template</h2>
+<ul>
+    <li>Choose one journey</li>
+    <li>Run keyboard-only navigation</li>
+    <li>Check focus visibility and order</li>
+    <li>Review target sizes on mobile</li>
+    <li>Record evidence and findings</li>
+</ul>
+
+<p>The best accessibility cultures are built by small, repeated actions. When every team member owns a piece of accessibility, the product becomes inclusive by default.</p>
+
+<h2>From policy to practice</h2>
+<p>Policies are important, but practice is what changes behavior. Make accessibility part of everyday decisions: design reviews, QA checklists, and release gates. That is where culture is built.</p>
+
+<p>Accessibility-first QA culture is a commitment to quality. It protects users, strengthens trust, and elevates your team’s credibility.</p>
+
+<h2>Accessibility review board</h2>
+<p>Some organizations benefit from a lightweight accessibility review board. This group meets monthly to review high-risk releases and share lessons learned. It prevents accessibility knowledge from siloing.</p>
+
+<h2>Proof points for leadership</h2>
+<p>To keep leadership invested, share proof points: reduced support tickets, improved task completion rates, and fewer accessibility defects after release. These stories keep accessibility funded.</p>
+
+<h2>Simple maturity model</h2>
+<ul>
+    <li><strong>Level 1:</strong> Accessibility checks are ad hoc.</li>
+    <li><strong>Level 2:</strong> Checklists exist for critical journeys.</li>
+    <li><strong>Level 3:</strong> Accessibility embedded in design systems and QA cycles.</li>
+    <li><strong>Level 4:</strong> Accessibility part of release governance and strategy.</li>
+</ul>
+
+<p>Accessibility-first culture is the sum of small, repeatable actions that make inclusive quality the default. Once embedded, it reduces risk and elevates trust across every release.</p>
+
+<h2>Making accessibility visible in product analytics</h2>
+<p>Track drop-offs that correlate with accessibility issues: form abandonments, repeated errors, or navigation loops. Accessibility fixes often improve these metrics. This creates a clear business case.</p>
+
+<h2>Governance without bureaucracy</h2>
+<p>Governance should not slow teams down. Keep accessibility governance lightweight: a shared checklist, a small review group for high-risk releases, and an evidence template. This balances speed and compliance.</p>
+
+<p>Run quarterly accessibility demos where teams showcase improvements. It reinforces momentum and helps knowledge spread across the organization.</p>
+
+<p>When accessibility becomes a shared habit, quality rises for everyone. That is the mark of a mature QA organization.</p>
+
+<p>Clarify standards, train with real journeys, and make accessibility part of every release. Culture follows consistent practice.</p>
+
+<p>Accessibility-first QA culture reduces risk, strengthens trust, and makes your product better for everyone.</p>
+
+<h2>Distributed teams and accessibility consistency</h2>
+<p>In large organizations, accessibility culture can vary from team to team. One squad may be diligent, while another sees it as optional. The fix is not more meetings; it is shared standards and lightweight governance. A shared checklist, a common evidence template, and one monthly review across teams can create alignment without slowing delivery.</p>
+<p>Make accessibility visible across teams by publishing a simple dashboard: which journeys passed manual checks, which are in progress, and where gaps exist. This transparency builds healthy accountability without blame.</p>
+
+<h2>Accessibility in vendor and partner work</h2>
+<p>If your product integrates third-party widgets, their accessibility becomes your problem. Establish a vendor accessibility checklist and require evidence before integration. When a partner cannot meet standards, document exceptions and create mitigation plans, such as alternative flows or accessible fallbacks.</p>
+
+<h2>Real-world testing: beyond lab assumptions</h2>
+<p>Accessibility culture strengthens when teams test with real users or realistic constraints. If formal user testing is not possible, recreate real-world constraints: use a keyboard only, enlarge text to 200%, or navigate on a mobile device with one hand. These exercises reveal issues that automated tools miss and create stronger empathy across the team.</p>
+
+<h2>Annual accessibility health check</h2>
+<p>Set an annual or semi-annual health check to assess your overall accessibility posture. Review your standards, audit a sample of journeys, and update training materials. This keeps the culture fresh and aligned with evolving guidelines.</p>
+
+<h2>Funding accessibility work</h2>
+<p>Accessibility improvements often compete with feature work. A simple funding model helps: reserve a small percentage of each sprint for accessibility fixes and component upgrades. Over time, this prevents accessibility debt from building up and keeps the culture consistent.</p>
+<ul>
+    <li><strong>Baseline:</strong> 5% of sprint capacity reserved for accessibility.</li>
+    <li><strong>Escalation:</strong> increase capacity if audit risk is high.</li>
+    <li><strong>Review:</strong> assess impact quarterly and adjust.</li>
+</ul>
+
+<p>A product team added a simple accessibility status badge to their release checklist. Within two quarters, accessibility defects discovered after release dropped noticeably because teams were checking earlier. Small process changes like this often outperform big, one-time initiatives.</p>
+
+<div class="article-callout">
+    Accessibility-first culture is not about perfection. It is about consistency and shared responsibility.
+</div>
+
+<h2>Conclusion</h2>
+<p>Inclusive quality is a competitive advantage. When accessibility becomes part of QA culture, teams ship faster, safer, and with greater confidence. Start small, build rituals, and let the culture scale.</p>
+</article>
 
                 <aside class="article-sidebar">
                     <div class="sidebar-card author-card">
@@ -147,13 +447,13 @@
                     <div class="sidebar-card share-card">
                         <h4>Share</h4>
                         <div class="share-buttons">
-                            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
                                 <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
                             </a>
-                            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html&text=Article%20Title" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html&text=Building%20an%20Accessibility-First%20QA%20Culture" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
                                 <i class="fab fa-twitter" aria-hidden="true"></i> X / Twitter
                             </a>
-                            <a class="share-btn" href="mailto:?subject=Article%20Title&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/blog/accessibility-first-qa-culture.html" aria-label="Share via email">
+                            <a class="share-btn" href="mailto:?subject=Building%20an%20Accessibility-First%20QA%20Culture&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/accessibility-first-qa-culture.html" aria-label="Share via email">
                                 <i class="fas fa-envelope" aria-hidden="true"></i> Email
                             </a>
                         </div>
@@ -162,15 +462,31 @@
                     <div class="sidebar-card related-card">
                         <h4>Related Posts</h4>
                         <ul>
-                            <li><a href="article-template.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
-                            <li><a href="article-template.html">Modernizing Legacy Automation Suites with Playwright</a></li>
-                            <li><a href="article-template.html">Agentic Test Orchestration: Where to Start</a></li>
+                            <li><a href="wcag-2-2-readiness.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
+                            <li><a href="modernizing-legacy-automation.html">Modernizing Legacy Automation Suites with Playwright</a></li>
+                            <li><a href="agentic-test-orchestration.html">Agentic Test Orchestration: Where to Start</a></li>
                         </ul>
                     </div>
                 </aside>
             </div>
         </section>
-    </main>
+    
+    <!--
+    LinkedIn Teaser (150 words):
+    Accessibility is not a checklist—it’s a culture. I published a framework for building accessibility‑first QA teams that deliver inclusive experiences by default.
+    
+    The strategy: embed WCAG 2.2 acceptance criteria into stories, validate accessibility in every regression cycle, and build component libraries where focus states and keyboard paths are verified once and reused everywhere.
+    
+    AI can accelerate this shift, but only if accountability remains human. Tools don’t create culture—leadership does.
+    
+    If you lead QA or engineering, this article will help you turn accessibility into a long‑term asset for trust, compliance, and user satisfaction.
+    
+    #Accessibility #WCAG22 #QualityEngineering #InclusiveDesign #DigitalTrust
+    
+    DALL·E 3 Prompt:
+    Luxury Obsidian Tech header image: obsidian background with cyan and gold light threads weaving into a subtle human‑centric accessibility motif, layered glassmorphism panels, soft glow, elegant editorial style, no text, 21:9 wide banner.
+    -->
+</main>
 
     <footer class="footer">
         <div class="container">

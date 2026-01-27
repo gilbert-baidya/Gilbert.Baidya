@@ -12,7 +12,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html">
+    <meta property="og:url" content="https://gilbertbaidya.netlify.app/agentic-test-orchestration.html">
     <meta property="og:title" content="Agentic Test Orchestration: Where to Start | Gilbert Baidya">
     <meta property="og:description" content="A roadmap for experimenting with agentic test systems while protecting reliability, observability, and compliance.">
     <meta property="og:image" content="https://gilbertbaidya.netlify.app/images/blog/og-example.jpg">
@@ -25,11 +25,10 @@
     <meta name="twitter:image" content="https://gilbertbaidya.netlify.app/images/blog/og-example.jpg">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html">
+    <link rel="canonical" href="https://gilbertbaidya.netlify.app/agentic-test-orchestration.html">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="images/logo.svg">
-    <link rel="alternate icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.svg">
 
     <!-- Stylesheets -->
@@ -60,7 +59,7 @@
       },
       "datePublished": "2025-09-08",
       "dateModified": "2025-09-08",
-      "mainEntityOfPage": "https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html"
+      "mainEntityOfPage": "https://gilbertbaidya.netlify.app/agentic-test-orchestration.html"
     }
     </script>
 </head>
@@ -116,21 +115,411 @@
         <section class="article-section">
             <div class="container article-layout">
                 <article class="article-content" data-reading-content>
-                    <p>Intro paragraph that hooks the reader and explains the value of the post.</p>
+<p>Agentic test orchestration is more than running scripts automatically. It is the idea that test systems can plan, adapt, and make decisions about what to test next based on risk and evidence. Done well, it reduces noise and accelerates feedback. Done poorly, it creates chaos and erodes trust. This guide explains how to start safely and scale responsibly.</p>
 
-                    <h2>Section Heading</h2>
-                    <p>Provide insights, data points, and practical advice relevant to QA automation, AI testing, or accessibility strategy.</p>
+<h2>What agentic orchestration actually means</h2>
+<p>Traditional automation follows a fixed plan. Agentic orchestration introduces decision-making: the system evaluates signals (code changes, test results, telemetry) and decides which tests to run, how to prioritize them, and what to flag for human review. It does not replace QA judgment; it augments it.</p>
 
-                    <h3>Supporting Detail</h3>
-                    <p>Include examples, frameworks, or checklists that help the reader implement the idea.</p>
+<h2>Why teams are exploring it now</h2>
+<p>Modern delivery pipelines are under pressure. Releases are frequent, platforms are complex, and teams need faster confidence. Agentic orchestration promises a smarter feedback loop: fewer redundant tests, more targeted coverage, and quicker triage.</p>
 
-                    <div class="article-callout">
-                        Highlight an important insight or memorable quote here.
-                    </div>
+<h2>Core components of an agentic system</h2>
+<ul>
+    <li><strong>Signal intake:</strong> code diffs, defect history, monitoring data, and test results.</li>
+    <li><strong>Decision engine:</strong> risk scoring and prioritization logic.</li>
+    <li><strong>Execution layer:</strong> the test frameworks that run the chosen suites.</li>
+    <li><strong>Governance:</strong> rules for what AI can decide and what requires humans.</li>
+</ul>
 
-                    <h2>Conclusion</h2>
-                    <p>Summarize the key takeaways and close with a clear next step or invitation to connect.</p>
-                </article>
+<h2>Define a trust boundary first</h2>
+<p>Agentic systems must operate within clear boundaries. Start with low-risk decision-making, such as selecting which regression suite to run. Keep release approval and compliance sign-off human-owned.</p>
+
+<h2>Risk-based test selection</h2>
+<p>The most practical use case is test selection. Use a risk model that considers:</p>
+<ul>
+    <li>Change impact (files, components, services affected)</li>
+    <li>Historical defect density</li>
+    <li>Customer impact of the journey</li>
+    <li>Accessibility and compliance risk</li>
+</ul>
+<p>Based on these factors, the agent can choose targeted suites instead of running everything every time.</p>
+
+<h2>Observability and evidence</h2>
+<p>Agentic decisions must be traceable. Every decision should include the signals used, the risk score, and links to evidence. This is essential for auditability and trust.</p>
+
+<h2>Human-in-the-loop by design</h2>
+<p>Humans must remain accountable. For high-risk changes, require a human approval step. Use AI to summarize evidence, not to replace review.</p>
+
+<h2>Common early use cases</h2>
+<ul>
+    <li>Intelligent test selection based on code changes</li>
+    <li>Dynamic prioritization of regression suites</li>
+    <li>Automated triage of flaky failures</li>
+    <li>Summarized release readiness briefs</li>
+</ul>
+
+<h2>Governance model</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Decision type</th>
+            <th>Agentic action</th>
+            <th>Human action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Low-risk UI updates</td>
+            <td>Select reduced regression suite</td>
+            <td>Spot check evidence</td>
+        </tr>
+        <tr>
+            <td>Medium-risk changes</td>
+            <td>Recommend expanded testing</td>
+            <td>Approve decision</td>
+        </tr>
+        <tr>
+            <td>High-risk journeys</td>
+            <td>Flag for mandatory review</td>
+            <td>Human sign-off required</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Roadmap: how to start safely</h2>
+
+<h3>Phase 1: Instrumentation</h3>
+<p>Ensure test results, code changes, and defect data are captured consistently. Without clean data, the agent cannot make reliable decisions.</p>
+
+<h3>Phase 2: Assisted decisions</h3>
+<p>Let the agent recommend test selections, but keep humans approving every decision. This builds trust and validates accuracy.</p>
+
+<h3>Phase 3: Controlled autonomy</h3>
+<p>Allow low-risk decisions to run automatically, while high-risk decisions remain human-gated.</p>
+
+<h2>Metrics to prove value</h2>
+<ul>
+    <li>Reduction in suite runtime</li>
+    <li>Lower flake rate due to targeted reruns</li>
+    <li>Improved time to triage</li>
+    <li>Stable or improved defect escape rate</li>
+</ul>
+
+<h2>Common pitfalls</h2>
+<ul>
+    <li>Over-trusting the agent without evidence</li>
+    <li>Using poor data for decision-making</li>
+    <li>No governance or audit trail</li>
+    <li>Trying to automate release approval</li>
+</ul>
+
+<h2>Decision logic: how the agent thinks</h2>
+<p>An agent should not be a mystery. Its logic can be simple and still powerful. Start with a rules-based model, then evolve into weighted scoring as data quality improves.</p>
+<ul>
+    <li><strong>Rules-based example:</strong> If checkout files change, run full payment regression.</li>
+    <li><strong>Weighted scoring example:</strong> Score changes by component risk, defect history, and traffic volume.</li>
+</ul>
+<p>The advantage of rules-based models is explainability. The advantage of weighted models is flexibility. Many teams combine both: a baseline rules engine with a scoring overlay.</p>
+
+<h2>Data hygiene: the hidden dependency</h2>
+<p>Agentic orchestration depends on clean inputs. If test results are inconsistent or defect data is poorly tagged, the agent makes poor decisions. Before automation, fix the data pipeline.</p>
+<ul>
+    <li>Standardize defect taxonomies</li>
+    <li>Tag tests by journey and component</li>
+    <li>Normalize naming conventions across repos</li>
+</ul>
+
+<h2>Coverage mapping</h2>
+<p>A coverage map connects tests to user journeys. Without it, an agent cannot understand impact. Create a simple matrix: journey → tests → risk tier. This map becomes the backbone of decision-making.</p>
+
+<h2>Where orchestration adds the most value</h2>
+<ul>
+    <li>High-volume regression suites that are too slow to run every time</li>
+    <li>Complex products with multiple services and UI surfaces</li>
+    <li>Teams that struggle with flaky tests and noisy results</li>
+</ul>
+
+<h2>Human workflow integration</h2>
+<p>Agentic decisions must fit into human workflows. Create a short review summary that explains:</p>
+<ul>
+    <li>Why the agent chose certain tests</li>
+    <li>What risks remain uncovered</li>
+    <li>What evidence supports the recommendation</li>
+</ul>
+<p>This makes reviews fast and transparent.</p>
+
+<h2>Release readiness brief</h2>
+<p>A practical output is a release readiness brief. It includes the risk tier, tests executed, failures, and open issues. AI can generate the draft, but QA leads should approve it. This improves communication with leadership and keeps accountability clear.</p>
+
+<h2>RAG support for agentic decisions</h2>
+<p>RAG can increase decision quality by grounding recommendations in institutional knowledge. For example, if a component historically caused regressions, RAG can highlight that and influence risk scores.</p>
+<ul>
+    <li>Retrieve historical defect patterns by component</li>
+    <li>Surface release notes that mention regressions</li>
+    <li>Link to accessibility exceptions for high-risk flows</li>
+</ul>
+
+<h2>Safety guardrails</h2>
+<p>Guardrails are mandatory. They prevent the agent from taking actions that are risky or irreversible.</p>
+<ul>
+    <li><strong>No automatic release approvals</strong></li>
+    <li><strong>No skipping of accessibility checks for critical journeys</strong></li>
+    <li><strong>Human confirmation for security-sensitive flows</strong></li>
+</ul>
+
+<h2>Handling false positives and false negatives</h2>
+<p>Every agent will produce mistakes. The difference between success and failure is how quickly you detect and correct them. Build a feedback loop that tracks:</p>
+<ul>
+    <li>False positives: tests flagged as risky but proven safe</li>
+    <li>False negatives: missed regressions that escaped to production</li>
+</ul>
+<p>Update scoring models based on these outcomes. Over time, the agent becomes more reliable.</p>
+
+<h2>Example orchestration flow</h2>
+<ol>
+    <li>Code changes detected in checkout and pricing modules.</li>
+    <li>Risk score increases due to historical defects in pricing.</li>
+    <li>Agent selects checkout regression + pricing API contracts.</li>
+    <li>AI summarizes results and flags a pricing regression.</li>
+    <li>QA lead reviews evidence and blocks release.</li>
+</ol>
+
+<h2>Operating model for agentic QA</h2>
+<p>Successful teams define an operating model that clarifies ownership.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Primary ownership</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>QA Lead</td>
+            <td>Governance, approval, risk policy</td>
+        </tr>
+        <tr>
+            <td>SDET</td>
+            <td>Automation stability, data quality</td>
+        </tr>
+        <tr>
+            <td>DevOps</td>
+            <td>CI orchestration, observability</td>
+        </tr>
+        <tr>
+            <td>Product</td>
+            <td>Business criticality and tradeoffs</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Incremental rollout strategy</h2>
+<p>Start with one product area, not the whole platform. Choose a journey where you can measure results quickly and where risk is manageable. Expand only after you can show reduced runtime or improved triage speed without increased defect escapes.</p>
+
+<h2>Measuring success beyond speed</h2>
+<p>Speed is only one dimension. Track whether the agent improved decision quality: fewer escaped defects, higher confidence from stakeholders, and better alignment with risk tiers.</p>
+
+<h2>Anti-patterns to avoid</h2>
+<ul>
+    <li><strong>Black-box decisions:</strong> if no one can explain the agent, it will be rejected.</li>
+    <li><strong>Over-automation:</strong> automating every decision removes accountability.</li>
+    <li><strong>No rollback plan:</strong> always have a way to revert to manual selection.</li>
+</ul>
+
+<h2>Tooling considerations</h2>
+<p>You do not need a single monolithic tool. Many teams build orchestration with existing CI pipelines, test runners, and a decision layer that can be as simple as a rules engine. Start with what you have, then evolve as maturity grows.</p>
+
+<h2>90-day adoption plan</h2>
+<ul>
+    <li><strong>Weeks 1-4:</strong> audit data quality and define risk tiers.</li>
+    <li><strong>Weeks 5-8:</strong> pilot agentic test selection with human approval.</li>
+    <li><strong>Weeks 9-12:</strong> expand to additional journeys and define governance gates.</li>
+</ul>
+
+<ul>
+    <li>Decision logic is documented and explainable</li>
+    <li>Evidence is linked to every recommendation</li>
+    <li>Human review gates exist for high-risk changes</li>
+    <li>False positives and negatives are tracked</li>
+    <li>Coverage mapping is maintained</li>
+</ul>
+
+<h2>Calibration: setting thresholds that make sense</h2>
+<p>Risk thresholds should align with business impact. A small visual change on a marketing page is not the same as a change in payment processing. Define thresholds for low, medium, and high risk, and connect them to required test depth. Revisit thresholds quarterly to keep them aligned with product evolution.</p>
+
+<h2>Experimentation without risk</h2>
+<p>Agentic systems can be tested safely using shadow mode. In shadow mode, the agent makes recommendations, but the team continues with the existing process. Compare outcomes over a few sprints to measure accuracy before allowing automated decisions.</p>
+
+<h2>Compliance and audit readiness</h2>
+<p>In regulated industries, auditability is non-negotiable. Store every decision, including the inputs, outputs, and human approvals. If a regulator asks why a test suite was reduced, you should be able to explain it with evidence.</p>
+
+<h2>Accessibility as a mandatory signal</h2>
+<p>Accessibility should never be optional for critical journeys. Incorporate accessibility risk into your scoring model. If a change touches a core flow, run the accessibility checks regardless of other signals. This protects both users and compliance posture.</p>
+
+<h2>Security alignment</h2>
+<p>Agentic orchestration must align with security workflows. For any change involving authentication, encryption, or PII handling, require security review and expanded testing. This can be encoded as a strict rule in the decision engine.</p>
+
+<h2>Change management and team adoption</h2>
+<p>Teams adopt what they trust. Communicate early, show evidence, and include developers in pilot phases. If developers see the agent as a partner that reduces noise, adoption accelerates.</p>
+
+<h2>Incident response integration</h2>
+<p>When production incidents occur, feed the root cause into the agent’s knowledge base. This makes the system smarter over time and ensures that areas with recent incidents receive higher test priority.</p>
+
+<h2>Building a governance charter</h2>
+<p>A simple governance charter clarifies who owns what. It should include:</p>
+<ul>
+    <li>Trust boundaries and decision categories</li>
+    <li>Approval requirements for high-risk changes</li>
+    <li>Evidence storage policies</li>
+    <li>Review cadence for decision logic</li>
+</ul>
+
+<h2>Quality engineering maturity alignment</h2>
+<p>Agentic orchestration is not a fit for every team at every stage. If your automation is unstable or your data is inconsistent, fix that first. Agentic decisions amplify whatever foundation you already have.</p>
+
+<h2>Data drift and model drift</h2>
+<p>Over time, product changes can make old rules inaccurate. Set up periodic reviews to check whether risk scoring still reflects real-world outcomes. If false negatives increase, adjust the model or revert to more conservative thresholds.</p>
+
+<h2>Choosing the right scope</h2>
+<p>Start with a scope that is meaningful but manageable. A single domain or journey is often enough. If you try to orchestrate everything at once, you will struggle to validate results.</p>
+
+<h2>Stakeholder communication</h2>
+<p>Leadership and product teams need clear communication about how agentic decisions affect risk. Provide a short summary in release notes: what the agent selected, why it selected it, and any remaining risks. This makes the system transparent.</p>
+
+<h2>Practical example: feature flag rollout</h2>
+<p>Imagine a new feature is rolled out behind a flag. The agent identifies that only 10% of users will see it and selects a reduced regression suite. However, because the feature touches account settings, it still runs accessibility checks and security validation. This is the kind of balanced decision-making that builds trust.</p>
+
+<h2>Decision audit template</h2>
+<ul>
+    <li>Change summary</li>
+    <li>Risk tier and score</li>
+    <li>Tests selected</li>
+    <li>Evidence links</li>
+    <li>Human approvals</li>
+</ul>
+
+<h2>Long-term sustainability</h2>
+<p>Agentic orchestration must be maintained like any other system. Assign ownership, schedule reviews, and track performance. Without maintenance, even the best decision engine will degrade.</p>
+
+<p>The goal is not to build a perfect autonomous agent. The goal is to build a reliable decision support system that improves speed and quality without sacrificing accountability.</p>
+
+<h2>Test selection algorithms: start simple, then evolve</h2>
+<p>You do not need a complex model on day one. A simple selection strategy can reduce runtime significantly.</p>
+<ul>
+    <li><strong>Impact-based:</strong> map changed files to affected components and run relevant tests.</li>
+    <li><strong>History-based:</strong> prioritize tests linked to recent failures.</li>
+    <li><strong>Risk-tiered:</strong> run full suites only for high-risk changes.</li>
+</ul>
+<p>As you gather more data, you can add weighting, confidence scoring, and adaptive thresholds.</p>
+
+<h2>Simulations before production rollout</h2>
+<p>Simulation is a safe way to validate the agent’s decisions. Replay historical releases and compare what the agent would have done versus what actually happened. This helps you detect missed issues before real users are impacted.</p>
+
+<h2>Balancing speed and coverage</h2>
+<p>Agentic orchestration should not sacrifice coverage for speed. A good balance is to run a smaller suite on every change and schedule broader suites on a cadence. This maintains broad coverage without slowing every release.</p>
+
+<h2>Handling flaky tests in an agentic world</h2>
+<p>Agents can learn which tests are flaky and deprioritize them. But you should also fix the root causes. If flaky tests are ignored, real defects may be missed. Use the agent to surface flakiness trends and prioritize stabilization work.</p>
+
+<h2>Observability patterns</h2>
+<p>Make agent decisions observable with dashboards that track selection rates, pass rates, and false positives. If decision quality drops, you will see it early.</p>
+
+<h2>Integrating with existing QA frameworks</h2>
+<p>Agentic orchestration does not require a full rewrite. Most teams integrate a decision layer on top of existing frameworks. The agent decides which suites run; the frameworks execute as usual.</p>
+
+<h2>Cost management</h2>
+<p>Running fewer tests can reduce CI costs, but building an agentic system adds overhead. Track the tradeoff: CI minutes saved versus tooling and maintenance costs. This ensures leadership sees the financial impact clearly.</p>
+
+<h2>Stakeholder trust signals</h2>
+<p>Trust grows when stakeholders see consistent results. Share regular updates on runtime reduction, stable defect escape rates, and clear evidence. Avoid overselling autonomy; emphasize decision support.</p>
+
+<h2>QA leadership role</h2>
+<p>QA leaders become decision stewards. They define policies, review agent outputs, and ensure quality does not drift. This role is critical because it keeps agentic systems aligned with business priorities.</p>
+
+<h2>Documentation that keeps the system healthy</h2>
+<p>Document decision rules, risk tiers, and test mapping. When new engineers join or when products change, this documentation prevents drift and keeps the agent reliable.</p>
+
+<h2>Scaling across product lines</h2>
+<p>When the agent expands to multiple teams, standardize the decision logic while allowing local adjustments. A shared core prevents fragmentation, while team-level tuning preserves relevance.</p>
+
+<h2>Success looks like</h2>
+<ul>
+    <li>Shorter regression cycles without higher defect escape rates</li>
+    <li>High confidence in release readiness briefs</li>
+    <li>Lower noise from flaky failures</li>
+    <li>Clear audit trails for every decision</li>
+</ul>
+
+<h2>Quick recap</h2>
+<p>Agentic orchestration works when you treat it as a governance system, not just an AI experiment. Start with clear rules, build evidence, and expand carefully.</p>
+
+<h2>Example: rolling out agentic selection in three sprints</h2>
+<p><strong>Sprint 1:</strong> The team builds a coverage map for three critical journeys and defines a rules-based model for selecting tests. The agent runs in shadow mode and produces a summary after each build.</p>
+<p><strong>Sprint 2:</strong> The agent is allowed to choose a reduced regression suite for low-risk changes. A QA lead reviews every decision, and outcomes are logged.</p>
+<p><strong>Sprint 3:</strong> The team introduces a scoring model that factors in defect history. The agent now flags medium-risk changes for review, while still automating low-risk selections. Results are compared against prior releases to confirm no increase in escaped defects.</p>
+
+<h2>Edge cases to handle early</h2>
+<ul>
+    <li><strong>Hotfixes:</strong> urgent changes should force a conservative test run.</li>
+    <li><strong>Infrastructure changes:</strong> always run broader suites after CI or environment updates.</li>
+    <li><strong>UI redesigns:</strong> treat as high-risk due to wide impact.</li>
+</ul>
+
+<h2>Quality assurance for the agent itself</h2>
+<p>Agentic systems need testing too. Create test cases for the decision logic: feed known change scenarios and verify the expected test selection. This is how you prevent regressions in the orchestration layer.</p>
+
+<h2>How to respond when the agent is wrong</h2>
+<p>Mistakes will happen. The key is response speed. When the agent makes a poor decision, log the scenario, adjust thresholds, and share the learning with the team. This keeps trust intact.</p>
+
+<h2>Communication templates</h2>
+<p>Clear communication reduces confusion. Use a simple template for release notes:</p>
+<ul>
+    <li>Risk tier selected by agent</li>
+    <li>Tests executed</li>
+    <li>Known gaps or skipped suites</li>
+    <li>Human approval status</li>
+</ul>
+
+<ul>
+    <li>Do we have a coverage map for critical journeys?</li>
+    <li>Are decision rules documented and reviewed?</li>
+    <li>Is evidence stored for every agent recommendation?</li>
+    <li>Do we have a rollback plan for decision errors?</li>
+</ul>
+
+<p>Agentic orchestration should make QA more deliberate, not more opaque. When decisions are explainable and evidence is clear, the system earns trust and scales.</p>
+
+<h2>Ethics and fairness in automated decisions</h2>
+<p>Agentic systems can unintentionally bias testing toward popular journeys and neglect edge cases. Guard against this by reserving a portion of test capacity for long-tail scenarios and by periodically rotating coverage across lower-traffic flows. This keeps quality equitable and prevents blind spots.</p>
+
+<h2>Long-term maintenance checklist</h2>
+<ul>
+    <li>Quarterly review of decision rules and thresholds</li>
+    <li>Monthly audit of false positives and negatives</li>
+    <li>Ongoing updates to coverage maps</li>
+    <li>Consistent governance documentation</li>
+</ul>
+
+<p>Agentic orchestration works best when it is simple, transparent, and governed. Start with measurable goals, expand only after trust is earned, and keep humans accountable for every high-risk decision.</p>
+
+<p>Build a single "golden" suite that always runs, regardless of risk tier. This keeps a reliable baseline and prevents the agent from becoming too aggressive in its selections. Most teams choose 10–20 tests that cover login, navigation, and core transactions.</p>
+
+<p>If you can explain why each test was selected, you are on the right path. Agentic orchestration is about clarity and confidence, not complexity.</p>
+
+<p>Agentic orchestration is a leadership opportunity. It forces clarity about risk, evidence, and accountability. If you invest in these foundations, the agent becomes a trusted partner rather than a black box.</p>
+
+<p>Start small, prove reliability, and expand. Agentic orchestration succeeds when it earns trust release by release.</p>
+
+<h2>Small metrics that build confidence</h2>
+<p>Pick two simple metrics to track weekly: runtime saved and defect escape rate. If runtime drops and escapes remain stable or improve, you have evidence the agent is helping. Share these two numbers widely to build momentum.</p>
+
+<div class="article-callout">
+    Agentic orchestration is powerful when it tightens evidence and reduces noise, not when it replaces accountability.
+</div>
+
+<h2>Conclusion</h2>
+<p>Agentic test orchestration can deliver faster feedback and smarter coverage, but only when guided by clear governance and high-quality data. Start small, measure results, and scale cautiously. That is how you build trust and achieve lasting value.</p>
+</article>
 
                 <aside class="article-sidebar">
                     <div class="sidebar-card author-card">
@@ -147,13 +536,13 @@
                     <div class="sidebar-card share-card">
                         <h4>Share</h4>
                         <div class="share-buttons">
-                            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/agentic-test-orchestration.html" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
                                 <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
                             </a>
-                            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html&text=Article%20Title" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/agentic-test-orchestration.html&text=Agentic%20Test%20Orchestration:%20Where%20to%20Start" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
                                 <i class="fab fa-twitter" aria-hidden="true"></i> X / Twitter
                             </a>
-                            <a class="share-btn" href="mailto:?subject=Article%20Title&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/blog/agentic-test-orchestration.html" aria-label="Share via email">
+                            <a class="share-btn" href="mailto:?subject=Agentic%20Test%20Orchestration:%20Where%20to%20Start&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/agentic-test-orchestration.html" aria-label="Share via email">
                                 <i class="fas fa-envelope" aria-hidden="true"></i> Email
                             </a>
                         </div>
@@ -162,15 +551,31 @@
                     <div class="sidebar-card related-card">
                         <h4>Related Posts</h4>
                         <ul>
-                            <li><a href="article-template.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
-                            <li><a href="article-template.html">Modernizing Legacy Automation Suites with Playwright</a></li>
+                            <li><a href="wcag-2-2-readiness.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
+                            <li><a href="modernizing-legacy-automation.html">Modernizing Legacy Automation Suites with Playwright</a></li>
                             <li><a href="article-template.html">Agentic Test Orchestration: Where to Start</a></li>
                         </ul>
                     </div>
                 </aside>
             </div>
         </section>
-    </main>
+    
+    <!--
+    LinkedIn Teaser (150 words):
+    Agentic QA isn’t about replacing testers—it’s about orchestrating quality with intelligence. I published a practical starting point for teams exploring agentic test orchestration.
+    
+    The framework: begin with AI coordination (test scheduling, flaky suite prioritization, impact-based regression), add governance guardrails, and ground decisions with RAG so outcomes are traceable.
+    
+    This is how you gain speed without sacrificing trust.
+    
+    If your QA organization is exploring agentic AI, this article gives you a controlled, enterprise-ready on‑ramp.
+    
+    #AgenticAI #QualityEngineering #RAG #TestAutomation #DigitalTrust #DevOps
+    
+    DALL·E 3 Prompt:
+    Luxury Obsidian Tech header image: obsidian background with cyan nodes connected by gold orchestration lines, layered glass panels suggesting flow control, subtle AI glow, premium editorial style, no text, 21:9 wide banner.
+    -->
+</main>
 
     <footer class="footer">
         <div class="container">

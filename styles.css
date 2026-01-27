@@ -1724,6 +1724,42 @@ section {
     margin-bottom: 18px;
 }
 
+.article-key-takeaways {
+    border: 1px solid var(--border-highlight);
+    border-radius: 18px;
+    padding: 20px 22px;
+    background: rgba(56, 189, 248, 0.08);
+    margin-bottom: 26px;
+}
+
+.article-key-takeaways h2 {
+    margin: 0 0 12px;
+    font-size: 24px;
+}
+
+.article-key-takeaways ul {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.article-key-takeaways li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.article-key-takeaways li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--text-gold);
+    font-weight: 700;
+}
+
 .article-list {
     list-style: none;
     margin: 16px 0 24px;

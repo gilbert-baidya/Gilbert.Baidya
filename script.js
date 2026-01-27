@@ -50,18 +50,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
 
-    if (hamburger) {
-        hamburger.addEventListener('click', function () {
-            const isExpanded = navMenu.classList.toggle('active');
+    const toggleMenu = () => {
+        if (!hamburger || !navMenu) return;
+        const isExpanded = navMenu.classList.toggle('active');
 
-            // Update ARIA attribute for accessibility
-            this.setAttribute('aria-expanded', isExpanded);
+        // Update ARIA attribute for accessibility
+        hamburger.setAttribute('aria-expanded', String(isExpanded));
 
-            // Animate hamburger
-            const spans = this.querySelectorAll('span');
+        // Animate hamburger
+        const spans = hamburger.querySelectorAll('span');
+        if (spans.length >= 3) {
             spans[0].style.transform = isExpanded ? 'rotate(45deg) translate(5px, 5px)' : '';
             spans[1].style.opacity = isExpanded ? '0' : '1';
             spans[2].style.transform = isExpanded ? 'rotate(-45deg) translate(7px, -6px)' : '';
+        }
+    };
+
+    if (hamburger) {
+        hamburger.addEventListener('click', toggleMenu);
+        hamburger.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleMenu();
+            }
         });
     }
 
@@ -69,16 +80,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
+            if (!navMenu) return;
             navMenu.classList.remove('active');
 
             // Reset ARIA attribute
-            hamburger.setAttribute('aria-expanded', 'false');
+            if (hamburger) {
+                hamburger.setAttribute('aria-expanded', 'false');
 
-            // Reset hamburger animation
-            const spans = hamburger.querySelectorAll('span');
-            spans[0].style.transform = '';
-            spans[1].style.opacity = '1';
-            spans[2].style.transform = '';
+                // Reset hamburger animation
+                const spans = hamburger.querySelectorAll('span');
+                if (spans.length >= 3) {
+                    spans[0].style.transform = '';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = '';
+                }
+            }
         });
     });
 
