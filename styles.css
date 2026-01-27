@@ -1601,6 +1601,29 @@ section {
     font-size: 14px;
 }
 
+.page-hero-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.page-hero-card li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.page-hero-card li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--text-accent);
+    font-weight: 700;
+}
+
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1804,6 +1827,19 @@ section {
     border-radius: 12px;
     color: var(--text-primary);
     margin: 20px 0;
+}
+
+.article-hero-media {
+    margin: 8px 0 24px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-glass);
+}
+
+.article-hero-media img {
+    width: 100%;
+    display: block;
 }
 
 .article-quote {
