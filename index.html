@@ -118,8 +118,12 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode" aria-pressed="false">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
             <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu" role="button" tabindex="0">
                 <span></span>
                 <span></span>
@@ -148,15 +152,23 @@
                 </p>
                 <div class="hero-stats">
                     <div class="stat">
-                        <h3>12+</h3>
+                        <h3>
+                            <span class="stat-value" data-target="14">0</span>
+                            <span class="stat-suffix">+</span>
+                        </h3>
                         <p>Years Experience</p>
                     </div>
                     <div class="stat">
-                        <h3>5</h3>
+                        <h3>
+                            <span class="stat-value" data-target="5">0</span>
+                        </h3>
                         <p>Fortune 500 Clients</p>
                     </div>
                     <div class="stat">
-                        <h3>100%</h3>
+                        <h3>
+                            <span class="stat-value" data-target="100">0</span>
+                            <span class="stat-suffix">%</span>
+                        </h3>
                         <p>WCAG Compliance</p>
                     </div>
                 </div>
@@ -650,109 +662,55 @@
                 <h2 class="section-title">Skills & Technologies</h2>
             </div>
             <div class="skills-content">
-                <div class="skills-category">
-                    <h3><i class="fas fa-code"></i> Automation Tools</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Playwright</span>
-                        <span class="skill-tag">Selenium WebDriver</span>
-                        <span class="skill-tag">Selenium Grid</span>
-                        <span class="skill-tag">Provar</span>
-                        <span class="skill-tag">Katalon Studio</span>
-                        <span class="skill-tag">Appium</span>
-                        <span class="skill-tag">Zalenium</span>
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Charles Proxy</span>
+                <div class="skills-panel">
+                    <div class="skill-row">
+                        <div class="skill-info">
+                            <span class="skill-name">Playwright</span>
+                            <span class="skill-value">95%</span>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" data-level="95"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="skills-category">
-                    <h3><i class="fas fa-universal-access"></i> Accessibility Testing</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">axe-core</span>
-                        <span class="skill-tag">Deque DevTools</span>
-                        <span class="skill-tag">Wave Evaluation Tool</span>
-                        <span class="skill-tag">Lighthouse Audit</span>
-                        <span class="skill-tag">Accessibility Insights</span>
-                        <span class="skill-tag">NVDA</span>
-                        <span class="skill-tag">JAWS Screen Reader</span>
-                        <!-- Updated: WCAG versions -->
-                        <span class="skill-tag">WCAG 2.1</span>
-                        <span class="skill-tag">WCAG 2.2</span>
-                        <span class="skill-tag">Section 508</span>
+                    <div class="skill-row">
+                        <div class="skill-info">
+                            <span class="skill-name">Selenium</span>
+                            <span class="skill-value">90%</span>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" data-level="90"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="skills-category">
-                    <h3><i class="fas fa-exchange-alt"></i> API & Backend Testing</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">RestAssured</span>
-                        <span class="skill-tag">Postman</span>
-                        <span class="skill-tag">SQL Server</span>
-                        <span class="skill-tag">Oracle</span>
-                        <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">MongoDB</span>
+                    <div class="skill-row">
+                        <div class="skill-info">
+                            <span class="skill-name">Accessibility Testing</span>
+                            <span class="skill-value">95%</span>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" data-level="95"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="skills-category">
-                    <h3><i class="fas fa-infinity"></i> CI/CD & DevOps</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Jenkins</span>
-                        <span class="skill-tag">Azure DevOps</span>
-                        <span class="skill-tag">GitHub Actions</span>
-                        <span class="skill-tag">Maven</span>
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">Microsoft Azure</span>
-                        <span class="skill-tag">SauceLabs</span>
+                    <div class="skill-row">
+                        <div class="skill-info">
+                            <span class="skill-name">CI/CD</span>
+                            <span class="skill-value">85%</span>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" data-level="85"></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="skills-category">
-                    <h3><i class="fas fa-file-code"></i> Programming Languages</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">JSON</span>
-                        <span class="skill-tag">XML</span>
-                        <span class="skill-tag">Gherkin</span>
-                        <span class="skill-tag">HTML</span>
-                    </div>
-                </div>
-
-                <div class="skills-category">
-                    <h3><i class="fas fa-vial"></i> Testing Frameworks</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">TestNG</span>
-                        <span class="skill-tag">JUnit</span>
-                        <span class="skill-tag">Cucumber (BDD)</span>
-                        <span class="skill-tag">JMeter</span>
-                        <span class="skill-tag">NeoLoad</span>
-                    </div>
-                </div>
-
-                <div class="skills-category">
-                    <h3><i class="fas fa-tools"></i> Development Tools</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">IntelliJ IDEA</span>
-                        <span class="skill-tag">Eclipse</span>
-                        <span class="skill-tag">Visual Studio Code</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">GitHub</span>
-                        <span class="skill-tag">Bitbucket</span>
-                    </div>
-                </div>
-
-                <div class="skills-category">
-                    <h3><i class="fas fa-tasks"></i> Project Management</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">JIRA</span>
-                        <span class="skill-tag">HP ALM</span>
-                        <span class="skill-tag">Confluence</span>
-                        <span class="skill-tag">MS Project</span>
-                        <span class="skill-tag">Agile/Scrum</span>
-                        <span class="skill-tag">SAFe 5.1</span>
+                    <div class="skill-row">
+                        <div class="skill-info">
+                            <span class="skill-name">API Testing</span>
+                            <span class="skill-value">90%</span>
+                        </div>
+                        <div class="skill-track">
+                            <div class="skill-fill" data-level="90"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -962,7 +920,7 @@
                     <form class="contact-form" id="contactForm" action="https://formspree.io/f/mdkqwpbj" method="POST">
                         <div class="form-group">
                             <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" autocomplete="name" required>
+                            <input type="text" id="name" name="name" autocomplete="name" minlength="2" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Your Email</label>
@@ -970,11 +928,11 @@
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" autocomplete="off" required>
+                            <input type="text" id="subject" name="subject" autocomplete="off" minlength="3" required>
                         </div>
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="6" required></textarea>
+                            <textarea id="message" name="message" rows="6" minlength="10" required></textarea>
                         </div>
                         <input type="hidden" name="_next" value="https://gilbertbaidya.netlify.app/#contact">
                         <input type="hidden" name="_subject" value="New Contact Form Submission">
@@ -1012,6 +970,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.36/dist/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

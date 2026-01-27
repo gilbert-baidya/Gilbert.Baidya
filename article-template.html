@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Article Template | Gilbert Baidya</title>
+    <meta name="description" content="Sample blog article template for the Gilbert Baidya portfolio site.">
+
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.svg">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo">
+                <h2>Gilbert Baidya<span class="accent">, PhD</span></h2>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#expertise" class="nav-link">Expertise</a></li>
+                <li><a href="index.html#experience" class="nav-link">Experience</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#education" class="nav-link">Education</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode" aria-pressed="false">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+            <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section class="page-hero">
+            <div class="container page-hero-content">
+                <div>
+                    <p class="eyebrow">Featured Article</p>
+                    <h1 class="page-title">Designing an AI-Assisted QA Pipeline That Scales</h1>
+                    <div class="article-meta">
+                        <span><i class="fas fa-calendar" aria-hidden="true"></i> Jan 14, 2026</span>
+                        <span><i class="fas fa-clock" aria-hidden="true"></i> 7 min read</span>
+                        <span><i class="fas fa-user" aria-hidden="true"></i> Gilbert Baidya</span>
+                    </div>
+                    <p class="page-subtitle">A pragmatic approach to blending AI accelerators, governance controls, and accessibility accountability in a modern QA pipeline.</p>
+                </div>
+                <div class="page-hero-card">
+                    <h3>Article Snapshot</h3>
+                    <p>Focus areas: AI test triage, risk-based prioritization, and WCAG-aligned validation checks for enterprise delivery teams.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="article-section">
+            <div class="container article-layout">
+                <article class="article-content">
+                    <p>AI tooling can radically reduce repetitive QA work, but only when paired with clear validation criteria and accountable ownership. The goal is not to replace engineering judgment, but to accelerate it with trusted signals.</p>
+
+                    <h2>1. Define the AI-assisted test boundaries</h2>
+                    <p>Start with the work that is low risk but high volume. Examples include exploratory UI validations, regression smoke checks, and accessibility scans of repeated components.</p>
+                    <div class="article-callout">
+                        Keep a human-in-the-loop checkpoint for any test outcome that impacts compliance, security, or regulated workflows.
+                    </div>
+
+                    <h2>2. Build confidence with multi-layer validation</h2>
+                    <p>A robust pipeline blends AI output with deterministic checks. Pair AI suggestions with scripted regression suites, static analysis, and observability signals.</p>
+
+                    <h3>Recommended validation layers</h3>
+                    <ul class="article-list">
+                        <li>Baseline automated regression suites (Selenium/Playwright)</li>
+                        <li>WCAG 2.2 automated scans with curated manual audits</li>
+                        <li>API contract tests aligned to product SLAs</li>
+                    </ul>
+
+                    <div class="article-quote">"Automation scales when you can explain why a test passed, not just that it passed."</div>
+
+                    <h2>3. Operationalize governance and reporting</h2>
+                    <p>Capture AI output alongside source evidence. This creates auditability and ensures test outcomes can be defended with traceable artifacts.</p>
+                    <p>Dashboards should highlight risk areas, not just counts. Present critical accessibility violations, flaky test rates, and AI confidence scores in the same executive report.</p>
+
+                    <h2>4. Align the pipeline to accessibility outcomes</h2>
+                    <p>AI can surface violations quickly, but remediation still needs product ownership. Map every accessibility finding to a squad backlog item with clear business impact.</p>
+                </article>
+
+                <aside class="article-sidebar">
+                    <div class="sidebar-card">
+                        <h4>About the Author</h4>
+                        <p>Gilbert Baidya is a Senior QA Automation & AI Accessibility Architect with 12+ years of enterprise QA leadership.</p>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h4>Key Topics</h4>
+                        <div class="tag-list">
+                            <span class="tag">AI QA</span>
+                            <span class="tag">Governance</span>
+                            <span class="tag">Accessibility</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h4>Related Posts</h4>
+                        <ul>
+                            <li><a href="article-template.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
+                            <li><a href="article-template.html">Modernizing Legacy Automation Suites with Playwright</a></li>
+                            <li><a href="article-template.html">Agentic Test Orchestration: Where to Start</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Gilbert Baidya, PhD</h3>
+                    <p>Senior QA Automation | AI Accessibility Intelligence | Tech Leader</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#expertise">Expertise</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gilbert Baidya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.36/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
