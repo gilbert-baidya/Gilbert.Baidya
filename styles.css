@@ -2204,6 +2204,65 @@ section {
     }
 }
 
+@media (max-width: 600px) {
+    .navbar {
+        --white: #ffffff;
+        --text-dark: #0f172a;
+        --shadow-lg: 0 18px 30px -18px rgba(2, 6, 23, 0.6);
+        --transition-base: var(--transition-fast);
+    }
+
+    .nav-menu {
+        background: var(--bg-secondary);
+        box-shadow: var(--shadow-glass);
+    }
+
+    .nav-link {
+        color: var(--text-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px 18px;
+    }
+
+    .hamburger {
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid var(--border-subtle);
+        background: var(--bg-glass);
+    }
+
+    .hamburger span {
+        background: var(--text-primary);
+    }
+
+    .hero {
+        min-height: 100svh;
+        min-height: 100dvh;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px;
+    }
+
+    .article-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-content th,
+    .article-content td {
+        white-space: nowrap;
+    }
+}
+
 @media (max-width: 480px) {
     .hero-image {
         max-width: 240px;
