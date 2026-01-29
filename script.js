@@ -64,6 +64,13 @@ document.addEventListener('DOMContentLoaded', function () {
             spans[1].style.opacity = isExpanded ? '0' : '1';
             spans[2].style.transform = isExpanded ? 'rotate(-45deg) translate(7px, -6px)' : '';
         }
+
+        if (window.matchMedia('(max-width: 600px)').matches) {
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 70;
+            document.documentElement.style.setProperty('--mobile-nav-offset', `${navHeight}px`);
+            document.body.classList.toggle('nav-open', isExpanded);
+        }
     };
 
     if (hamburger) {
@@ -94,6 +101,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     spans[1].style.opacity = '1';
                     spans[2].style.transform = '';
                 }
+            }
+
+            if (window.matchMedia('(max-width: 600px)').matches) {
+                document.body.classList.remove('nav-open');
             }
         });
     });
