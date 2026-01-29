@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,27 @@
     <!-- Primary Meta Tags -->
     <title>WCAG 2.2 Readiness: A QA Lead's Checklist | Gilbert Baidya</title>
     <meta name="title" content="WCAG 2.2 Readiness: A QA Lead's Checklist | Gilbert Baidya">
-    <meta name="description" content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
+    <meta name="description"
+        content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
     <meta name="author" content="Gilbert Baidya">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html">
     <meta property="og:title" content="WCAG 2.2 Readiness: A QA Lead's Checklist | Gilbert Baidya">
-    <meta property="og:description" content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
-    <meta property="og:image" content="https://gilbertbaidya.netlify.app/images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg">
+    <meta property="og:description"
+        content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
+    <meta property="og:image"
+        content="https://gilbertbaidya.netlify.app/images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg">
     <meta property="og:site_name" content="Gilbert Baidya Portfolio">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="WCAG 2.2 Readiness: A QA Lead's Checklist | Gilbert Baidya">
-    <meta name="twitter:description" content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
-    <meta name="twitter:image" content="https://gilbertbaidya.netlify.app/images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg">
+    <meta name="twitter:description"
+        content="From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.">
+    <meta name="twitter:image"
+        content="https://gilbertbaidya.netlify.app/images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html">
@@ -37,7 +43,9 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -66,6 +74,7 @@
     }
     </script>
 </head>
+
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -84,10 +93,12 @@
                 <li><a href="blog.html" class="nav-link" aria-current="page">Blog</a></li>
                 <li><a href="index.html#contact" class="nav-link">Contact</a></li>
             </ul>
-            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode" aria-pressed="false">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode"
+                aria-pressed="false">
                 <i class="fas fa-moon" aria-hidden="true"></i>
             </button>
-            <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu" role="button" tabindex="0">
+            <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu"
+                role="button" tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -101,16 +112,24 @@
                 <div>
                     <p class="eyebrow">Blog</p>
                     <h1 class="page-title">WCAG 2.2 Readiness: A QA Lead's Checklist</h1>
-                    <p class="page-subtitle">From focus appearance to drag-and-drop alternatives, align your testing matrix with the latest accessibility expectations.</p>
+                    <p class="page-subtitle">From focus appearance to drag-and-drop alternatives, align your testing
+                        matrix with the latest accessibility expectations.</p>
                     <div class="article-meta">
-                        <span><i class="fas fa-calendar" aria-hidden="true"></i> <time datetime="2025-12-22">December 22, 2025</time></span>
-                        <span><i class="fas fa-clock" aria-hidden="true"></i> <span class="reading-time" data-words-per-minute="200">0 min read</span></span>
+                        <span><i class="fas fa-calendar" aria-hidden="true"></i> <time datetime="2025-12-22">December
+                                22, 2025</time></span>
+                        <span><i class="fas fa-clock" aria-hidden="true"></i> <span class="reading-time"
+                                data-words-per-minute="200">0 min read</span></span>
                         <span><i class="fas fa-user" aria-hidden="true"></i> Gilbert Baidya</span>
                     </div>
                 </div>
                 <div class="page-hero-card">
                     <h3>Key Takeaways</h3>
-                    <p>List 2-3 bullet-worthy outcomes readers will gain from this post.</p>
+                    <ul>
+                        <li>Deep dive into the new criteria for focus appearance, target size, and accessible
+                            authentication.</li>
+                        <li>Establishing manual testing protocols for dragging movements and focus visibility.</li>
+                        <li>Integrating accessibility quality gates into enterprise-scale release pipelines.</li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -118,451 +137,560 @@
         <section class="article-section">
             <div class="container article-layout">
                 <article class="article-content" data-reading-content>
-<figure class="article-hero-media">
-    <img src="images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg" alt="Accessible interface controls with strong focus rings" loading="lazy" decoding="async">
-</figure>
-
-<p>WCAG 2.2 is not just a checklist update. It reflects a broader shift toward usability for people with mobility, cognitive, and vision-related barriers. For QA leads, the challenge is not only understanding the new success criteria but integrating them into daily delivery practices. This guide provides a practical readiness playbook: what changed, how to test it, and how to embed it into your release pipeline.</p>
-
-<h2>Quick overview: what WCAG 2.2 adds</h2>
-<p>WCAG 2.2 builds on WCAG 2.1, adding criteria that emphasize focus visibility, target size, accessible help, and predictable authentication. The new criteria aim to reduce friction for users who rely on keyboard navigation, touch interaction, or cognitive support. Many teams can pass automated scans and still fail these requirements in real-world use. That is why readiness must include manual testing and design validation.</p>
-
-<h2>Readiness checklist (high level)</h2>
-<ul>
-    <li>Update accessibility test cases to include WCAG 2.2 criteria.</li>
-    <li>Train QA on focus appearance and target size evaluation.</li>
-    <li>Review authentication flows for cognitive accessibility.</li>
-    <li>Expand manual keyboard and screen reader tests on critical journeys.</li>
-    <li>Document evidence for compliance audits and client reporting.</li>
-</ul>
-
-<h2>Success criteria that most teams miss</h2>
-<p>Several WCAG 2.2 requirements are not captured by automated tools. These should be emphasized in your test strategy.</p>
-
-<h3>Focus appearance (Minimum)</h3>
-<p>Focus indicators must be clearly visible and not just a thin outline that blends into the background. Test with real keyboard navigation and verify contrast, thickness, and visibility across all states.</p>
-
-<h3>Target size (Minimum)</h3>
-<p>Interactive targets must be large enough to reduce accidental activation. This includes buttons, controls, and clickable icons. Small icons in dense layouts are common offenders.</p>
-
-<h3>Dragging movements</h3>
-<p>If a user must drag items, there must be an alternative that does not require dragging (such as buttons to move items). This is especially important for users with limited mobility.</p>
-
-<h3>Accessible authentication</h3>
-<p>Authentication processes should not rely solely on memory or cognitive recall. Allow password managers, avoid puzzles that block assistive tech, and support copy/paste where possible.</p>
-
-<h3>Redundant entry</h3>
-<p>Users should not be forced to re-enter information that the system already knows. This includes repeating addresses or profile details across steps. Verify that forms prefill correctly and that data is preserved across steps.</p>
-
-<h2>How to embed WCAG 2.2 into QA strategy</h2>
-<p>Readiness depends on turning guidelines into repeatable testing routines.</p>
-
-<h3>1) Map WCAG 2.2 to your user journeys</h3>
-<p>Create a matrix of your top user journeys (login, checkout, onboarding, account management) and map relevant WCAG 2.2 criteria to each. This prevents a checklist mentality and ensures that testing focuses on real customer flows.</p>
-
-<h3>2) Identify high-risk components</h3>
-<p>Components like dropdowns, modals, carousels, and drag-and-drop interfaces often fail WCAG 2.2 criteria. Prioritize these components for manual testing and design review.</p>
-
-<h3>3) Combine automated and manual testing</h3>
-<p>Automated scanners can detect some issues, but critical WCAG 2.2 checks require manual validation. For example, focus appearance is visual and contextual, and target size depends on layout density.</p>
-
-<h2>Testing techniques by area</h2>
-
-<h3>Keyboard navigation</h3>
-<ul>
-    <li>Verify that every interactive element is reachable and usable.</li>
-    <li>Confirm visible focus indicators at all times.</li>
-    <li>Ensure tab order follows logical reading order.</li>
-</ul>
-
-<h3>Touch and pointer interactions</h3>
-<ul>
-    <li>Measure target sizes and spacing on mobile devices.</li>
-    <li>Check for accidental activations in dense controls.</li>
-    <li>Validate alternative controls for dragging tasks.</li>
-</ul>
-
-<h3>Authentication and forms</h3>
-<ul>
-    <li>Test with password managers enabled.</li>
-    <li>Verify error recovery without memory reliance.</li>
-    <li>Confirm redundant entry is minimized.</li>
-</ul>
-
-<h3>Visual focus and contrast</h3>
-<ul>
-    <li>Inspect focus outlines on light and dark backgrounds.</li>
-    <li>Verify focus indicators are at least 2px thick and clearly visible.</li>
-    <li>Ensure no custom styling hides focus.</li>
-</ul>
-
-<h2>Sample audit workflow</h2>
-<p>A strong WCAG 2.2 audit includes three layers: automated scan, manual review, and assistive technology validation.</p>
-<ol>
-    <li><strong>Automated scan:</strong> run tools such as Axe or Lighthouse to catch baseline issues.</li>
-    <li><strong>Manual checklist:</strong> validate focus, target size, dragging alternatives, and authentication flows.</li>
-    <li><strong>Assistive tech test:</strong> confirm behavior using screen readers and keyboard-only navigation.</li>
-</ol>
-
-<h2>Evidence and documentation</h2>
-<p>Compliance is proven through evidence, not just checklists. Capture screenshots of focus states, record short clips of drag-and-drop alternatives, and document test results for key journeys. These artifacts create confidence with stakeholders and serve as proof during audits.</p>
-
-<h2>Integration into CI/CD</h2>
-<p>WCAG readiness should be part of your release workflow. Automated accessibility checks can run in CI, but manual audits should be scheduled before major releases. For high-risk flows, build a mandatory accessibility gate.</p>
-
-<h2>Common pitfalls</h2>
-<ul>
-    <li><strong>Over-reliance on automation:</strong> scanners do not catch focus visibility or target size issues.</li>
-    <li><strong>Design-compliance gap:</strong> accessibility is treated as QA-only, rather than a design responsibility.</li>
-    <li><strong>Inconsistent evidence:</strong> lack of documentation creates audit risk.</li>
-    <li><strong>Late-stage fixes:</strong> issues are found after release rather than during design and build.</li>
-</ul>
-
-<h2>Role-based responsibilities</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Role</th>
-            <th>Responsibility</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Design</td>
-            <td>Define focus styles, target sizes, and error recovery patterns.</td>
-        </tr>
-        <tr>
-            <td>Engineering</td>
-            <td>Implement keyboard support, semantic markup, and ARIA as needed.</td>
-        </tr>
-        <tr>
-            <td>QA</td>
-            <td>Validate journeys, capture evidence, and enforce release gates.</td>
-        </tr>
-        <tr>
-            <td>Product</td>
-            <td>Prioritize remediation and align on accessibility KPIs.</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2>Metrics that show readiness</h2>
-<ul>
-    <li>Percentage of critical journeys that pass manual WCAG 2.2 checks.</li>
-    <li>Number of accessibility issues found before release vs after release.</li>
-    <li>Time to remediate focus and target size defects.</li>
-    <li>Audit evidence coverage per release.</li>
-</ul>
-
-<h2>90-day implementation plan</h2>
-
-<h3>Days 1-30: Baseline</h3>
-<ul>
-    <li>Audit current WCAG 2.1/2.2 coverage and identify gaps.</li>
-    <li>Create a WCAG 2.2 checklist aligned to your top journeys.</li>
-    <li>Train QA and design on the new criteria.</li>
-</ul>
-
-<h3>Days 31-60: Embed</h3>
-<ul>
-    <li>Integrate automated scans into CI.</li>
-    <li>Add manual focus and target size checks to regression testing.</li>
-    <li>Document evidence templates for audit readiness.</li>
-</ul>
-
-<h3>Days 61-90: Scale</h3>
-<ul>
-    <li>Expand coverage to secondary journeys.</li>
-    <li>Introduce accessibility gates for high-risk releases.</li>
-    <li>Report readiness metrics to leadership.</li>
-</ul>
-
-<h2>Deep dive: WCAG 2.2 criteria in practice</h2>
-
-<h3>Focus appearance (Minimum)</h3>
-<p>Focus visibility is not just about having a border. The indicator must be clearly visible against the background and remain consistent across interactive states. Test on light and dark themes, within modals, and on custom components. If focus styling disappears on hover or active states, it fails.</p>
-<p>Practical QA steps:</p>
-<ul>
-    <li>Navigate with the keyboard only and screenshot focus states.</li>
-    <li>Measure focus contrast against adjacent colors.</li>
-    <li>Ensure focus is visible when an element is partially obscured.</li>
-</ul>
-
-<h3>Target size (Minimum)</h3>
-<p>Small targets are common in dense UIs, especially when icons are used without padding. WCAG 2.2 emphasizes minimum target size to prevent accidental taps. The size requirement applies to the clickable area, not just the visible icon.</p>
-<p>Practical QA steps:</p>
-<ul>
-    <li>Inspect clickable areas with dev tools or overlay guides.</li>
-    <li>Validate spacing between adjacent controls.</li>
-    <li>Verify that icons include padding to meet minimum size.</li>
-</ul>
-
-<h3>Dragging movements</h3>
-<p>Dragging is difficult for users with limited dexterity. Provide alternative controls like up/down buttons or keyboard shortcuts. If the drag gesture is the only method, the criterion is not met.</p>
-<p>Practical QA steps:</p>
-<ul>
-    <li>Attempt drag-and-drop using keyboard only.</li>
-    <li>Verify alternative controls exist and are labeled.</li>
-    <li>Confirm drop targets are accessible and focusable.</li>
-</ul>
-
-<h3>Accessible authentication</h3>
-<p>Authentication should not rely on memory or cognitive recall. Avoid puzzle-based challenges that block assistive tech. Allow password managers, and support copy/paste in password fields unless there is a proven security reason.</p>
-<p>Practical QA steps:</p>
-<ul>
-    <li>Test login with a password manager enabled.</li>
-    <li>Verify that copy/paste is allowed where possible.</li>
-    <li>Check that error recovery does not require memorization.</li>
-</ul>
-
-<h3>Redundant entry</h3>
-<p>If a user has already entered information, they should not be forced to re-enter it later. This is critical for long forms and multi-step flows. Redundant entry is a common hidden risk that frustrates users with cognitive or motor disabilities.</p>
-<p>Practical QA steps:</p>
-<ul>
-    <li>Navigate multi-step forms and confirm persistence.</li>
-    <li>Verify prefilled data matches the user profile.</li>
-    <li>Check for saved state after validation errors.</li>
-</ul>
-
-<h2>Component-level checklist</h2>
-<p>Use component-level QA checks to prevent repeated issues across the product.</p>
-<ul>
-    <li><strong>Buttons:</strong> verify target size, keyboard activation, and visible focus.</li>
-    <li><strong>Links:</strong> ensure clear focus and sufficient target area for inline links.</li>
-    <li><strong>Menus:</strong> confirm keyboard navigation, focus trapping, and escape behavior.</li>
-    <li><strong>Modals:</strong> verify focus is trapped and returned on close.</li>
-    <li><strong>Carousels:</strong> ensure keyboard navigation and visible focus controls.</li>
-    <li><strong>Drag-and-drop widgets:</strong> provide keyboard alternatives.</li>
-</ul>
-
-<h2>Manual testing protocol</h2>
-<p>Automated tools cannot capture all WCAG 2.2 requirements. A repeatable manual protocol helps teams scale testing without creating bottlenecks.</p>
-<ol>
-    <li>Run automated scans to catch baseline violations.</li>
-    <li>Conduct keyboard-only navigation for primary journeys.</li>
-    <li>Validate focus visibility and target size for high-traffic pages.</li>
-    <li>Test authentication and form workflows with assistive tools.</li>
-    <li>Document evidence with screenshots and notes.</li>
-</ol>
-
-<h2>Remediation workflow</h2>
-<p>Accessibility fixes are most effective when integrated into regular defect management, not treated as a separate backlog. Use the same severity and SLA standards as other critical defects.</p>
-<ul>
-    <li><strong>Severity:</strong> label issues based on user impact and legal risk.</li>
-    <li><strong>Ownership:</strong> assign to the component team, not a separate accessibility queue.</li>
-    <li><strong>Verification:</strong> re-test manually and document evidence.</li>
-</ul>
-
-<h2>Accessibility in design systems</h2>
-<p>Design systems are the fastest way to scale compliance. If core components are compliant, every product team benefits. Ensure your design system tokens define focus, spacing, and target size rules.</p>
-<p>Best practices:</p>
-<ul>
-    <li>Document focus styling as a required token.</li>
-    <li>Set minimum target sizes in design guidelines.</li>
-    <li>Provide accessible drag-and-drop patterns.</li>
-</ul>
-
-<h2>Stakeholder alignment</h2>
-<p>Accessibility is a shared responsibility. Create a short alignment document that explains WCAG 2.2 impact, testing expectations, and release requirements. This reduces friction and supports faster remediation when issues arise.</p>
-
-<h2>Evidence pack: what to capture for audits</h2>
-<p>Accessibility claims should be backed by evidence. Build a lightweight evidence pack per release or per audit cycle. This makes compliance reviews faster and reduces legal risk.</p>
-<ul>
-    <li>Screenshots of focus states on key components</li>
-    <li>Short clips of keyboard navigation on major journeys</li>
-    <li>Target size measurements for mobile controls</li>
-    <li>Notes on manual testing and assistive tech validation</li>
-</ul>
-
-<h2>Mobile-specific considerations</h2>
-<p>Mobile interfaces introduce higher risk for target size, spacing, and gesture reliance. Test on real devices when possible. Emulators often miss subtle interaction issues like accidental taps and focus indicators that disappear on scroll.</p>
-<p>Mobile QA steps:</p>
-<ul>
-    <li>Verify target sizes at the most compact breakpoints.</li>
-    <li>Check orientation changes and responsive reflow.</li>
-    <li>Ensure interactive elements remain reachable with assistive tech.</li>
-</ul>
-
-<h2>Sample test cases</h2>
-<p>Use explicit, reusable test cases to standardize reviews.</p>
-<ul>
-    <li><strong>Focus visibility:</strong> On the checkout page, tab through all form fields. Confirm focus is visible with at least a 2px outline and does not disappear on hover.</li>
-    <li><strong>Target size:</strong> On mobile, verify the icon-only "edit" button meets minimum target size and has sufficient spacing from adjacent icons.</li>
-    <li><strong>Dragging alternatives:</strong> In the list reordering component, confirm keyboard-accessible buttons move items up or down.</li>
-    <li><strong>Authentication:</strong> During login, confirm that copy/paste is allowed and that the system does not require recall of prior steps.</li>
-</ul>
-
-<h2>Legal and reputational risk</h2>
-<p>Accessibility risk is not only about compliance; it is about customer trust. WCAG 2.2 helps protect users and protects organizations from reputational damage. When an accessibility issue blocks a user, it often becomes a customer experience issue first and a compliance issue second.</p>
-<p>In regulated industries, accessibility evidence can be required during audits. Treat WCAG 2.2 readiness as a business risk mitigation strategy.</p>
-
-<h2>Training for QA and design teams</h2>
-<p>Readiness is a skills challenge. Provide short training modules focused on the new criteria, with before-and-after examples. Pair QA with design during reviews so fixes are aligned and do not create new usability issues.</p>
-<ul>
-    <li>Short workshops on focus visibility and target size.</li>
-    <li>Hands-on demos using keyboard-only navigation.</li>
-    <li>Review sessions on authentication flows and cognitive load.</li>
-</ul>
-
-<h2>Accessibility KPIs for leadership</h2>
-<p>Leadership support improves when KPIs are clear and consistent. Track a small set of metrics and report them regularly.</p>
-<table>
-    <thead>
-        <tr>
-            <th>KPI</th>
-            <th>Definition</th>
-            <th>Goal</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Manual pass rate</td>
-            <td>Percent of key journeys passing WCAG 2.2 manual checks</td>
-            <td>Above 95%</td>
-        </tr>
-        <tr>
-            <td>Remediation time</td>
-            <td>Days to resolve accessibility issues</td>
-            <td>Under 14 days</td>
-        </tr>
-        <tr>
-            <td>Post-release defects</td>
-            <td>Accessibility issues found after release</td>
-            <td>Near zero</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2>Governance and release gates</h2>
-<p>Accessibility should be part of release governance. Define clear gates for high-risk releases so that accessibility is not postponed. For example, major changes to login or checkout should always include a WCAG 2.2 review before release.</p>
-
-<h2>When to use external audits</h2>
-<p>Internal QA teams are often strong, but external audits can provide unbiased validation and expertise. Use external audits for high-risk releases or when entering new markets with stricter requirements.</p>
-
-<h2>Common remediation patterns</h2>
-<ul>
-    <li><strong>Focus fixes:</strong> add consistent focus styles and avoid removing outlines.</li>
-    <li><strong>Target fixes:</strong> increase padding and use larger touch areas.</li>
-    <li><strong>Drag fixes:</strong> provide buttons or keyboard commands.</li>
-    <li><strong>Authentication fixes:</strong> support password managers and avoid memory-dependent flows.</li>
-</ul>
-
-<h2>Scaling across teams</h2>
-<p>Large organizations often struggle with consistency. Standardize checklists, use shared evidence templates, and require component-level compliance for design systems. This reduces repeated issues and accelerates delivery across squads.</p>
-
-<h2>Assistive technology validation</h2>
-<p>Screen reader testing is a critical part of readiness, even if WCAG 2.2 adds criteria beyond screen reader support. Test with at least one screen reader on desktop and one on mobile. Focus on core journeys, and capture any disconnect between visible labels and announced labels.</p>
-<p>Recommended approach:</p>
-<ul>
-    <li>Use a consistent test script for each journey.</li>
-    <li>Log issues with exact step numbers and expected output.</li>
-    <li>Re-test after fixes and include evidence in your pack.</li>
-</ul>
-
-<h2>Tooling stack and automation strategy</h2>
-<p>Automation is a baseline, not the finish line. Use automated tooling to catch obvious issues early, then rely on manual QA for the criteria automation cannot detect.</p>
-<ul>
-    <li><strong>CI scans:</strong> catch regressions early and block obvious failures.</li>
-    <li><strong>Design linting:</strong> ensure target size and focus styles are defined.</li>
-    <li><strong>Manual QA:</strong> validate keyboard flows, focus indicators, and drag alternatives.</li>
-</ul>
-
-<h2>Risk scoring for prioritization</h2>
-<p>Not every page has the same accessibility risk. Prioritize based on user impact and business exposure.</p>
-<table>
-    <thead>
-        <tr>
-            <th>Risk level</th>
-            <th>Example</th>
-            <th>Required checks</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>High</td>
-            <td>Login, checkout, account settings</td>
-            <td>Full manual WCAG 2.2 review + assistive tech</td>
-        </tr>
-        <tr>
-            <td>Medium</td>
-            <td>Search, browse, filters</td>
-            <td>Manual focus and target size validation</td>
-        </tr>
-        <tr>
-            <td>Low</td>
-            <td>Static informational pages</td>
-            <td>Automated scan + spot checks</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2>Sample readiness report outline</h2>
-<p>Provide leadership with a short readiness report that is easy to understand and audit. A good report includes:</p>
-<ul>
-    <li>Current compliance status by journey</li>
-    <li>Open issues and remediation owners</li>
-    <li>Evidence pack summary</li>
-    <li>Release recommendation</li>
-</ul>
-<p>This keeps accessibility visible and prevents it from becoming an afterthought.</p>
-
-<ul>
-    <li>Do we have evidence for focus visibility and target size on all critical journeys?</li>
-    <li>Are drag-and-drop alternatives available and tested?</li>
-    <li>Can users authenticate without memory barriers?</li>
-    <li>Is compliance embedded in the release gate?</li>
-</ul>
-
-<h2>Content and copy considerations</h2>
-<p>Accessibility is not only visual. Clear language reduces cognitive load. Review error messages, labels, and help text to ensure they are concise and actionable. Avoid jargon that may confuse users or require interpretation. This is especially important for authentication and error recovery flows.</p>
-
-<h2>Cross-team workflow</h2>
-<p>Accessibility readiness improves when teams share a workflow. A simple cadence works well:</p>
-<ol>
-    <li><strong>Design review:</strong> validate focus styles and target sizes before implementation.</li>
-    <li><strong>Engineering check:</strong> confirm semantic markup and keyboard behavior.</li>
-    <li><strong>QA verification:</strong> execute manual WCAG 2.2 checklist and capture evidence.</li>
-    <li><strong>Release gate:</strong> ensure accessibility sign-off for high-risk changes.</li>
-</ol>
-<p>This workflow can be inserted into sprint rituals without adding major overhead.</p>
-
-<h2>Accessibility culture</h2>
-<p>Tools and checklists help, but culture sustains compliance. Encourage teams to consider accessibility in planning, design, and code reviews. When accessibility becomes a shared habit, WCAG 2.2 readiness becomes far easier to maintain.</p>
-
-<h2>Third-party and vendor risk</h2>
-<p>Many accessibility failures come from third-party widgets, payment providers, or embedded content. Include vendor components in your WCAG 2.2 review and document any exceptions. If a vendor cannot meet requirements, you need a mitigation plan or an alternative provider.</p>
-
-<h2>Regression strategy</h2>
-<p>Accessibility issues often reappear when UI changes happen quickly. Build a lightweight regression plan that prioritizes the top journeys and the highest-risk components. Run it at least once per release cycle, and more often for major UI changes.</p>
-
-<h2>Ongoing maintenance</h2>
-<p>WCAG readiness is not a one-time project. Schedule periodic reviews, keep documentation updated, and track progress with small, consistent metrics. When accessibility is treated as part of normal quality, compliance becomes sustainable instead of stressful.</p>
-
-<h2>What good looks like</h2>
-<p>A WCAG 2.2-ready product feels smooth for keyboard users, forgiving for touch users, and clear for anyone navigating complex forms. Focus indicators are visible, touch targets are comfortable, and users are never blocked by unnecessary memory challenges. That experience is not just compliant; it is better for everyone.</p>
-
-<p>If you are unsure where to start, pick one journey, run the full WCAG 2.2 manual checklist, and capture evidence. That single effort will often reveal systemic gaps you can address across the product.</p>
-
-<h2>Where teams usually get stuck</h2>
-<p>The most common sticking points are focus styling debates, target size conflicts in dense layouts, and product pressure to skip manual checks. Solve these by setting default design tokens, agreeing on exceptions with leadership, and keeping a simple, repeatable manual checklist.</p>
-
-<p>WCAG 2.2 readiness is achievable when teams focus on user journeys, evidence, and shared accountability. With a disciplined QA process and clear design standards, accessibility becomes a durable strength rather than a last-minute risk.</p>
-
-<h2>One small habit with big impact</h2>
-<p>Add a quick accessibility check to every pull request review. Even a two-minute scan for focus visibility and target size prevents many issues from reaching QA.</p>
-
-<h2>Quick self-check</h2>
-<p>If a user can complete your top three journeys using only a keyboard and a screen reader, and if all touch targets are comfortable on mobile, you are likely close to WCAG 2.2 readiness.</p>
-
-<p>Accessibility is a product quality signal. Treat WCAG 2.2 like a core requirement, not a side task.</p>
-
-<div class="article-callout">
-    WCAG 2.2 readiness is a system, not a checklist. The best teams make accessibility part of everyday delivery.
-</div>
-
-<h2>Conclusion</h2>
-<p>WCAG 2.2 readiness requires more than tool adoption. It demands process changes, design collaboration, and evidence-driven QA. When you embed accessibility into your pipeline, you reduce risk, improve usability, and demonstrate leadership in inclusive digital delivery.</p>
-</article>
+                    <figure class="article-hero-media">
+                        <img src="images/WCAG%202.2%20Readiness/_51da69a0-220a-4ce2-92b2-b57cc83a079e.jpeg"
+                            alt="Accessible interface controls with strong focus rings" loading="lazy" decoding="async">
+                    </figure>
+
+                    <p>WCAG 2.2 is not just a checklist update. It reflects a broader shift toward usability for people
+                        with mobility, cognitive, and vision-related barriers. For QA leads, the challenge is not only
+                        understanding the new success criteria but integrating them into daily delivery practices. This
+                        guide provides a practical readiness playbook: what changed, how to test it, and how to embed it
+                        into your release pipeline.</p>
+
+                    <h2>Quick overview: what WCAG 2.2 adds</h2>
+                    <p>WCAG 2.2 builds on WCAG 2.1, adding criteria that emphasize focus visibility, target size,
+                        accessible help, and predictable authentication. The new criteria aim to reduce friction for
+                        users who rely on keyboard navigation, touch interaction, or cognitive support. Many teams can
+                        pass automated scans and still fail these requirements in real-world use. That is why readiness
+                        must include manual testing and design validation.</p>
+
+                    <h2>Readiness checklist (high level)</h2>
+                    <ul>
+                        <li>Update accessibility test cases to include WCAG 2.2 criteria.</li>
+                        <li>Train QA on focus appearance and target size evaluation.</li>
+                        <li>Review authentication flows for cognitive accessibility.</li>
+                        <li>Expand manual keyboard and screen reader tests on critical journeys.</li>
+                        <li>Document evidence for compliance audits and client reporting.</li>
+                    </ul>
+
+                    <h2>Success criteria that most teams miss</h2>
+                    <p>Several WCAG 2.2 requirements are not captured by automated tools. These should be emphasized in
+                        your test strategy.</p>
+
+                    <h3>Focus appearance (Minimum)</h3>
+                    <p>Focus indicators must be clearly visible and not just a thin outline that blends into the
+                        background. Test with real keyboard navigation and verify contrast, thickness, and visibility
+                        across all states.</p>
+
+                    <h3>Target size (Minimum)</h3>
+                    <p>Interactive targets must be large enough to reduce accidental activation. This includes buttons,
+                        controls, and clickable icons. Small icons in dense layouts are common offenders.</p>
+
+                    <h3>Dragging movements</h3>
+                    <p>If a user must drag items, there must be an alternative that does not require dragging (such as
+                        buttons to move items). This is especially important for users with limited mobility.</p>
+
+                    <h3>Accessible authentication</h3>
+                    <p>Authentication processes should not rely solely on memory or cognitive recall. Allow password
+                        managers, avoid puzzles that block assistive tech, and support copy/paste where possible.</p>
+
+                    <h3>Redundant entry</h3>
+                    <p>Users should not be forced to re-enter information that the system already knows. This includes
+                        repeating addresses or profile details across steps. Verify that forms prefill correctly and
+                        that data is preserved across steps.</p>
+
+                    <h2>How to embed WCAG 2.2 into QA strategy</h2>
+                    <p>Readiness depends on turning guidelines into repeatable testing routines.</p>
+
+                    <h3>1) Map WCAG 2.2 to your user journeys</h3>
+                    <p>Create a matrix of your top user journeys (login, checkout, onboarding, account management) and
+                        map relevant WCAG 2.2 criteria to each. This prevents a checklist mentality and ensures that
+                        testing focuses on real customer flows.</p>
+
+                    <h3>2) Identify high-risk components</h3>
+                    <p>Components like dropdowns, modals, carousels, and drag-and-drop interfaces often fail WCAG 2.2
+                        criteria. Prioritize these components for manual testing and design review.</p>
+
+                    <h3>3) Combine automated and manual testing</h3>
+                    <p>Automated scanners can detect some issues, but critical WCAG 2.2 checks require manual
+                        validation. For example, focus appearance is visual and contextual, and target size depends on
+                        layout density.</p>
+
+                    <h2>Testing techniques by area</h2>
+
+                    <h3>Keyboard navigation</h3>
+                    <ul>
+                        <li>Verify that every interactive element is reachable and usable.</li>
+                        <li>Confirm visible focus indicators at all times.</li>
+                        <li>Ensure tab order follows logical reading order.</li>
+                    </ul>
+
+                    <h3>Touch and pointer interactions</h3>
+                    <ul>
+                        <li>Measure target sizes and spacing on mobile devices.</li>
+                        <li>Check for accidental activations in dense controls.</li>
+                        <li>Validate alternative controls for dragging tasks.</li>
+                    </ul>
+
+                    <h3>Authentication and forms</h3>
+                    <ul>
+                        <li>Test with password managers enabled.</li>
+                        <li>Verify error recovery without memory reliance.</li>
+                        <li>Confirm redundant entry is minimized.</li>
+                    </ul>
+
+                    <h3>Visual focus and contrast</h3>
+                    <ul>
+                        <li>Inspect focus outlines on light and dark backgrounds.</li>
+                        <li>Verify focus indicators are at least 2px thick and clearly visible.</li>
+                        <li>Ensure no custom styling hides focus.</li>
+                    </ul>
+
+                    <h2>Sample audit workflow</h2>
+                    <p>A strong WCAG 2.2 audit includes three layers: automated scan, manual review, and assistive
+                        technology validation.</p>
+                    <ol>
+                        <li><strong>Automated scan:</strong> run tools such as Axe or Lighthouse to catch baseline
+                            issues.</li>
+                        <li><strong>Manual checklist:</strong> validate focus, target size, dragging alternatives, and
+                            authentication flows.</li>
+                        <li><strong>Assistive tech test:</strong> confirm behavior using screen readers and
+                            keyboard-only navigation.</li>
+                    </ol>
+
+                    <h2>Evidence and documentation</h2>
+                    <p>Compliance is proven through evidence, not just checklists. Capture screenshots of focus states,
+                        record short clips of drag-and-drop alternatives, and document test results for key journeys.
+                        These artifacts create confidence with stakeholders and serve as proof during audits.</p>
+
+                    <h2>Integration into CI/CD</h2>
+                    <p>WCAG readiness should be part of your release workflow. Automated accessibility checks can run in
+                        CI, but manual audits should be scheduled before major releases. For high-risk flows, build a
+                        mandatory accessibility gate.</p>
+
+                    <h2>Common pitfalls</h2>
+                    <ul>
+                        <li><strong>Over-reliance on automation:</strong> scanners do not catch focus visibility or
+                            target size issues.</li>
+                        <li><strong>Design-compliance gap:</strong> accessibility is treated as QA-only, rather than a
+                            design responsibility.</li>
+                        <li><strong>Inconsistent evidence:</strong> lack of documentation creates audit risk.</li>
+                        <li><strong>Late-stage fixes:</strong> issues are found after release rather than during design
+                            and build.</li>
+                    </ul>
+
+                    <h2>Role-based responsibilities</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Responsibility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Design</td>
+                                <td>Define focus styles, target sizes, and error recovery patterns.</td>
+                            </tr>
+                            <tr>
+                                <td>Engineering</td>
+                                <td>Implement keyboard support, semantic markup, and ARIA as needed.</td>
+                            </tr>
+                            <tr>
+                                <td>QA</td>
+                                <td>Validate journeys, capture evidence, and enforce release gates.</td>
+                            </tr>
+                            <tr>
+                                <td>Product</td>
+                                <td>Prioritize remediation and align on accessibility KPIs.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Metrics that show readiness</h2>
+                    <ul>
+                        <li>Percentage of critical journeys that pass manual WCAG 2.2 checks.</li>
+                        <li>Number of accessibility issues found before release vs after release.</li>
+                        <li>Time to remediate focus and target size defects.</li>
+                        <li>Audit evidence coverage per release.</li>
+                    </ul>
+
+                    <h2>90-day implementation plan</h2>
+
+                    <h3>Days 1-30: Baseline</h3>
+                    <ul>
+                        <li>Audit current WCAG 2.1/2.2 coverage and identify gaps.</li>
+                        <li>Create a WCAG 2.2 checklist aligned to your top journeys.</li>
+                        <li>Train QA and design on the new criteria.</li>
+                    </ul>
+
+                    <h3>Days 31-60: Embed</h3>
+                    <ul>
+                        <li>Integrate automated scans into CI.</li>
+                        <li>Add manual focus and target size checks to regression testing.</li>
+                        <li>Document evidence templates for audit readiness.</li>
+                    </ul>
+
+                    <h3>Days 61-90: Scale</h3>
+                    <ul>
+                        <li>Expand coverage to secondary journeys.</li>
+                        <li>Introduce accessibility gates for high-risk releases.</li>
+                        <li>Report readiness metrics to leadership.</li>
+                    </ul>
+
+                    <h2>Deep dive: WCAG 2.2 criteria in practice</h2>
+
+                    <h3>Focus appearance (Minimum)</h3>
+                    <p>Focus visibility is not just about having a border. The indicator must be clearly visible against
+                        the background and remain consistent across interactive states. Test on light and dark themes,
+                        within modals, and on custom components. If focus styling disappears on hover or active states,
+                        it fails.</p>
+                    <p>Practical QA steps:</p>
+                    <ul>
+                        <li>Navigate with the keyboard only and screenshot focus states.</li>
+                        <li>Measure focus contrast against adjacent colors.</li>
+                        <li>Ensure focus is visible when an element is partially obscured.</li>
+                    </ul>
+
+                    <h3>Target size (Minimum)</h3>
+                    <p>Small targets are common in dense UIs, especially when icons are used without padding. WCAG 2.2
+                        emphasizes minimum target size to prevent accidental taps. The size requirement applies to the
+                        clickable area, not just the visible icon.</p>
+                    <p>Practical QA steps:</p>
+                    <ul>
+                        <li>Inspect clickable areas with dev tools or overlay guides.</li>
+                        <li>Validate spacing between adjacent controls.</li>
+                        <li>Verify that icons include padding to meet minimum size.</li>
+                    </ul>
+
+                    <h3>Dragging movements</h3>
+                    <p>Dragging is difficult for users with limited dexterity. Provide alternative controls like up/down
+                        buttons or keyboard shortcuts. If the drag gesture is the only method, the criterion is not met.
+                    </p>
+                    <p>Practical QA steps:</p>
+                    <ul>
+                        <li>Attempt drag-and-drop using keyboard only.</li>
+                        <li>Verify alternative controls exist and are labeled.</li>
+                        <li>Confirm drop targets are accessible and focusable.</li>
+                    </ul>
+
+                    <h3>Accessible authentication</h3>
+                    <p>Authentication should not rely on memory or cognitive recall. Avoid puzzle-based challenges that
+                        block assistive tech. Allow password managers, and support copy/paste in password fields unless
+                        there is a proven security reason.</p>
+                    <p>Practical QA steps:</p>
+                    <ul>
+                        <li>Test login with a password manager enabled.</li>
+                        <li>Verify that copy/paste is allowed where possible.</li>
+                        <li>Check that error recovery does not require memorization.</li>
+                    </ul>
+
+                    <h3>Redundant entry</h3>
+                    <p>If a user has already entered information, they should not be forced to re-enter it later. This
+                        is critical for long forms and multi-step flows. Redundant entry is a common hidden risk that
+                        frustrates users with cognitive or motor disabilities.</p>
+                    <p>Practical QA steps:</p>
+                    <ul>
+                        <li>Navigate multi-step forms and confirm persistence.</li>
+                        <li>Verify prefilled data matches the user profile.</li>
+                        <li>Check for saved state after validation errors.</li>
+                    </ul>
+
+                    <h2>Component-level checklist</h2>
+                    <p>Use component-level QA checks to prevent repeated issues across the product.</p>
+                    <ul>
+                        <li><strong>Buttons:</strong> verify target size, keyboard activation, and visible focus.</li>
+                        <li><strong>Links:</strong> ensure clear focus and sufficient target area for inline links.</li>
+                        <li><strong>Menus:</strong> confirm keyboard navigation, focus trapping, and escape behavior.
+                        </li>
+                        <li><strong>Modals:</strong> verify focus is trapped and returned on close.</li>
+                        <li><strong>Carousels:</strong> ensure keyboard navigation and visible focus controls.</li>
+                        <li><strong>Drag-and-drop widgets:</strong> provide keyboard alternatives.</li>
+                    </ul>
+
+                    <h2>Manual testing protocol</h2>
+                    <p>Automated tools cannot capture all WCAG 2.2 requirements. A repeatable manual protocol helps
+                        teams scale testing without creating bottlenecks.</p>
+                    <ol>
+                        <li>Run automated scans to catch baseline violations.</li>
+                        <li>Conduct keyboard-only navigation for primary journeys.</li>
+                        <li>Validate focus visibility and target size for high-traffic pages.</li>
+                        <li>Test authentication and form workflows with assistive tools.</li>
+                        <li>Document evidence with screenshots and notes.</li>
+                    </ol>
+
+                    <h2>Remediation workflow</h2>
+                    <p>Accessibility fixes are most effective when integrated into regular defect management, not
+                        treated as a separate backlog. Use the same severity and SLA standards as other critical
+                        defects.</p>
+                    <ul>
+                        <li><strong>Severity:</strong> label issues based on user impact and legal risk.</li>
+                        <li><strong>Ownership:</strong> assign to the component team, not a separate accessibility
+                            queue.</li>
+                        <li><strong>Verification:</strong> re-test manually and document evidence.</li>
+                    </ul>
+
+                    <h2>Accessibility in design systems</h2>
+                    <p>Design systems are the fastest way to scale compliance. If core components are compliant, every
+                        product team benefits. Ensure your design system tokens define focus, spacing, and target size
+                        rules.</p>
+                    <p>Best practices:</p>
+                    <ul>
+                        <li>Document focus styling as a required token.</li>
+                        <li>Set minimum target sizes in design guidelines.</li>
+                        <li>Provide accessible drag-and-drop patterns.</li>
+                    </ul>
+
+                    <h2>Stakeholder alignment</h2>
+                    <p>Accessibility is a shared responsibility. Create a short alignment document that explains WCAG
+                        2.2 impact, testing expectations, and release requirements. This reduces friction and supports
+                        faster remediation when issues arise.</p>
+
+                    <h2>Evidence pack: what to capture for audits</h2>
+                    <p>Accessibility claims should be backed by evidence. Build a lightweight evidence pack per release
+                        or per audit cycle. This makes compliance reviews faster and reduces legal risk.</p>
+                    <ul>
+                        <li>Screenshots of focus states on key components</li>
+                        <li>Short clips of keyboard navigation on major journeys</li>
+                        <li>Target size measurements for mobile controls</li>
+                        <li>Notes on manual testing and assistive tech validation</li>
+                    </ul>
+
+                    <h2>Mobile-specific considerations</h2>
+                    <p>Mobile interfaces introduce higher risk for target size, spacing, and gesture reliance. Test on
+                        real devices when possible. Emulators often miss subtle interaction issues like accidental taps
+                        and focus indicators that disappear on scroll.</p>
+                    <p>Mobile QA steps:</p>
+                    <ul>
+                        <li>Verify target sizes at the most compact breakpoints.</li>
+                        <li>Check orientation changes and responsive reflow.</li>
+                        <li>Ensure interactive elements remain reachable with assistive tech.</li>
+                    </ul>
+
+                    <h2>Sample test cases</h2>
+                    <p>Use explicit, reusable test cases to standardize reviews.</p>
+                    <ul>
+                        <li><strong>Focus visibility:</strong> On the checkout page, tab through all form fields.
+                            Confirm focus is visible with at least a 2px outline and does not disappear on hover.</li>
+                        <li><strong>Target size:</strong> On mobile, verify the icon-only "edit" button meets minimum
+                            target size and has sufficient spacing from adjacent icons.</li>
+                        <li><strong>Dragging alternatives:</strong> In the list reordering component, confirm
+                            keyboard-accessible buttons move items up or down.</li>
+                        <li><strong>Authentication:</strong> During login, confirm that copy/paste is allowed and that
+                            the system does not require recall of prior steps.</li>
+                    </ul>
+
+                    <h2>Legal and reputational risk</h2>
+                    <p>Accessibility risk is not only about compliance; it is about customer trust. WCAG 2.2 helps
+                        protect users and protects organizations from reputational damage. When an accessibility issue
+                        blocks a user, it often becomes a customer experience issue first and a compliance issue second.
+                    </p>
+                    <p>In regulated industries, accessibility evidence can be required during audits. Treat WCAG 2.2
+                        readiness as a business risk mitigation strategy.</p>
+
+                    <h2>Training for QA and design teams</h2>
+                    <p>Readiness is a skills challenge. Provide short training modules focused on the new criteria, with
+                        before-and-after examples. Pair QA with design during reviews so fixes are aligned and do not
+                        create new usability issues.</p>
+                    <ul>
+                        <li>Short workshops on focus visibility and target size.</li>
+                        <li>Hands-on demos using keyboard-only navigation.</li>
+                        <li>Review sessions on authentication flows and cognitive load.</li>
+                    </ul>
+
+                    <h2>Accessibility KPIs for leadership</h2>
+                    <p>Leadership support improves when KPIs are clear and consistent. Track a small set of metrics and
+                        report them regularly.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>KPI</th>
+                                <th>Definition</th>
+                                <th>Goal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Manual pass rate</td>
+                                <td>Percent of key journeys passing WCAG 2.2 manual checks</td>
+                                <td>Above 95%</td>
+                            </tr>
+                            <tr>
+                                <td>Remediation time</td>
+                                <td>Days to resolve accessibility issues</td>
+                                <td>Under 14 days</td>
+                            </tr>
+                            <tr>
+                                <td>Post-release defects</td>
+                                <td>Accessibility issues found after release</td>
+                                <td>Near zero</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Governance and release gates</h2>
+                    <p>Accessibility should be part of release governance. Define clear gates for high-risk releases so
+                        that accessibility is not postponed. For example, major changes to login or checkout should
+                        always include a WCAG 2.2 review before release.</p>
+
+                    <h2>When to use external audits</h2>
+                    <p>Internal QA teams are often strong, but external audits can provide unbiased validation and
+                        expertise. Use external audits for high-risk releases or when entering new markets with stricter
+                        requirements.</p>
+
+                    <h2>Common remediation patterns</h2>
+                    <ul>
+                        <li><strong>Focus fixes:</strong> add consistent focus styles and avoid removing outlines.</li>
+                        <li><strong>Target fixes:</strong> increase padding and use larger touch areas.</li>
+                        <li><strong>Drag fixes:</strong> provide buttons or keyboard commands.</li>
+                        <li><strong>Authentication fixes:</strong> support password managers and avoid memory-dependent
+                            flows.</li>
+                    </ul>
+
+                    <h2>Scaling across teams</h2>
+                    <p>Large organizations often struggle with consistency. Standardize checklists, use shared evidence
+                        templates, and require component-level compliance for design systems. This reduces repeated
+                        issues and accelerates delivery across squads.</p>
+
+                    <h2>Assistive technology validation</h2>
+                    <p>Screen reader testing is a critical part of readiness, even if WCAG 2.2 adds criteria beyond
+                        screen reader support. Test with at least one screen reader on desktop and one on mobile. Focus
+                        on core journeys, and capture any disconnect between visible labels and announced labels.</p>
+                    <p>Recommended approach:</p>
+                    <ul>
+                        <li>Use a consistent test script for each journey.</li>
+                        <li>Log issues with exact step numbers and expected output.</li>
+                        <li>Re-test after fixes and include evidence in your pack.</li>
+                    </ul>
+
+                    <h2>Tooling stack and automation strategy</h2>
+                    <p>Automation is a baseline, not the finish line. Use automated tooling to catch obvious issues
+                        early, then rely on manual QA for the criteria automation cannot detect.</p>
+                    <ul>
+                        <li><strong>CI scans:</strong> catch regressions early and block obvious failures.</li>
+                        <li><strong>Design linting:</strong> ensure target size and focus styles are defined.</li>
+                        <li><strong>Manual QA:</strong> validate keyboard flows, focus indicators, and drag
+                            alternatives.</li>
+                    </ul>
+
+                    <h2>Risk scoring for prioritization</h2>
+                    <p>Not every page has the same accessibility risk. Prioritize based on user impact and business
+                        exposure.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Risk level</th>
+                                <th>Example</th>
+                                <th>Required checks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>High</td>
+                                <td>Login, checkout, account settings</td>
+                                <td>Full manual WCAG 2.2 review + assistive tech</td>
+                            </tr>
+                            <tr>
+                                <td>Medium</td>
+                                <td>Search, browse, filters</td>
+                                <td>Manual focus and target size validation</td>
+                            </tr>
+                            <tr>
+                                <td>Low</td>
+                                <td>Static informational pages</td>
+                                <td>Automated scan + spot checks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Sample readiness report outline</h2>
+                    <p>Provide leadership with a short readiness report that is easy to understand and audit. A good
+                        report includes:</p>
+                    <ul>
+                        <li>Current compliance status by journey</li>
+                        <li>Open issues and remediation owners</li>
+                        <li>Evidence pack summary</li>
+                        <li>Release recommendation</li>
+                    </ul>
+                    <p>This keeps accessibility visible and prevents it from becoming an afterthought.</p>
+
+                    <ul>
+                        <li>Do we have evidence for focus visibility and target size on all critical journeys?</li>
+                        <li>Are drag-and-drop alternatives available and tested?</li>
+                        <li>Can users authenticate without memory barriers?</li>
+                        <li>Is compliance embedded in the release gate?</li>
+                    </ul>
+
+                    <h2>Content and copy considerations</h2>
+                    <p>Accessibility is not only visual. Clear language reduces cognitive load. Review error messages,
+                        labels, and help text to ensure they are concise and actionable. Avoid jargon that may confuse
+                        users or require interpretation. This is especially important for authentication and error
+                        recovery flows.</p>
+
+                    <h2>Cross-team workflow</h2>
+                    <p>Accessibility readiness improves when teams share a workflow. A simple cadence works well:</p>
+                    <ol>
+                        <li><strong>Design review:</strong> validate focus styles and target sizes before
+                            implementation.</li>
+                        <li><strong>Engineering check:</strong> confirm semantic markup and keyboard behavior.</li>
+                        <li><strong>QA verification:</strong> execute manual WCAG 2.2 checklist and capture evidence.
+                        </li>
+                        <li><strong>Release gate:</strong> ensure accessibility sign-off for high-risk changes.</li>
+                    </ol>
+                    <p>This workflow can be inserted into sprint rituals without adding major overhead.</p>
+
+                    <h2>Accessibility culture</h2>
+                    <p>Tools and checklists help, but culture sustains compliance. Encourage teams to consider
+                        accessibility in planning, design, and code reviews. When accessibility becomes a shared habit,
+                        WCAG 2.2 readiness becomes far easier to maintain.</p>
+
+                    <h2>Third-party and vendor risk</h2>
+                    <p>Many accessibility failures come from third-party widgets, payment providers, or embedded
+                        content. Include vendor components in your WCAG 2.2 review and document any exceptions. If a
+                        vendor cannot meet requirements, you need a mitigation plan or an alternative provider.</p>
+
+                    <h2>Regression strategy</h2>
+                    <p>Accessibility issues often reappear when UI changes happen quickly. Build a lightweight
+                        regression plan that prioritizes the top journeys and the highest-risk components. Run it at
+                        least once per release cycle, and more often for major UI changes.</p>
+
+                    <h2>Ongoing maintenance</h2>
+                    <p>WCAG readiness is not a one-time project. Schedule periodic reviews, keep documentation updated,
+                        and track progress with small, consistent metrics. When accessibility is treated as part of
+                        normal quality, compliance becomes sustainable instead of stressful.</p>
+
+                    <h2>What good looks like</h2>
+                    <p>A WCAG 2.2-ready product feels smooth for keyboard users, forgiving for touch users, and clear
+                        for anyone navigating complex forms. Focus indicators are visible, touch targets are
+                        comfortable, and users are never blocked by unnecessary memory challenges. That experience is
+                        not just compliant; it is better for everyone.</p>
+
+                    <p>If you are unsure where to start, pick one journey, run the full WCAG 2.2 manual checklist, and
+                        capture evidence. That single effort will often reveal systemic gaps you can address across the
+                        product.</p>
+
+                    <h2>Where teams usually get stuck</h2>
+                    <p>The most common sticking points are focus styling debates, target size conflicts in dense
+                        layouts, and product pressure to skip manual checks. Solve these by setting default design
+                        tokens, agreeing on exceptions with leadership, and keeping a simple, repeatable manual
+                        checklist.</p>
+
+                    <p>WCAG 2.2 readiness is achievable when teams focus on user journeys, evidence, and shared
+                        accountability. With a disciplined QA process and clear design standards, accessibility becomes
+                        a durable strength rather than a last-minute risk.</p>
+
+                    <h2>One small habit with big impact</h2>
+                    <p>Add a quick accessibility check to every pull request review. Even a two-minute scan for focus
+                        visibility and target size prevents many issues from reaching QA.</p>
+
+                    <h2>Quick self-check</h2>
+                    <p>If a user can complete your top three journeys using only a keyboard and a screen reader, and if
+                        all touch targets are comfortable on mobile, you are likely close to WCAG 2.2 readiness.</p>
+
+                    <p>Accessibility is a product quality signal. Treat WCAG 2.2 like a core requirement, not a side
+                        task.</p>
+
+                    <div class="article-callout">
+                        WCAG 2.2 readiness is a system, not a checklist. The best teams make accessibility part of
+                        everyday delivery.
+                    </div>
+
+                    <h2>Conclusion</h2>
+                    <p>WCAG 2.2 readiness requires more than tool adoption. It demands process changes, design
+                        collaboration, and evidence-driven QA. When you embed accessibility into your pipeline, you
+                        reduce risk, improve usability, and demonstrate leadership in inclusive digital delivery.</p>
+                </article>
 
                 <aside class="article-sidebar">
                     <div class="sidebar-card author-card">
@@ -579,13 +707,19 @@
                     <div class="sidebar-card share-card">
                         <h4>Share</h4>
                         <div class="share-buttons">
-                            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                            <a class="share-btn"
+                                href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html"
+                                target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
                                 <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
                             </a>
-                            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html&text=WCAG%202.2%20Readiness:%20A%20QA%20Lead's%20Checklist" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                            <a class="share-btn"
+                                href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html&text=WCAG%202.2%20Readiness:%20A%20QA%20Lead's%20Checklist"
+                                target="_blank" rel="noopener noreferrer" aria-label="Share on X">
                                 <i class="fab fa-twitter" aria-hidden="true"></i> X / Twitter
                             </a>
-                            <a class="share-btn" href="mailto:?subject=WCAG%202.2%20Readiness:%20A%20QA%20Lead's%20Checklist&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html" aria-label="Share via email">
+                            <a class="share-btn"
+                                href="mailto:?subject=WCAG%202.2%20Readiness:%20A%20QA%20Lead's%20Checklist&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/wcag-2-2-readiness.html"
+                                aria-label="Share via email">
                                 <i class="fas fa-envelope" aria-hidden="true"></i> Email
                             </a>
                         </div>
@@ -594,9 +728,12 @@
                     <div class="sidebar-card related-card">
                         <h4>Related Posts</h4>
                         <ul>
-                            <li><a href="article-template.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
-                            <li><a href="modernizing-legacy-automation.html">Modernizing Legacy Automation Suites with Playwright</a></li>
-                            <li><a href="agentic-test-orchestration.html">Agentic Test Orchestration: Where to Start</a></li>
+                            <li><a href="accessibility-first-qa-culture.html">Building an Accessibility-First QA
+                                    Culture</a></li>
+                            <li><a href="modernizing-legacy-automation.html">Modernizing Legacy Automation Suites with
+                                    Playwright</a></li>
+                            <li><a href="agentic-test-orchestration.html">Agentic Test Orchestration: Where to Start</a>
+                            </li>
                         </ul>
                     </div>
                 </aside>
@@ -636,7 +773,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Gilbert Baidya. All rights reserved.</p>
+                <p>&copy; 2026 Gilbert Baidya. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -644,4 +781,5 @@
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.36/dist/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

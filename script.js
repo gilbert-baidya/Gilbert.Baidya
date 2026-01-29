@@ -49,6 +49,50 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
+    let mobileFocusTrapCleanup = null;
+
+    const getMobileFocusables = () => {
+        if (!navMenu) return [];
+        const links = Array.from(navMenu.querySelectorAll('a[href]'));
+        const focusables = links.slice();
+        if (hamburger) {
+            focusables.push(hamburger);
+        }
+        return focusables.filter((el) => !el.hasAttribute('disabled'));
+    };
+
+    const enableMobileFocusTrap = () => {
+        if (!navMenu) return;
+        const focusables = getMobileFocusables();
+        if (!focusables.length) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        const handler = (event) => {
+            if (event.key !== 'Tab') return;
+            if (!navMenu.classList.contains('active')) return;
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        document.addEventListener('keydown', handler);
+        mobileFocusTrapCleanup = () => document.removeEventListener('keydown', handler);
+        first.focus();
+    };
+
+    const disableMobileFocusTrap = () => {
+        if (mobileFocusTrapCleanup) {
+            mobileFocusTrapCleanup();
+            mobileFocusTrapCleanup = null;
+        }
+    };
 
     const toggleMenu = () => {
         if (!hamburger || !navMenu) return;
@@ -70,6 +114,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const navHeight = navbar ? navbar.offsetHeight : 70;
             document.documentElement.style.setProperty('--mobile-nav-offset', `${navHeight}px`);
             document.body.classList.toggle('nav-open', isExpanded);
+            if (isExpanded) {
+                enableMobileFocusTrap();
+            } else {
+                disableMobileFocusTrap();
+            }
         }
 
         if (window.matchMedia('(min-width: 601px) and (max-width: 1024px)').matches) {
@@ -112,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (window.matchMedia('(max-width: 600px)').matches) {
                 document.body.classList.remove('nav-open');
+                disableMobileFocusTrap();
             }
 
             if (window.matchMedia('(min-width: 601px) and (max-width: 1024px)').matches) {
@@ -476,20 +526,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     const readingTargets = document.querySelectorAll('[data-reading-content]');
-    const readingBadge = document.querySelector('.reading-time');
+    const readingBadges = document.querySelectorAll('.reading-time');
 
-    if (readingTargets.length === 0 || !readingBadge) return;
-
-    const wordsPerMinute = Number(readingBadge.getAttribute('data-words-per-minute')) || 200;
+    if (readingTargets.length === 0 || readingBadges.length === 0) return;
 
     let wordCount = 0;
     readingTargets.forEach(target => {
-        const text = target.textContent || '';
+        const text = target.innerText || target.textContent || '';
         wordCount += text.trim().split(/\s+/).filter(Boolean).length;
     });
 
-    const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
-    readingBadge.textContent = `${minutes} min read`;
+    readingBadges.forEach(badge => {
+        const wordsPerMinute = Number(badge.getAttribute('data-words-per-minute')) || 200;
+        const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+        badge.innerHTML = `${minutes} min read`;
+    });
 });
 
 // ========================================
