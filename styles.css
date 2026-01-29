@@ -2285,6 +2285,86 @@ section {
     }
 }
 
+@media (min-width: 601px) and (max-width: 1024px) {
+    :root {
+        --white: #ffffff;
+        --text-dark: #0f172a;
+        --text-light: #94a3b8;
+        --primary-color: #38bdf8;
+        --secondary-color: #fbbf24;
+        --primary-light: #67e8f9;
+        --accent-color: #38bdf8;
+        --shadow-lg: 0 18px 30px -18px rgba(2, 6, 23, 0.6);
+        --shadow-xl: 0 24px 40px -20px rgba(2, 6, 23, 0.7);
+        --transition-base: var(--transition-fast);
+    }
+
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: var(--tablet-nav-offset, 70px);
+        flex-direction: column;
+        background: var(--bg-secondary);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: var(--shadow-glass);
+        padding: 30px 0;
+        gap: 20px;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-link {
+        color: var(--text-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px 18px;
+    }
+
+    .hamburger {
+        display: flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid var(--border-subtle);
+        background: var(--bg-glass);
+    }
+
+    .hamburger span {
+        background: var(--text-primary);
+    }
+
+    body.tablet-nav-open {
+        overflow: hidden;
+    }
+
+    .article-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .article-content th,
+    .article-content td {
+        white-space: nowrap;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
 @media (max-width: 480px) {
     .hero-image {
         max-width: 240px;

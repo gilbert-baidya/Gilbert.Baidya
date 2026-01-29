@@ -71,6 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.documentElement.style.setProperty('--mobile-nav-offset', `${navHeight}px`);
             document.body.classList.toggle('nav-open', isExpanded);
         }
+
+        if (window.matchMedia('(min-width: 601px) and (max-width: 1024px)').matches) {
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 70;
+            document.documentElement.style.setProperty('--tablet-nav-offset', `${navHeight}px`);
+            document.body.classList.toggle('tablet-nav-open', isExpanded);
+        }
     };
 
     if (hamburger) {
@@ -105,6 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (window.matchMedia('(max-width: 600px)').matches) {
                 document.body.classList.remove('nav-open');
+            }
+
+            if (window.matchMedia('(min-width: 601px) and (max-width: 1024px)').matches) {
+                document.body.classList.remove('tablet-nav-open');
             }
         });
     });
