@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide | Gilbert Baidya</title>
+    <meta name="title" content="Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide | Gilbert Baidya">
+    <meta name="description"
+        content="A practitioner's playbook covering what to test, how to test it, which tools to use, and how to report conformance — built for QA managers, leads, and engineers working under Section 508.">
+    <meta name="author" content="Gilbert Baidya">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html">
+    <meta property="og:title" content="Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide | Gilbert Baidya">
+    <meta property="og:description"
+        content="A practitioner's playbook covering what to test, how to test it, which tools to use, and how to report conformance — built for QA managers, leads, and engineers working under Section 508.">
+    <meta property="og:image" content="https://gilbertbaidya.netlify.app/images/profile.jpg">
+    <meta property="og:site_name" content="Gilbert Baidya Portfolio">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide | Gilbert Baidya">
+    <meta name="twitter:description"
+        content="A practitioner's playbook covering what to test, how to test it, which tools to use, and how to report conformance — built for QA managers, leads, and engineers working under Section 508.">
+    <meta name="twitter:image" content="https://gilbertbaidya.netlify.app/images/profile.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html">
+
+    <!-- Analytics: Plausible (Privacy-friendly, GDPR compliant, no cookies) -->
+    <script defer data-domain="gilbertbaidya.netlify.app" src="https://plausible.io/js/script.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.svg">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide",
+      "description": "A practitioner's playbook covering what to test, how to test it, which tools to use, and how to report conformance — built for QA managers, leads, and engineers working under Section 508.",
+      "image": "https://gilbertbaidya.netlify.app/images/profile.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "Gilbert Baidya",
+        "url": "https://gilbertbaidya.netlify.app"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Gilbert Baidya",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://gilbertbaidya.netlify.app/images/logo.svg"
+        }
+      },
+      "datePublished": "2026-02-10",
+      "dateModified": "2026-02-10",
+      "mainEntityOfPage": "https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html"
+    }
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo">
+                <h2>Gilbert Baidya<span class="accent">, PhD</span></h2>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#expertise" class="nav-link">Expertise</a></li>
+                <li><a href="index.html#experience" class="nav-link">Experience</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#education" class="nav-link">Education</a></li>
+                <li><a href="blog.html" class="nav-link" aria-current="page">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode"
+                aria-pressed="false">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+            <div class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu"
+                role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section class="page-hero blog-hero">
+            <div class="container page-hero-content">
+                <div>
+                    <p class="eyebrow">Blog</p>
+                    <h1 class="page-title">Section 508 Testing for QA Teams: A Manager's and Engineer's Field Guide</h1>
+                    <p class="page-subtitle">What to test, how to test it, which tools to use, and how to document conformance — for QA managers, leads, and engineers working on federal and enterprise projects.</p>
+                    <div class="article-meta">
+                        <span><i class="fas fa-calendar" aria-hidden="true"></i> <time datetime="2026-02-10">February 10, 2026</time></span>
+                        <span><i class="fas fa-clock" aria-hidden="true"></i> <span class="reading-time"
+                                data-words-per-minute="200">0 min read</span></span>
+                        <span><i class="fas fa-user" aria-hidden="true"></i> Gilbert Baidya</span>
+                    </div>
+                </div>
+                <div class="page-hero-card">
+                    <h3>Key Takeaways</h3>
+                    <ul>
+                        <li>Section 508's full scope spans web, software, documents, and multimedia — QA owns verification across all of it.</li>
+                        <li>Automated scanning detects roughly 30–57% of WCAG issues. A hybrid approach with the DHS Trusted Tester methodology closes the gap.</li>
+                        <li>Specific tool integrations for Playwright, Cypress, Lighthouse, and Pa11y that fit directly into CI/CD pipelines.</li>
+                        <li>How to produce audit-ready Accessibility Conformance Reports using the VPAT 2.5 Rev508 template.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="article-section">
+            <div class="container article-layout">
+                <article class="article-content" data-reading-content>
+
+                    <p>Accessibility is no longer a nice-to-have on federal and enterprise software projects — it is a delivery gate. Contracts require it. Procurement evaluations score against it. And agency clients are increasingly issuing cure notices and rejecting deliverables that cannot demonstrate conformance before launch. If your QA program has not operationalized Section 508 testing, you are carrying technical and contractual risk that will eventually surface at the worst possible moment.</p>
+
+                    <p>Section 508 of the Rehabilitation Act (29 U.S.C. §794d) requires federal agencies to make their information and communication technology (ICT) accessible to people with disabilities. The Revised 508 Standards, which took effect in January 2018 and are maintained by the U.S. Access Board at access-board.gov/ict, adopted WCAG 2.0 Level A and AA as the technical baseline for web content, software, and electronic documents. That means all 38 WCAG 2.0 success criteria are in scope — not just the ones your scanner happens to flag.</p>
+
+                    <p>This article is written specifically for QA professionals: managers who need to build programs, leads who define strategy, and engineers — both manual and automation — who execute tests daily. It covers what you are actually required to test, how to test it rigorously, what tools belong in your stack, and how to produce documentation that holds up in a conformance review.</p>
+
+                    <h2>What QA Teams Actually Need to Test Under Section 508</h2>
+
+                    <p>One of the most common misconceptions is that Section 508 testing means running a web accessibility scanner on public-facing pages and calling it done. The actual scope is significantly broader, and QA bears responsibility for verification across every category.</p>
+
+                    <h3>Web content and web applications</h3>
+                    <p>All public-facing web pages and certain internal-facing official communications must conform to all 38 WCAG 2.0 Level A and AA success criteria. This includes every interactive state, every modal, every dynamically rendered component, and every error condition. "The homepage passes" is not a conformance posture. Every user journey matters.</p>
+
+                    <h3>Non-web software</h3>
+                    <p>Desktop applications and native mobile apps fall under Chapter 5 of the Revised 508 Standards. The same WCAG success criteria apply, with "web page" interpreted as "software." Beyond WCAG, Chapter 5 adds requirements specific to software: interoperability with assistive technology (502), accessible user controls including all input/output methods (503), and authoring tool support for content being produced (504). If your team delivers desktop software or native mobile apps, these chapters are not optional scope.</p>
+
+                    <h3>Electronic documents</h3>
+                    <p>PDFs, Word documents, Excel spreadsheets, and PowerPoint presentations all fall under Section 508. They must meet WCAG 2.0 AA. A properly tagged PDF with logical reading order, meaningful headings, and accessible form fields is not the default output of most document creation workflows — it requires explicit remediation and verification.</p>
+
+                    <h3>Multimedia</h3>
+                    <p>Synchronized media requires captions. Pre-recorded video content that carries meaningful information through the visual track also requires audio descriptions. These are not cosmetic additions; they are testable conformance requirements with specific success criteria in WCAG 2.0 (1.2.1 through 1.2.4 at a minimum).</p>
+
+                    <h3>Functional Performance Criteria (Chapter 3)</h3>
+                    <p>Chapter 3 of the Revised Standards serves as a catch-all. When a specific ICT feature is not addressed by Chapters 4 or 5, you test against Functional Performance Criteria: without vision, with limited vision, without perception of color, without hearing, with limited hearing, without speech, with limited manipulation, with limited reach and strength, and without cognitive, language, or learning limitations. These criteria exist precisely to prevent loopholes. If a feature doesn't fit neatly into WCAG, it still needs to be accessible.</p>
+
+                    <p>The bottom line for QA managers: scope your testing program against all of these categories, not just the web layer. QA owns the verification of all of it.</p>
+
+                    <h2>For QA Managers and Leads: Building a Section 508 Testing Program</h2>
+
+                    <p>A 508 testing program is not a one-time audit. It is an ongoing operational capability embedded in your delivery process. Getting there requires deliberate decisions about methodology, staffing, tooling, and governance.</p>
+
+                    <h3>Define your testing methodology: the hybrid model</h3>
+                    <p>The single most important framing decision you will make is committing to a hybrid testing model. Automated scanning tools — even the best ones — detect approximately 30 to 57 percent of WCAG issues, depending on the tool and the study. The Deque-published figure for axe-core sits at roughly 57 percent with near-zero false positives. Other studies using broader tool comparisons land lower. The number that matters is what automated scanning misses: at minimum 43 percent of real issues that require a human with assistive technology to find. Neither automated scanning alone nor manual testing alone is sufficient. Your program needs both, and leadership needs to understand this before budget conversations happen.</p>
+
+                    <h3>Adopt the DHS Trusted Tester methodology (Version 5)</h3>
+                    <p>The Department of Homeland Security Trusted Tester program is the federal government's standardized conformance testing process. Version 5 includes 67 detailed manual test procedures, each with specific test conditions, precise steps, and explicit pass/fail criteria. The procedures are aligned with the ICT Testing Baseline, which maps each test to specific Revised 508 Standards requirements. When your team follows Trusted Tester procedures, your results are reproducible, defensible, and recognized by federal agency clients.</p>
+                    <p>Trusted Tester certification also signals credibility. A certified tester who documents a finding carries more weight in a remediation conversation than an automated scan output. Get at least two to three team members certified. The DHS program website (section508.gov) provides training paths and the official test process document. Make the process document your team's testing bible for manual 508 work.</p>
+
+                    <h3>Integrate accessibility into existing QA workflows</h3>
+                    <p>The fastest way to kill a 508 testing program is to create a separate accessibility silo that runs independently of the main delivery pipeline. Accessibility bugs should live in the same backlog as functional bugs, triaged with the same severity scale, assigned to the same sprint, and tracked to the same definition of done. Section 508 test cases belong in your regression suite alongside every other acceptance criterion. When your sprint ceremonies treat accessibility as an afterthought, your engineers treat it as an afterthought. Operationalize it at the process level first.</p>
+
+                    <h3>Establish a reporting cadence</h3>
+                    <p>Your 508 reporting cadence should have three layers. Automated scan dashboards provide weekly visibility into regression trends and new violations introduced by code changes. Manual audit cycles run per release, covering the full Trusted Tester procedure set against critical user journeys. Accessibility Conformance Reports, built on the VPAT 2.5 (Rev508 edition) template from the IT Industry Council (itic.org/policy/accessibility/vpat), are refreshed per major product version or whenever significant features change conformance status. The ACR is the formal deliverable your agency clients will request — if it is stale, it is worthless.</p>
+
+                    <h3>Staff and upskill deliberately</h3>
+                    <p>Certification and tooling both matter. Target two to three DHS Trusted Tester certifications on the team. Cross-train all manual testers on screen reader basics — they do not need to be power users, but they need to understand how to navigate a page with NVDA and recognize when announced content diverges from visual content. Automation engineers should learn axe-core API integration patterns. Budget for JAWS licenses (professional screen reader for Windows, widely used in federal testing), and leverage free tools: NVDA on Windows, VoiceOver on macOS and iOS, TalkBack on Android. Assistive technology is not expensive to access — the barrier is training and habit, not cost.</p>
+
+                    <h3>Validate your automated tool rulesets</h3>
+                    <p>Before you trust any automated scan result, verify that your tool's ruleset is configured for WCAG 2.0 Level AA or Section 508 explicitly. Some tools default to WCAG 2.1 or run a subset of rules. Understand what your scanner does and does not check. Document its known gaps. Maintain a list of criteria that your tool cannot automate — those become mandatory manual test cases in every cycle. Review ruleset updates with each tool version release; what was a gap six months ago may now be covered, and vice versa.</p>
+
+                    <h2>For Manual QA Engineers: Hands-On Testing Techniques</h2>
+
+                    <p>Manual testing is where the most impactful 508 issues are found and where Trusted Tester procedures translate into day-to-day QA practice. These are the techniques that belong in every manual tester's active repertoire.</p>
+
+                    <h3>Keyboard-only navigation</h3>
+                    <p>Disconnect your mouse. Tab through every interactive element on the page in sequence. Verify that focus order is logical and follows the reading order of the content. Confirm that a visible focus indicator is present at every stop — not just a subtle glow, but a clearly perceptible indicator. Verify that no keyboard trap exists, meaning that if you tab into a component like a modal or date picker, you can also tab out without resorting to a mouse. Every piece of functionality available by mouse must be reachable and operable by keyboard alone. This is foundational and catches a disproportionate number of high-severity issues.</p>
+
+                    <h3>Screen reader testing</h3>
+                    <p>Test with at least two screen readers across platforms. The recommended pairings for federal work are NVDA with Firefox on Windows, JAWS with Chrome on Windows, VoiceOver with Safari on macOS and iOS, and TalkBack with Chrome on Android. Each pairing reflects how real users interact with these platforms. During testing, verify that page structure (headings, landmarks, regions) is announced correctly and logically. Confirm that form labels are read aloud when focus lands on an input. Check that error messages identify the problematic field by name and describe what needs to be corrected. Verify that dynamic content updates — modal dialogs, live regions, status messages — are announced without requiring the user to hunt for the change.</p>
+
+                    <h3>Color and visual testing</h3>
+                    <p>Check color contrast ratios: 4.5:1 minimum for normal text, 3:1 for large text (18pt regular or 14pt bold), and 3:1 for UI components and graphical objects that convey information. Verify that color is never the sole means of conveying information — a red error border must also include text identifying the error, not just a color change. Test at 200% browser zoom. Content must reflow to a single-column layout without requiring horizontal scrolling. This is a common failure point for fixed-width components.</p>
+
+                    <h3>Content and media</h3>
+                    <p>Every informative image needs meaningful alt text that conveys the purpose or content of the image. Decorative images should be marked with empty alt attributes so screen readers skip them. Video content with synchronized audio requires captions. Pre-recorded video-only content where the visual track carries meaningful information requires an audio description or a text equivalent. Verify that reading order in the DOM matches the intended visual reading order — when they diverge, screen reader users experience the content in a scrambled sequence.</p>
+
+                    <h3>Forms and error handling</h3>
+                    <p>Every form input must have a visible label and a programmatic label — the two must match. Auto-completing forms that drop labels on focus is a pervasive failure pattern. Required fields must be indicated both visually and programmatically, not only by an asterisk with a footnote that a screen reader may never encounter. Error messages must identify the specific field in error, describe what is wrong, and suggest how to correct it. Verify that validation errors are announced to screen reader users without requiring a page reload.</p>
+
+                    <h3>Using ANDI</h3>
+                    <p>The Accessible Name and Description Inspector (ANDI), developed by the Social Security Administration and available at ssa.gov/accessibility/andi, is a browser-based tool that inspects accessibility properties element by element. Some federal agency testing procedures reference ANDI by name as a required testing tool. Use it as a companion to screen reader testing — ANDI exposes what is programmatically available, while a screen reader reveals how that information is actually conveyed in use. The two together surface mismatches that neither reveals alone. ANDI is not a replacement for screen reader testing; it is a precision complement to it.</p>
+
+                    <h3>Following the Trusted Tester process document</h3>
+                    <p>The DHS Trusted Tester process document specifies exact test conditions and expected results for each of its 67 test procedures. Use it. Do not paraphrase it, do not shortcut the conditions. When your test results are aligned to specific Trusted Tester test IDs, your findings are reproducible by any certified tester reviewing your work, and your ACR remarks can cite specific test references. That level of precision is what differentiates a credible conformance report from a generic audit summary.</p>
+
+                    <h2>For Automation Engineers: Tool Stack and CI/CD Integration</h2>
+
+                    <p>Automation cannot replace manual 508 testing, but it can catch a significant proportion of issues early, prevent accessibility regressions from reaching the manual testing phase, and provide continuous visibility across large applications. Here is the tool stack and integration pattern that belongs in a mature 508 automation practice.</p>
+
+                    <h3>Core engine: axe-core by Deque Systems</h3>
+                    <p>axe-core, maintained by Deque Systems (deque.com), is the most widely adopted open-source accessibility testing engine. It underpins most other accessibility automation tools, including commercial products. It supports WCAG 2.0, WCAG 2.1, and Section 508 rulesets. Its design philosophy prioritizes near-zero false positives, which means findings from axe-core are actionable rather than noise. It is the right foundation for any 508 automation program. Everything else in this section builds on it.</p>
+
+                    <h3>Playwright and @axe-core/playwright</h3>
+                    <p>For teams running Playwright-based automation suites, the @axe-core/playwright package is the recommended integration. It eliminates the need to manually inject the axe engine into the page — the AxeBuilder class handles that automatically. A typical scan targets a page after it has fully rendered, configures the analysis with the wcag2a and wcag2aa tags to match the Section 508 technical baseline, and collects a violations array with detailed descriptions of each finding. The axe-html-reporter package converts those results into readable HTML reports that can be attached as CI artifacts and shared with stakeholders who do not work in terminals. Playwright's cross-browser support makes it straightforward to run these scans against Chrome, Firefox, and WebKit in a single suite.</p>
+
+                    <h3>Cypress and cypress-axe</h3>
+                    <p>Teams already invested in Cypress can use the cypress-axe plugin, which uses the same axe-core engine. The integration pattern differs slightly — it requires an explicit injection step to load the axe engine into the page before any accessibility checks run, followed by a check command that triggers the analysis. The end result and violation data are equivalent to the Playwright approach. If your team is committed to Cypress, this is a low-friction addition to your existing test files.</p>
+
+                    <h3>Google Lighthouse</h3>
+                    <p>Lighthouse is built into Chrome DevTools and available as a command-line tool, making it accessible to every engineer on a project regardless of their automation framework. Its accessibility module checks against WCAG 2.1 AA criteria and produces a scored report with prioritized findings. Lighthouse's CLI mode integrates well into CI pipelines for lightweight, per-commit audits. It is particularly useful for catching issues during active development before code reaches a formal accessibility review cycle. Note that its coverage is not a superset of axe-core's — use both for comprehensive signal.</p>
+
+                    <h3>Microsoft Accessibility Insights</h3>
+                    <p>Microsoft Accessibility Insights (available from Microsoft as a free browser extension and standalone application) offers two distinct testing modes. FastPass runs an automated check similar to axe-core and produces results in seconds. Assessment mode provides a guided manual walkthrough that prompts the tester through WCAG criteria that automation cannot verify. The standalone Windows application also supports testing desktop applications, which matters for teams delivering non-web software under Chapter 5 of the Revised 508 Standards. It is one of the few tools with meaningful desktop application support.</p>
+
+                    <h3>Pa11y</h3>
+                    <p>Pa11y is an open-source command-line tool designed for batch URL scanning. It is particularly well-suited to CI pipelines that need to scan dozens or hundreds of pages in a single run. Pa11y supports the WCAG2AA standard and can be configured to use either axe-core or HTML CodeSniffer as its underlying analysis runner. Its output formats include JSON and CSV, making it straightforward to parse results programmatically and route findings to dashboards or ticketing systems. For teams that need to validate large sitemaps against 508 requirements on a regular cadence, Pa11y provides the throughput that browser-based tools cannot match.</p>
+
+                    <h3>WAVE by WebAIM</h3>
+                    <p>WAVE, the Web Accessibility Evaluation Tool from WebAIM, offers a browser extension that provides a visual overlay of accessibility annotations directly on the page being reviewed. It color-codes findings by type: errors, alerts, structural elements, and ARIA usage. WAVE is particularly useful during manual spot-checks and QA review sessions where a tester needs to understand the accessibility structure of a page quickly without running a full automation suite. It is not a CI tool, but it is an effective companion during exploratory testing and issue investigation.</p>
+
+                    <h3>CI/CD integration pattern</h3>
+                    <p>A production-grade 508 automation pipeline operates in layers. On every pull request, run a lightweight axe-core scan against the pages most likely to be affected by the changeset — these scans complete in seconds and catch regressions before they enter the main branch. On every merge to the main branch, trigger a comprehensive Playwright and axe full-suite scan covering all critical user journeys. Set violation thresholds that reflect your conformance standards: critical and serious violations should fail the build immediately; moderate and minor violations should be logged as tracked debt with assigned owners but should not block release pending triage. Attach HTML reports generated by axe-html-reporter as artifacts to every CI run. Configure Slack or Teams notifications when new violations appear on the main branch so the team does not need to poll CI dashboards to know when the baseline has degraded.</p>
+
+                    <h3>Document accessibility: PDFs and Office files</h3>
+                    <p>Automated web testing tools do not evaluate document accessibility. For PDFs, use PAC — the PDF Accessibility Checker maintained by the PDF/UA Foundation. PAC validates against the PDF/UA standard, which maps to WCAG 2.0 for document content, and produces a detailed machine-readable report of failures. For Word, PowerPoint, and Excel files, use the built-in Accessibility Checker in Microsoft Office. It will not catch every issue, but it identifies missing alt text, poor reading order, missing document titles, and other common failures before the document is published.</p>
+
+                    <div class="article-callout">
+                        Automated tools are a first-pass filter, not a conformance verdict. They are necessary infrastructure. They are not sufficient evidence of Section 508 compliance. Always pair automation with manual Trusted Tester procedures and direct assistive technology validation.
+                    </div>
+
+                    <h2>Reporting and Conformance Documentation</h2>
+
+                    <p>Testing produces findings. Findings need to be documented in a format that is recognizable, auditable, and useful to procurement teams and agency clients. The mechanism for that is the Accessibility Conformance Report.</p>
+
+                    <p>The VPAT — Voluntary Product Accessibility Template — is the industry-standard structure for producing ACRs. The current version is VPAT 2.5, and the edition you need for Section 508 work is the Rev508 edition, available from the IT Industry Council at itic.org/policy/accessibility/vpat. The workflow is straightforward in principle: QA tests the product against each Revised 508 requirement, documents findings, and feeds those results into the VPAT template to produce an ACR. For each applicable WCAG success criterion and each relevant chapter of the Revised 508 Standards (Chapters 3, 5, and 6 for software and web), the ACR assigns a conformance level — Supports, Partially Supports, Does Not Support, or Not Applicable — plus detailed remarks that explain precisely how the product meets or fails the criterion with reference to specific findings.</p>
+
+                    <p>The remarks section is where QA's work is most visible. A conformance level without remarks is nearly useless to a reviewer. A "Partially Supports" entry with a remark that identifies which user journeys fail, on which assistive technology platforms, with which error conditions, gives the agency client the information they need to assess risk and prioritize remediation. Write remarks as if the reader is a Trusted Tester who will attempt to reproduce your findings.</p>
+
+                    <p>Section508.gov provides the OpenACR Editor, a free web-based tool for creating machine-readable ACRs in YAML format. OpenACR-formatted reports can be processed programmatically, compared across versions, and published alongside products in ways that static Word documents cannot. If your agency clients are adopting OpenACR, align your reporting workflow accordingly.</p>
+
+                    <p>ACRs must be refreshed with every version change that affects conformance — every new feature, every significant bug fix, every UI redesign that touches components assessed in the previous version. A VPAT dated eighteen months ago for a product that has shipped a dozen releases since is not a conformance artifact; it is a liability. Build the ACR refresh cadence into your release governance process with the same rigor as a regression test cycle.</p>
+
+                    <h2>Conclusion</h2>
+
+                    <p>Section 508 compliance is a team sport, but QA is the verification gatekeeper. Design makes accessibility decisions. Engineering implements them. QA confirms, with evidence, whether those decisions and implementations actually produce a conformant experience for users with disabilities. That responsibility does not belong in a side process or a separate workstream. It belongs in your core delivery pipeline.</p>
+
+                    <p>The testing model that works — at scale, under delivery pressure, and in front of federal auditors — has three layers: automated scanning to catch regressions early and continuously, Trusted Tester manual procedures to find what automation cannot, and direct assistive technology validation to confirm that real users with real tools can access the product. Remove any of those three layers and your conformance posture has a hole in it.</p>
+
+                    <p>The forward view is encouraging. WCAG 2.2 is gaining traction in state and enterprise procurement, and agentic AI testing tools are maturing in ways that will eventually expand the percentage of criteria that can be verified programmatically. QA teams that invest in accessibility expertise now — certifications, tool depth, program design — will be positioned to lead as those standards evolve. Start with the fundamentals: adopt Trusted Tester, integrate axe-core into CI, staff for certification, and keep your ACRs current. That foundation carries further than any individual tool decision.</p>
+
+                </article>
+
+                <aside class="article-sidebar">
+                    <div class="sidebar-card author-card">
+                        <h4>About the Author</h4>
+                        <div class="author-meta">
+                            <div class="author-avatar">GB</div>
+                            <div>
+                                <p class="author-name">Gilbert Baidya</p>
+                                <p class="author-title">Senior QA Automation & AI Accessibility Architect</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card share-card">
+                        <h4>Share</h4>
+                        <div class="share-buttons">
+                            <a class="share-btn"
+                                href="https://www.linkedin.com/sharing/share-offsite/?url=https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html"
+                                target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                                <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
+                            </a>
+                            <a class="share-btn"
+                                href="https://twitter.com/intent/tweet?url=https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html&text=Section%20508%20Testing%20for%20QA%20Teams%3A%20A%20Manager%27s%20and%20Engineer%27s%20Field%20Guide"
+                                target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                                <i class="fab fa-twitter" aria-hidden="true"></i> X / Twitter
+                            </a>
+                            <a class="share-btn"
+                                href="mailto:?subject=Section%20508%20Testing%20for%20QA%20Teams%3A%20A%20Manager%27s%20and%20Engineer%27s%20Field%20Guide&body=Check%20this%20out:%20https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html"
+                                aria-label="Share via email">
+                                <i class="fas fa-envelope" aria-hidden="true"></i> Email
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card related-card">
+                        <h4>Related Posts</h4>
+                        <ul>
+                            <li><a href="wcag-2-2-readiness.html">WCAG 2.2 Readiness: A QA Lead's Checklist</a></li>
+                            <li><a href="accessibility-first-qa-culture.html">Building an Accessibility-First QA Culture</a></li>
+                            <li><a href="ai-assisted-qa-pipeline.html">Designing an AI-Assisted QA Pipeline That Scales</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <!--
+    LinkedIn Teaser (150 words):
+    Section 508 compliance is a delivery gate on federal and enterprise projects — not a post-launch audit item. I published a field guide for QA managers and engineers covering exactly what needs to be tested, which tools to use, and how to produce ACRs that hold up in procurement reviews.
+
+    The article covers the full testable scope under the Revised 508 Standards (web, software, documents, multimedia), the DHS Trusted Tester methodology, hands-on manual testing techniques with ANDI and screen readers, and a specific tool stack for automation engineers — Playwright + axe-core, Cypress + cypress-axe, Pa11y, Lighthouse, and Accessibility Insights — with a CI/CD integration pattern for each layer.
+
+    If you lead QA on a federal project or are building an enterprise accessibility program, this is the operational guide I wish had existed when I started.
+
+    #Section508 #Accessibility #QAAutomation #TrustedTester #AxeCore #WCAGTesting #FederalContracting
+
+    DALL·E 3 Prompt:
+    Luxury Obsidian Tech header image: deep obsidian background with cyan and gold geometric lines suggesting a document blueprint layered with accessibility iconography — keyboard, screen reader waveform, legal document motif — soft volumetric lighting, high-end editorial style, no text, 21:9 wide banner.
+    -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Gilbert Baidya, PhD</h3>
+                    <p>Senior QA Automation | AI Accessibility Intelligence | Tech Leader</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#expertise">Expertise</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gilbert Baidya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.36/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

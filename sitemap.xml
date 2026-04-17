@@ -13,6 +13,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://gilbertbaidya.netlify.app/section-508-testing-field-guide.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://gilbertbaidya.netlify.app/ai-assisted-qa-pipeline.html</loc>
         <lastmod>2026-01-26</lastmod>
         <changefreq>monthly</changefreq>
