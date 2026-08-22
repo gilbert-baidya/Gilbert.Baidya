@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login — Gilbert Command Center</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --danger: #ef4444;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-main);
+    }
+    p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin: 0 0 1.75rem 0;
+    }
+    .btn-google {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem 1.25rem;
+      background: #ffffff;
+      color: #1f2937;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-sizing: border-box;
+    }
+    .btn-google:hover {
+      background: #f3f4f6;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    .btn-google:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .notice {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    .alert-box {
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.825rem;
+      text-align: left;
+      display: none;
+    }
+    .alert-error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+    .alert-info {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+  <main class="login-card">
+    <div class="badge">Private Access</div>
+    <h1>Gilbert Command Center</h1>
+    <p>Sign in with your authorized Google account to manage schedule, interviews, jobs, and tasks.</p>
+
+    <div id="statusAlert" class="alert-box alert-error"></div>
+
+    <button id="googleSignIn" class="btn-google">
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+      </svg>
+      Sign in with Google
+    </button>
+
+    <p class="notice">Authorized for <strong>gilbert.cgpt@gmail.com</strong> only.</p>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+  <script>
+    const EXPECTED_PROJECT_ID = 'gilbert-command-center-ff543';
+    const ALLOWED_EMAILS = ['gilbert.cgpt@gmail.com'];
+    let firebaseInitialized = false;
+
+    function showAlert(message, type = 'error') {
+      const alertEl = document.getElementById('statusAlert');
+      alertEl.className = `alert-box alert-${type}`;
+      alertEl.innerText = message;
+      alertEl.style.display = 'block';
+    }
+
+    async function loadConfig() {
+      try {
+        const res = await fetch('/firebase-config.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Could not load /firebase-config.json');
+        const cfg = await res.json();
+        
+        // Project ID validation check
+        if (cfg.projectId && cfg.projectId !== EXPECTED_PROJECT_ID) {
+          console.warn(`[Firebase Warning] Expected project ID "${EXPECTED_PROJECT_ID}", but got "${cfg.projectId}".`);
+        }
+        return cfg;
+      } catch (e) {
+        showAlert('Firebase configuration (/firebase-config.json) is missing or unreadable.', 'error');
+        throw e;
+      }
+    }
+
+    async function ensureFirebase() {
+      if (!firebaseInitialized && firebase.apps.length === 0) {
+        const cfg = await loadConfig();
+        firebase.initializeApp(cfg);
+        firebaseInitialized = true;
+      }
+    }
+
+    // Auto-check if already signed in and authorized
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await ensureFirebase();
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            if (ALLOWED_EMAILS.includes(user.email)) {
+              window.location.replace('/dashboard/index.html');
+            } else {
+              showAlert(`Access denied for ${user.email}. This account is unauthorized.`, 'error');
+              firebase.auth().signOut();
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Initialization error:', err);
+      }
+    });
+
+    document.getElementById('googleSignIn').addEventListener('click', async () => {
+      const btn = document.getElementById('googleSignIn');
+      btn.disabled = true;
+      btn.innerText = 'Connecting...';
+      try {
+        await ensureFirebase();
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await firebase.auth().signInWithPopup(provider);
+        const user = result.user;
+
+        if (!ALLOWED_EMAILS.includes(user.email)) {
+          showAlert(`Access denied for ${user.email}. Authorized accounts only.`, 'error');
+          await firebase.auth().signOut();
+          btn.disabled = false;
+          btn.innerHTML = 'Sign in with Google';
+          return;
+        }
+
+        window.location.href = '/dashboard/index.html';
+      } catch (err) {
+        console.error('Sign-in error:', err);
+        showAlert(`Sign-in failed: ${err.message}`, 'error');
+        btn.disabled = false;
+        btn.innerHTML = 'Sign in with Google';
+      }
+    });
+  </script>
+</body>
+</html>

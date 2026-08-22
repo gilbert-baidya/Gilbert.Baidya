@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Authorized email check helper
+    function isAuthorizedUser(userId) {
+      return request.auth != null 
+        && request.auth.uid == userId 
+        && request.auth.token.email == 'gilbert.cgpt@gmail.com';
+    }
+
+    // Users can read/write their own documents only if authenticated and email matches
+    match /users/{userId}/{document=**} {
+      allow read, write: if isAuthorizedUser(userId);
+    }
+
+    // Prevent access to other top-level collections
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+  }
+}
+

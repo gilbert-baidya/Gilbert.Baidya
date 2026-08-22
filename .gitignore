@@ -1,0 +1,15 @@
+# Ignore environment and secrets
+firebase-config.json
+.env
+
+# macOS metadata
+.DS_Store
+
+# python venv
+venv/
+
+# Node dependencies
+node_modules/
+
+# Local Netlify folder
+.netlify

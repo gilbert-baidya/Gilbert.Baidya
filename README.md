@@ -209,3 +209,17 @@ For any questions or support, please contact:
 **Last Updated**: January 2026
 
 **Version**: 1.0.0
+
+## Gilbert Command Center (Private Dashboard)
+
+This repository now contains an optional private dashboard for personal productivity and calendar management.
+
+- Location: [dashboard](dashboard/index.html)
+- Login page: /login.html
+- Auth: Firebase Authentication (Google Sign-In). Only authorized emails may access the dashboard.
+- Data: Firestore collections scoped under `users/{userId}` for events, tasks, interviews, opportunities, and email intake.
+- Firestore rules: `firestore.rules` restrict reads/writes to the authenticated user's `uid`.
+
+To enable locally or on Netlify, add a runtime `firebase-config.json` at the site root containing your Firebase web config keys (see `firebase-config.json.example`) or inject equivalent environment variables during build. Do NOT commit real keys.
+
+See `docs/command-center-architecture.md` for architecture notes and next steps.
