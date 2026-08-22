@@ -4,7 +4,30 @@
 
 let lenisInstance = null;
 
+async function initializePublicAuthNavigation() {
+    const authLink = document.getElementById('nav-auth-link');
+    if (!authLink || typeof firebase === 'undefined') return;
+
+    try {
+        if (!firebase.apps.length) {
+            const response = await fetch('/firebase-config.json', { cache: 'no-store' });
+            if (!response.ok) return;
+            firebase.initializeApp(await response.json());
+        }
+
+        firebase.auth().onAuthStateChanged((user) => {
+            authLink.textContent = user ? 'Command Center' : 'Sign In';
+            authLink.href = user ? '/dashboard/index.html' : '/login.html';
+        });
+    } catch (error) {
+        authLink.textContent = 'Sign In';
+        authLink.href = '/login.html';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+    initializePublicAuthNavigation();
+
     if (typeof Lenis !== 'undefined') {
         document.documentElement.style.scrollBehavior = 'auto';
 
