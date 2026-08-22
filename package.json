@@ -1,0 +1,27 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "A modern, responsive portfolio website showcasing the professional experience, skills, and expertise of Gilbert Baidya, PhD - Senior QA Automation.",
+  "main": "script.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/pipeline_test.js && node tests/gmail_label_filter_test.js && node tests/gmail_live_intake_test.js && node tests/hands_free_automation_test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilbert-baidya/Gilbert.Baidya.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gilbert-baidya/Gilbert.Baidya/issues"
+  },
+  "homepage": "https://github.com/gilbert-baidya/Gilbert.Baidya#readme",
+  "dependencies": {
+    "firebase-admin": "^14.3.0"
+  }
+}

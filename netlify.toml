@@ -1,0 +1,2 @@
+[functions."gmail-scheduled"]
+  schedule = "*/5 * * * *"

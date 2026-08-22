@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gilbert Command Center</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+<body>
+  <div class="gcc-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="gcc-sidebar" id="sidebar">
+      <div class="gcc-sidebar-brand">
+        <div class="gcc-logo-icon">G</div>
+        <div class="gcc-brand-title">Command Center</div>
+      </div>
+      <nav class="gcc-nav">
+        <a href="#today" class="gcc-nav-item active" data-tab="today">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          Today
+        </a>
+        <a href="#calendar" class="gcc-nav-item" data-tab="calendar">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          Calendar
+        </a>
+        <a href="#interviews" class="gcc-nav-item" data-tab="interviews">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          Interviews
+        </a>
+        <a href="#jobs" class="gcc-nav-item" data-tab="jobs">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Jobs
+        </a>
+        <a href="#tasks" class="gcc-nav-item" data-tab="tasks">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Tasks
+        </a>
+        <a href="#email-intake" class="gcc-nav-item" data-tab="email-intake">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Email Intake
+        </a>
+        <a href="#settings" class="gcc-nav-item" data-tab="settings">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Settings
+        </a>
+      </nav>
+      <div class="gcc-sidebar-footer">
+        <button id="logoutBtn" class="btn btn-secondary btn-sm" style="width: 100%;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+    <div class="gcc-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Main Workspace -->
+    <main class="gcc-main">
+      <!-- Topbar Header -->
+      <header class="gcc-topbar">
+        <div class="gcc-topbar-left">
+          <button class="gcc-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <h1 class="gcc-topbar-title" id="pageTitle">Today's Overview</h1>
+        </div>
+        <div class="gcc-topbar-right">
+          <div class="gcc-user-badge">
+            <span class="status-dot"></span>
+            <span id="userEmail">Connecting...</span>
+          </div>
+          <button id="quickAddEventBtn" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            + Manual Event
+          </button>
+          <button id="quickAddTaskBtn" class="btn btn-secondary btn-sm">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Task
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Sections Container -->
+      <div class="gcc-content">
+        <!-- 1. TODAY SECTION -->
+        <section id="section-today" class="gcc-section active">
+          <div class="gcc-card">
+            <div class="gcc-card-header">
+              <h3>Today's Schedule</h3>
+              <span id="todayDateDisplay" style="font-size: 0.8125rem; color: var(--text-muted);">Pacific Time</span>
+            </div>
+            <div class="gcc-card-body" id="todayScheduleContainer">
+              <div class="loading-state"><div class="spinner"></div>Loading schedule...</div>
+            </div>
+          </div>
+
+          <div class="gcc-grid-3">
+            <div class="gcc-card">
+              <div class="gcc-card-header">
+                <h4>Top Priorities</h4>
+              </div>
+              <div class="gcc-card-body" id="topPrioritiesContainer">
+                <div class="loading-state"><div class="spinner"></div>Evaluating priorities...</div>
+              </div>
+            </div>
+
+            <div class="gcc-card">
+              <div class="gcc-card-header">
+                <h4>Upcoming Interviews</h4>
+              </div>
+              <div class="gcc-card-body" id="upcomingInterviewsContainer">
+                <div class="loading-state"><div class="spinner"></div>Loading interviews...</div>
+              </div>
+            </div>
+
+            <div class="gcc-card">
+              <div class="gcc-card-header">
+                <h4>Schedule Conflicts</h4>
+              </div>
+              <div class="gcc-card-body" id="conflictsContainer">
+                <div class="loading-state"><div class="spinner"></div>Checking overlaps...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. CALENDAR SECTION -->
+        <section id="section-calendar" class="gcc-section">
+          <div id="calendarEl"></div>
+        </section>
+
+        <!-- 3. INTERVIEWS SECTION -->
+        <section id="section-interviews" class="gcc-section">
+          <div class="gcc-card">
+            <div class="gcc-card-header">
+              <h3>Interview Tracker</h3>
+              <button id="addInterviewBtn" class="btn btn-primary btn-sm">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Add Interview
+              </button>
+            </div>
+            <div class="gcc-card-body" id="interviewsListContainer">
+              <div class="loading-state"><div class="spinner"></div>Loading interviews...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. JOBS SECTION -->
+        <section id="section-jobs" class="gcc-section">
+          <div class="gcc-card">
+            <div class="gcc-card-header">
+              <h3>Job Opportunities</h3>
+              <button id="addJobBtn" class="btn btn-primary btn-sm">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Add Job
+              </button>
+            </div>
+            <div class="gcc-card-body" id="jobsListContainer">
+              <div class="loading-state"><div class="spinner"></div>Loading job pipeline...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. TASKS SECTION -->
+        <section id="section-tasks" class="gcc-section">
+          <div class="gcc-card">
+            <div class="gcc-card-header">
+              <h3>Tasks Management</h3>
+              <div style="display: flex; gap: 0.5rem;">
+                <button id="filterAllTasks" class="btn btn-secondary btn-sm active">All</button>
+                <button id="filterPendingTasks" class="btn btn-secondary btn-sm">Pending</button>
+                <button id="filterCompletedTasks" class="btn btn-secondary btn-sm">Done</button>
+                <button id="addTaskBtn" class="btn btn-primary btn-sm">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                  New Task
+                </button>
+              </div>
+            </div>
+            <div class="gcc-card-body" id="tasksListContainer">
+              <div class="loading-state"><div class="spinner"></div>Loading tasks...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. EMAIL INTAKE SECTION -->
+        <section id="section-email-intake" class="gcc-section">
+          <div class="gcc-card">
+            <div class="gcc-card-header">
+              <div>
+                <h3>Automatic Email & Calendar Intake</h3>
+                <span style="font-size: 0.775rem; color: var(--text-muted);">Forward invitations to: <strong style="color: var(--primary);">gilbert.cgpt@gmail.com</strong></span>
+              </div>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button id="triggerGmailSyncBtn" class="btn btn-secondary btn-sm">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                  Check Gmail
+                </button>
+                <button id="addEmailIntakeItemBtn" class="btn btn-primary btn-sm">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                  Simulate Forwarded Email / ICS
+                </button>
+              </div>
+            </div>
+            <div class="gcc-card-body">
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+                <button id="intakeFilterReview" class="btn btn-secondary btn-sm active" onclick="setIntakeFilter('NEEDS_REVIEW')">Needs Review (<span id="countReview">0</span>)</button>
+                <button id="intakeFilterAdded" class="btn btn-secondary btn-sm" onclick="setIntakeFilter('AUTO_ADD')">Recently Added (<span id="countAdded">0</span>)</button>
+                <button id="intakeFilterUpdated" class="btn btn-secondary btn-sm" onclick="setIntakeFilter('AUTO_UPDATE')">Updated / Rescheduled (<span id="countUpdated">0</span>)</button>
+                <button id="intakeFilterCancelled" class="btn btn-secondary btn-sm" onclick="setIntakeFilter('AUTO_CANCEL')">Cancelled (<span id="countCancelled">0</span>)</button>
+                <button id="intakeFilterIgnored" class="btn btn-secondary btn-sm" onclick="setIntakeFilter('IGNORED')">Ignored (<span id="countIgnored">0</span>)</button>
+              </div>
+              <div id="emailIntakeListContainer">
+                <div class="loading-state"><div class="spinner"></div>Loading intake queue...</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. SETTINGS SECTION -->
+        <section id="section-settings" class="gcc-section">
+          <div class="gcc-grid-2">
+            <div class="gcc-card">
+              <div class="gcc-card-header">
+                <h3>Account & Preferences</h3>
+              </div>
+              <div class="gcc-card-body">
+                <div class="form-group">
+                  <label>Signed In Account</label>
+                  <input type="text" id="settingsEmail" readonly value="gilbert.cgpt@gmail.com">
+                </div>
+                <div class="form-group">
+                  <label>Default Timezone</label>
+                  <input type="text" id="settingsTimezone" readonly value="America/Los_Angeles (Pacific Time)">
+                </div>
+                <div class="form-group">
+                  <label>Default Event Duration</label>
+                  <select id="settingsDefaultDuration">
+                    <option value="30">30 Minutes</option>
+                    <option value="45">45 Minutes</option>
+                    <option value="60" selected>60 Minutes (1 Hour)</option>
+                    <option value="90">90 Minutes</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>AI Assistant Provider</label>
+                  <select id="settingsAiProvider">
+                    <option value="Ollama" selected>Ollama (Local LLM)</option>
+                    <option value="Disabled">Disabled / Offline Mode</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="gcc-card">
+              <div class="gcc-card-header">
+                <h3>System & Integration Health</h3>
+              </div>
+              <div class="gcc-card-body">
+                <div class="item-list">
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Firebase & Firestore</div>
+                      <div class="list-item-sub">Project: gilbert-command-center-ff543</div>
+                    </div>
+                    <span class="badge" style="background:var(--success-bg); color:var(--success);">Connected</span>
+                  </div>
+
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Google Authentication</div>
+                      <div class="list-item-sub">gilbert.cgpt@gmail.com</div>
+                    </div>
+                    <span class="badge" style="background:var(--success-bg); color:var(--success);">Authenticated</span>
+                  </div>
+
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Ollama AI Layer</div>
+                      <div class="list-item-sub" id="ollamaStatusText">Testing connection (127.0.0.1:11434)...</div>
+                    </div>
+                    <span class="badge" id="ollamaStatusBadge" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Checking...</span>
+                  </div>
+
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Google Calendar API</div>
+                      <div class="list-item-sub">CalendarProvider sync architecture</div>
+                    </div>
+                    <span class="badge" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Ready for OAuth</span>
+                  </div>
+
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Gmail Intake Service</div>
+                      <div class="list-item-sub">ICS parser & intake pipeline</div>
+                    </div>
+                    <span class="badge" style="background:var(--primary-light); color:var(--primary);">MVP Active</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       MODAL DIALOGS
+       ========================================================================= -->
+
+  <!-- 1. EVENT MODAL (ADD & EDIT) -->
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="eventModalTitle">Add Event</h3>
+        <button class="modal-close-btn" data-close-modal="eventModal">&times;</button>
+      </div>
+      <form id="eventForm">
+        <input type="hidden" id="eventId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="eventTitle">Event Title <span class="required">*</span></label>
+            <input type="text" id="eventTitle" placeholder="e.g. Technical Interview with Stripe" required>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label for="eventDate">Date <span class="required">*</span></label>
+              <input type="date" id="eventDate" required>
+            </div>
+            <div class="form-group">
+              <label for="eventStartTime">Start Time <span class="required">*</span></label>
+              <input type="time" id="eventStartTime" required>
+            </div>
+            <div class="form-group">
+              <label for="eventEndTime">End Time <span class="required">*</span></label>
+              <input type="time" id="eventEndTime" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventCategory">Category <span class="required">*</span></label>
+              <select id="eventCategory" required>
+                <option value="INTERVIEW">Interview</option>
+                <option value="RECRUITER">Recruiter</option>
+                <option value="JOB_1">Job 1</option>
+                <option value="JOB_2">Job 2</option>
+                <option value="JOB_3">Job 3</option>
+                <option value="CHURCH">Church</option>
+                <option value="PERSONAL">Personal</option>
+                <option value="FOCUS">Focus</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="eventPriority">Priority</label>
+              <select id="eventPriority">
+                <option value="LOW">Low</option>
+                <option value="NORMAL" selected>Normal</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="URGENT">Urgent</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Interview Specific Fields (Conditional) -->
+          <div id="interviewSpecificFields" style="display: none; background: rgba(139, 92, 246, 0.06); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; border: 1px dashed rgba(139, 92, 246, 0.3);">
+            <div style="font-size: 0.8125rem; font-weight: 700; color: #c4b5fd; margin-bottom: 0.75rem;">Interview Information</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="eventInterviewStage">Stage</label>
+                <select id="eventInterviewStage">
+                  <option value="SCREENING">Screening</option>
+                  <option value="RECRUITER">Recruiter</option>
+                  <option value="TECHNICAL">Technical</option>
+                  <option value="HIRING_MANAGER">Hiring Manager</option>
+                  <option value="FINAL">Final</option>
+                  <option value="OFFER">Offer</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="eventInterviewType">Interview Format</label>
+                <select id="eventInterviewType">
+                  <option value="Google Meet">Google Meet</option>
+                  <option value="Zoom">Zoom</option>
+                  <option value="Microsoft Teams">Microsoft Teams</option>
+                  <option value="Phone">Phone</option>
+                  <option value="On-site">On-site</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="eventRecruiter">Recruiter Name / Contact</label>
+              <input type="text" id="eventRecruiter" placeholder="e.g. Jane Doe (jane@company.com)">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventCompany">Company</label>
+              <input type="text" id="eventCompany" placeholder="e.g. Google, Apple, Stripe">
+            </div>
+            <div class="form-group">
+              <label for="eventPosition">Position / Role</label>
+              <input type="text" id="eventPosition" placeholder="e.g. Lead QA Architect">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventMeetingUrl">Meeting Link</label>
+              <input type="url" id="eventMeetingUrl" placeholder="https://meet.google.com/xyz or https://zoom.us/j/123">
+            </div>
+            <div class="form-group">
+              <label for="eventStatus">Status</label>
+              <select id="eventStatus">
+                <option value="CONFIRMED" selected>Confirmed</option>
+                <option value="PENDING">Pending</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="eventNotes">Notes / Preparation</label>
+            <textarea id="eventNotes" placeholder="Preparation checklist, agenda, or background details..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="eventModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveEventBtn">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. EVENT DETAILS MODAL -->
+  <div class="modal-overlay" id="eventDetailsModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="detailsTitle">Event Details</h3>
+        <button class="modal-close-btn" data-close-modal="eventDetailsModal">&times;</button>
+      </div>
+      <div class="modal-body" id="eventDetailsBody">
+        <!-- Injected via JS -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-sm" id="detailsDeleteBtn">Delete</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="detailsEditBtn">Edit</button>
+        <button type="button" class="btn btn-primary btn-sm" data-close-modal="eventDetailsModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. TASK MODAL (ADD & EDIT) -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="taskModalTitle">Add Task</h3>
+        <button class="modal-close-btn" data-close-modal="taskModal">&times;</button>
+      </div>
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="taskTitle">Task Title <span class="required">*</span></label>
+            <input type="text" id="taskTitle" placeholder="e.g. Prepare system design presentation" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="taskDueDate">Due Date</label>
+              <input type="date" id="taskDueDate">
+            </div>
+            <div class="form-group">
+              <label for="taskDueTime">Due Time</label>
+              <input type="time" id="taskDueTime">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="taskPriority">Priority</label>
+              <select id="taskPriority">
+                <option value="LOW">Low</option>
+                <option value="NORMAL" selected>Normal</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="URGENT">Urgent</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="taskStatus">Status</label>
+              <select id="taskStatus">
+                <option value="TODO" selected>To Do</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="BLOCKED">Blocked</option>
+                <option value="DONE">Done</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="taskDescription">Description</label>
+            <textarea id="taskDescription" placeholder="Task notes, links, or requirements..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="taskModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. INTERVIEW MODAL -->
+  <div class="modal-overlay" id="interviewModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="interviewModalTitle">Add Interview</h3>
+        <button class="modal-close-btn" data-close-modal="interviewModal">&times;</button>
+      </div>
+      <form id="interviewForm">
+        <input type="hidden" id="interviewId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="interviewCompany">Company <span class="required">*</span></label>
+              <input type="text" id="interviewCompany" required placeholder="e.g. Anthropic, OpenAI, Meta">
+            </div>
+            <div class="form-group">
+              <label for="interviewPosition">Position / Role <span class="required">*</span></label>
+              <input type="text" id="interviewPosition" required placeholder="e.g. Staff Automation Architect">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="interviewStage">Interview Stage</label>
+              <select id="interviewStage">
+                <option value="APPLIED">Applied</option>
+                <option value="RECRUITER_CONTACT">Recruiter Contact</option>
+                <option value="SCREENING">Screening</option>
+                <option value="TECHNICAL" selected>Technical</option>
+                <option value="HIRING_MANAGER">Hiring Manager</option>
+                <option value="FINAL">Final</option>
+                <option value="OFFER">Offer</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="WITHDRAWN">Withdrawn</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="interviewType">Format</label>
+              <select id="interviewType">
+                <option value="Google Meet">Google Meet</option>
+                <option value="Zoom">Zoom</option>
+                <option value="Microsoft Teams">Microsoft Teams</option>
+                <option value="Phone">Phone</option>
+                <option value="On-site">On-site</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="interviewDate">Interview Date</label>
+              <input type="date" id="interviewDate">
+            </div>
+            <div class="form-group">
+              <label for="interviewFollowUpDate">Follow-up Date</label>
+              <input type="date" id="interviewFollowUpDate">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="interviewRecruiter">Recruiter Name</label>
+              <input type="text" id="interviewRecruiter" placeholder="e.g. Sarah Connor">
+            </div>
+            <div class="form-group">
+              <label for="interviewRecruiterEmail">Recruiter Email</label>
+              <input type="email" id="interviewRecruiterEmail" placeholder="sarah@company.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="interviewMeetingUrl">Meeting Link</label>
+            <input type="url" id="interviewMeetingUrl" placeholder="https://meet.google.com/abc">
+          </div>
+          <div class="form-group">
+            <label for="interviewNotes">Preparation & Notes</label>
+            <textarea id="interviewNotes" placeholder="Round focus, questions to ask, salary notes..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="interviewModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Interview</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. JOB MODAL -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="jobModalTitle">Add Job Opportunity</h3>
+        <button class="modal-close-btn" data-close-modal="jobModal">&times;</button>
+      </div>
+      <form id="jobForm">
+        <input type="hidden" id="jobId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobCompany">Company <span class="required">*</span></label>
+              <input type="text" id="jobCompany" required placeholder="e.g. Netflix">
+            </div>
+            <div class="form-group">
+              <label for="jobRole">Role <span class="required">*</span></label>
+              <input type="text" id="jobRole" required placeholder="e.g. Senior QA Engineer">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobStatus">Pipeline Status</label>
+              <select id="jobStatus">
+                <option value="INTERESTED">Interested</option>
+                <option value="APPLIED" selected>Applied</option>
+                <option value="CONTACTED">Contacted</option>
+                <option value="INTERVIEWING">Interviewing</option>
+                <option value="OFFER">Offer</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="CLOSED">Closed</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="jobLocation">Location / Work Type</label>
+              <input type="text" id="jobLocation" placeholder="Remote (US) / Bay Area, CA">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobSalary">Salary Range</label>
+              <input type="text" id="jobSalary" placeholder="$180k - $220k + Equity">
+            </div>
+            <div class="form-group">
+              <label for="jobUrl">Job Posting URL</label>
+              <input type="url" id="jobUrl" placeholder="https://careers.company.com/job/123">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobNextAction">Next Action</label>
+              <input type="text" id="jobNextAction" placeholder="e.g. Follow up with recruiter">
+            </div>
+            <div class="form-group">
+              <label for="jobNextActionDate">Next Action Date</label>
+              <input type="date" id="jobNextActionDate">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="jobNotes">Notes</label>
+            <textarea id="jobNotes" placeholder="Referral contact, tech stack highlights, compensation details..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="jobModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Job</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. EMAIL INTAKE / ICS MODAL -->
+  <div class="modal-overlay" id="emailIntakeModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Simulate Forwarded Email / ICS Intake</h3>
+        <button class="modal-close-btn" data-close-modal="emailIntakeModal">&times;</button>
+      </div>
+      <form id="emailIntakeForm">
+        <div class="modal-body">
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" id="loadCleanInterviewFixture">Load Sample Interview (.ICS)</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="loadRescheduleFixture">Load Reschedule (.ICS)</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="loadCancelFixture">Load Cancel (.ICS)</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="loadNlpFixture">Load Natural Language Email</button>
+          </div>
+          <div class="form-group">
+            <label for="icsRawContent">Paste Raw .ICS File Content or Forwarded Email Body <span class="required">*</span></label>
+            <textarea id="icsRawContent" style="min-height: 150px; font-family: monospace; font-size: 0.8125rem;" placeholder="BEGIN:VCALENDAR&#10;VERSION:2.0&#10;BEGIN:VEVENT&#10;SUMMARY:Technical Architecture Interview&#10;DTSTART:20260825T170000Z&#10;DTEND:20260825T180000Z&#10;LOCATION:https://meet.google.com/abc-defg-hij&#10;END:VEVENT&#10;END:VCALENDAR"></textarea>
+          </div>
+          <div class="form-help">Automatic Intake Sequence: 1. ICS parser -> 2. Deterministic NLP -> 3. Ollama AI fallback -> 4. Auto-add or Needs Review.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="emailIntakeModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Process Ingestion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 id="confirmModalTitle">Confirm Action</h3>
+        <button class="modal-close-btn" data-close-modal="confirmModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmModalMessage" style="color: var(--text-secondary); font-size: 0.925rem; line-height: 1.5;">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" id="confirmModalCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-danger btn-sm" id="confirmModalConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="/dashboard/app.js"></script>
+</body>
+</html>
