@@ -1,6 +1,8 @@
 # Ignore environment and secrets
-firebase-config.json
 .env
+*service-account*.json
+*service_account*.json
+firebase-adminsdk*.json
 
 # macOS metadata
 .DS_Store
