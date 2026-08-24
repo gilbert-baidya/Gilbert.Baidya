@@ -1,3 +1,5 @@
+const InterviewTimeEngine = require('./interviewTimeEngine');
+
 /**
  * ICS / iCalendar Parser Service
  * High-confidence deterministic parser for RFC 5545 calendar data.
@@ -34,6 +36,11 @@ class ICSParser {
       return null;
     };
 
+    const getFields = (name) => lines
+      .map(line => line.match(new RegExp(`^${name}(?:;[^:]*)?:(.*)$`, 'i')))
+      .filter(Boolean)
+      .map(match => match[1].trim());
+
     const getParam = (name, paramName) => {
       for (const line of lines) {
         const regex = new RegExp(`^${name};.*${paramName}=([^;:>]+).*:(.*)$`, 'i');
@@ -58,11 +65,15 @@ class ICSParser {
       // Local format: 20260825T100000 (with TZID or fallback to default)
       const m = clean.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})?/);
       if (m) {
-        // If TZID is America/Los_Angeles or America/New_York, convert appropriately.
-        // Default standard handling: Parse as ISO format
-        const isoString = `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6] || '00'}`;
         try {
-          return new Date(isoString).toISOString();
+          return this.zonedDateTimeToIso({
+            year: +m[1],
+            month: +m[2],
+            day: +m[3],
+            hour: +m[4],
+            minute: +m[5],
+            second: +(m[6] || 0)
+          }, tzid || 'America/Los_Angeles');
         } catch (e) {
           return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0))).toISOString();
         }
@@ -85,13 +96,22 @@ class ICSParser {
     const description = getField('DESCRIPTION') || '';
     const location = getField('LOCATION') || '';
     const organizer = getField('ORGANIZER') || '';
+    const organizerName = getParam('ORGANIZER', 'CN') || '';
+    const organizerEmail = organizer.replace(/^mailto:/i, '').trim();
+    const attendees = getFields('ATTENDEE');
     const status = getField('STATUS') || 'CONFIRMED';
     const rrule = getField('RRULE') || '';
     const url = getField('URL') || '';
 
     const dtstartRaw = getField('DTSTART');
     const dtendRaw = getField('DTEND');
-    const tzid = getParam('DTSTART', 'TZID') || 'America/Los_Angeles';
+    const rawTzid = getParam('DTSTART', 'TZID');
+    const isUtc = /Z$/i.test(dtstartRaw || '');
+    const timezoneResolution = isUtc
+      ? { raw: 'UTC', timeZone: 'UTC', valid: true }
+      : InterviewTimeEngine.resolveTimeZone(rawTzid, InterviewTimeEngine.DEFAULT_TIME_ZONE);
+    const tzid = timezoneResolution.timeZone;
+    const timezoneAmbiguous = !isUtc && (!rawTzid || !timezoneResolution.valid);
 
     const startIso = parseIcsDate(dtstartRaw, tzid);
     let endIso = parseIcsDate(dtendRaw, tzid);
@@ -118,12 +138,26 @@ class ICSParser {
       location: cleanText(location),
       start: startIso,
       end: endIso,
+      startAt: startIso,
+      endAt: endIso,
+      normalizedStartAt: startIso,
+      normalizedEndAt: endIso,
       timezone: tzid,
+      sourceTimezone: isUtc ? 'UTC' : (rawTzid || null),
+      sourceTzid: isUtc ? 'UTC' : (rawTzid || null),
+      displayTimezone: InterviewTimeEngine.DEFAULT_TIME_ZONE,
+      timezoneAmbiguous,
+      rawDtStart: dtstartRaw,
+      rawDtEnd: dtendRaw,
       organizer: cleanText(organizer),
+      organizerName: cleanText(organizerName),
+      organizerEmail: cleanText(organizerEmail),
+      attendees: attendees.map(cleanText),
       status: method.toUpperCase() === 'CANCEL' ? 'CANCELLED' : status.toUpperCase(),
       rrule: rrule || null,
       meetingUrl: meetingUrl || null,
-      confidence: 1.0,
+      confidence: timezoneAmbiguous ? 0.7 : 1.0,
+      needsReview: timezoneAmbiguous,
       parserUsed: 'ICS'
     };
   }
@@ -146,6 +180,10 @@ class ICSParser {
     // Generic fallback URL if explicitly in location
     const genericMatch = text.match(/https?:\/\/[^\s<>"{}|\\^`]+/i);
     return genericMatch ? genericMatch[0] : null;
+  }
+
+  static zonedDateTimeToIso(parts, timeZone) {
+    return InterviewTimeEngine.zonedDateTimeToIso(parts, timeZone);
   }
 }
 

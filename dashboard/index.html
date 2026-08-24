@@ -131,6 +131,7 @@
 
         <!-- 3. INTERVIEWS SECTION -->
         <section id="section-interviews" class="gcc-section">
+          <div id="nextInterviewSummary"></div>
           <div class="gcc-card">
             <div class="gcc-card-header">
               <h3>Interview Tracker</h3>
@@ -284,9 +285,17 @@
                   <div class="list-item">
                     <div class="list-item-main">
                       <div class="list-item-title">Google Calendar API</div>
-                      <div class="list-item-sub">CalendarProvider sync architecture</div>
+                      <div class="list-item-sub" id="calendarSyncStatusText">Checking Google Calendar connection...</div>
                     </div>
-                    <span class="badge" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Ready for OAuth</span>
+                    <span class="badge" id="calendarSyncStatusBadge" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Checking...</span>
+                  </div>
+
+                  <div class="list-item">
+                    <div class="list-item-main">
+                      <div class="list-item-title">Browser Notifications</div>
+                      <div class="list-item-sub">In-dashboard alerts + Web Notifications API</div>
+                    </div>
+                    <span class="badge" id="browserNotifStatus" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Checking...</span>
                   </div>
 
                   <div class="list-item">
@@ -300,21 +309,111 @@
               </div>
             </div>
           </div>
+
+          <!-- Notifications & Alerts Settings Card -->
+          <div class="gcc-card" style="margin-top: 1.5rem;">
+            <div class="gcc-card-header">
+              <h3>Notifications & Alerts</h3>
+              <span class="badge" id="calSyncStatus" style="background:rgba(107,114,128,0.2); color:#9ca3af;">Loading...</span>
+            </div>
+            <div class="gcc-card-body">
+              <div class="gcc-grid-2" style="gap: 1rem;">
+                <div>
+                  <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Integration Toggles</div>
+                  <div class="item-list" style="gap: 0.75rem;">
+                    <label class="gcc-toggle-row">
+                      <span>Google Calendar Sync</span>
+                      <input type="checkbox" id="settingCalendarSync" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>Browser Notifications</span>
+                      <input type="checkbox" id="settingBrowserNotifications" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>Sound Alerts (chime)</span>
+                      <input type="checkbox" id="settingSoundAlerts" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>Auto Follow-up Suggestions</span>
+                      <input type="checkbox" id="settingFollowUpSuggestions" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>Personal Email Reminders</span>
+                      <input type="checkbox" id="settingPersonalEmailReminders">
+                    </label>
+                    <div class="form-group settings-email-reminder">
+                      <label for="notificationEmail">Notification Email</label>
+                      <input type="text" id="notificationEmail" readonly value="gilbert.cgpt@gmail.com">
+                      <div class="form-help">30 minutes before only. Enabling requires reconnecting Google once to authorize gmail.send. Recruiters are never emailed.</div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size: 0.8125rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Reminder Intervals (Phone & Browser)</div>
+                  <div class="item-list" style="gap: 0.75rem;">
+                    <label class="gcc-toggle-row">
+                      <span>24 hours before</span>
+                      <input type="checkbox" id="reminder1440" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>1 hour before</span>
+                      <input type="checkbox" id="reminder60" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>30 minutes before (preparation begins)</span>
+                      <input type="checkbox" id="reminder30" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>15 minutes before</span>
+                      <input type="checkbox" id="reminder15" checked>
+                    </label>
+                    <label class="gcc-toggle-row">
+                      <span>5 minutes before</span>
+                      <input type="checkbox" id="reminder5" checked>
+                    </label>
+                  </div>
+                  <div class="form-group settings-preparation-window">
+                    <label for="interviewPreparationMinutes">Interview preparation window</label>
+                    <select id="interviewPreparationMinutes">
+                      <option value="15">15 minutes</option>
+                      <option value="30" selected>30 minutes</option>
+                      <option value="45">45 minutes</option>
+                      <option value="60">60 minutes</option>
+                    </select>
+                  </div>
+                  <div class="form-help" style="margin-top: 0.75rem;">These reminders are synced to Google Calendar, which sends phone push notifications even when the browser is closed.</div>
+                </div>
+              </div>
+              <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem;">
+                <button class="btn btn-primary" onclick="saveNotificationSettings()">Save Notification Settings</button>
+                <button class="btn btn-secondary" onclick="NotificationService.playChime(); showToast('Sound preview played');">&#9834; Test Sound</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Follow-ups Card -->
+          <div class="gcc-card" style="margin-top: 1.5rem;">
+            <div class="gcc-card-header">
+              <h3>Follow-up Reminders</h3>
+              <button class="btn btn-primary btn-sm" onclick="openFollowUpModal('', 'Custom Follow-up')">+ Add Follow-up</button>
+            </div>
+            <div class="gcc-card-body" id="followUpsContainer">
+              <div class="loading-state"><div class="spinner"></div>Loading follow-ups...</div>
+            </div>
+          </div>
         </section>
       </div>
     </main>
-  </div>
-
   <!-- =========================================================================
        MODAL DIALOGS
        ========================================================================= -->
 
   <!-- 1. EVENT MODAL (ADD & EDIT) -->
-  <div class="modal-overlay" id="eventModal">
+  <div class="modal-overlay" id="eventModal" role="dialog" aria-modal="true" aria-labelledby="eventModalTitle">
     <div class="modal-container">
       <div class="modal-header">
         <h3 id="eventModalTitle">Add Event</h3>
-        <button class="modal-close-btn" data-close-modal="eventModal">&times;</button>
+        <button class="modal-close-btn" data-close-modal="eventModal" aria-label="Close event editor">&times;</button>
       </div>
       <form id="eventForm">
         <input type="hidden" id="eventId">
@@ -373,12 +472,12 @@
               <div class="form-group">
                 <label for="eventInterviewStage">Stage</label>
                 <select id="eventInterviewStage">
-                  <option value="SCREENING">Screening</option>
-                  <option value="RECRUITER">Recruiter</option>
-                  <option value="TECHNICAL">Technical</option>
-                  <option value="HIRING_MANAGER">Hiring Manager</option>
-                  <option value="FINAL">Final</option>
-                  <option value="OFFER">Offer</option>
+                    <option value="Screening">Screening</option>
+                    <option value="Recruiter Screening">Recruiter</option>
+                    <option value="Technical Discussion">Technical</option>
+                    <option value="Hiring Manager">Hiring Manager</option>
+                    <option value="Final Round">Final</option>
+                    <option value="Offer">Offer</option>
                 </select>
               </div>
               <div class="form-group">
@@ -419,6 +518,7 @@
               <label for="eventStatus">Status</label>
               <select id="eventStatus">
                 <option value="CONFIRMED" selected>Confirmed</option>
+                <option value="TENTATIVE">Tentative</option>
                 <option value="PENDING">Pending</option>
                 <option value="COMPLETED">Completed</option>
                 <option value="CANCELLED">Cancelled</option>
@@ -440,11 +540,11 @@
   </div>
 
   <!-- 2. EVENT DETAILS MODAL -->
-  <div class="modal-overlay" id="eventDetailsModal">
+  <div class="modal-overlay" id="eventDetailsModal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
     <div class="modal-container">
       <div class="modal-header">
         <h3 id="detailsTitle">Event Details</h3>
-        <button class="modal-close-btn" data-close-modal="eventDetailsModal">&times;</button>
+        <button class="modal-close-btn" data-close-modal="eventDetailsModal" aria-label="Close event details">&times;</button>
       </div>
       <div class="modal-body" id="eventDetailsBody">
         <!-- Injected via JS -->
@@ -715,6 +815,64 @@
     </div>
   </div>
 
+  <!-- 8. FOLLOW-UP REMINDER MODAL -->
+  <div class="modal-overlay" id="followUpModal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Schedule Follow-up Reminder</h3>
+        <button class="modal-close-btn" data-close-modal="followUpModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="followUpEventId">
+        <div class="form-group">
+          <label>Event</label>
+          <div id="followUpEventTitle" style="font-weight: 600; color: var(--text-main); padding: 0.5rem 0;">—</div>
+        </div>
+        <div class="form-group">
+          <label for="followUpNote">Reminder Note</label>
+          <input type="text" id="followUpNote" placeholder="e.g. Send thank-you email to interviewer">
+        </div>
+        <div class="form-group">
+          <label for="followUpPreset">When</label>
+          <select id="followUpPreset">
+            <option value="2h">Later Today (in 2 hours)</option>
+            <option value="morning" selected>Tomorrow Morning (9 AM)</option>
+            <option value="afternoon">Tomorrow Afternoon (2 PM)</option>
+            <option value="2d">In 2 Days</option>
+            <option value="3d">In 3 Days</option>
+            <option value="1w">In 1 Week</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="followUpType">Type</label>
+          <select id="followUpType">
+            <option value="THANK_YOU">Thank-you Note</option>
+            <option value="RECRUITER_CHECKIN">Recruiter Check-in</option>
+            <option value="CUSTOM">Custom</option>
+          </select>
+        </div>
+        <div class="form-help">Follow-up reminders appear in the Settings tab. They never send emails automatically.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal="followUpModal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="FollowUpService.createFollowUp(document.getElementById('followUpEventId').value, document.getElementById('followUpType').value, document.getElementById('followUpPreset').value, document.getElementById('followUpNote').value); ModalManager.close('followUpModal');">Set Reminder</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="interviewConflictModal">
+    <div class="modal-container interview-conflict-dialog">
+      <div class="modal-header">
+        <h3>Interview Conflict</h3>
+        <button class="modal-close-btn" data-close-modal="interviewConflictModal">&times;</button>
+      </div>
+      <div class="modal-body" id="interviewConflictBody"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm" data-close-modal="interviewConflictModal">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toastContainer"></div>
 
@@ -722,6 +880,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+  <script src="../services/calendar/interviewClassifier.js"></script>
+  <script src="../services/calendar/interviewTimeEngine.js"></script>
+  <script src="../services/calendar/eventViewModel.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script src="/dashboard/app.js"></script>
 </body>

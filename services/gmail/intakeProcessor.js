@@ -38,9 +38,11 @@ class IntakeProcessor {
     // STEP 1: If input is raw Gmail API message, extract MIME parts
     let plainText = '';
     let icsList = [];
+    let mimeHeaders = {};
 
     if (input.gmailMessage) {
       const parsedMime = MimeParser.parse(input.gmailMessage);
+      mimeHeaders = parsedMime.headers;
       plainText = parsedMime.plainText;
       icsList = parsedMime.icsData;
       sourceEmail = parsedMime.headers.from || sourceEmail;
@@ -124,6 +126,8 @@ class IntakeProcessor {
     }
 
     // STEP 5: Normalize candidate into standard event
+    parsedCandidate.originalSubject = input.metadata?.subject || mimeHeaders.subject || '';
+    parsedCandidate.sourceSnippet = plainText.slice(0, 1200);
     parsedCandidate.sourceEmail = sourceEmail;
     parsedCandidate.gmailMessageId = gmailMessageId;
     parsedCandidate.parserUsed = parserUsed;

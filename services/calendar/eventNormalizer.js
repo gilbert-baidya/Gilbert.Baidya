@@ -4,6 +4,13 @@
  * and assigns confidence scores.
  */
 
+const InterviewClassifier = typeof require === 'function'
+  ? require('./interviewClassifier')
+  : window.InterviewClassifier;
+const InterviewTimeEngine = typeof require === 'function'
+  ? require('./interviewTimeEngine')
+  : window.InterviewTimeEngine;
+
 class EventNormalizer {
   /**
    * Normalize an event candidate into the Firestore Event schema
@@ -17,18 +24,26 @@ class EventNormalizer {
     const combinedText = `${title} ${description} ${location}`;
 
     // 1. Determine Category
-    const category = rawData.category || this.detectCategory(combinedText);
+    const interviewClassification = InterviewClassifier.classifyInterviewIntent(rawData);
+    const category = interviewClassification.isInterview
+      ? 'INTERVIEW'
+      : (rawData.category || this.detectCategory(combinedText));
 
     // 2. Extract Company & Position if Interview or Recruiter
     const interviewData = this.extractInterviewMetadata(combinedText, title);
+    const company = rawData.company || interviewClassification.company || interviewData.company || '';
+    const position = rawData.position || interviewClassification.position || interviewData.position || '';
 
     // 3. Meeting Link Detection
     const meetingUrl = rawData.meetingUrl || this.detectMeetingUrl(combinedText);
+    const meetingProvider = this.detectMeetingProvider(meetingUrl, location, rawData.interviewType);
 
     // 4. Timezone & Validity
-    const timezone = rawData.timezone || 'America/Los_Angeles';
-    const start = rawData.start || null;
-    const end = rawData.end || null;
+    const sourceTimezone = rawData.sourceTimezone || rawData.timezone || null;
+    const timezone = InterviewTimeEngine.normalizeTimeZone(rawData.timezone || sourceTimezone);
+    const displayTimezone = InterviewTimeEngine.DEFAULT_TIME_ZONE;
+    const start = rawData.startAt || rawData.normalizedStartAt || rawData.start || null;
+    const end = rawData.endAt || rawData.normalizedEndAt || rawData.end || null;
 
     // 5. Confidence & Review Flag
     let confidence = rawData.confidence !== undefined ? rawData.confidence : 0.85;
@@ -47,14 +62,36 @@ class EventNormalizer {
 
     return {
       title,
-      company: rawData.company || interviewData.company || '',
-      position: rawData.position || interviewData.position || '',
+      company,
+      position,
+      companySource: rawData.companySource || (rawData.company ? 'source' : company ? 'subject' : null),
+      roleSource: rawData.roleSource || (rawData.position ? 'source' : position ? 'subject' : null),
       category,
+      isInterview: interviewClassification.isInterview,
+      classification: {
+        type: interviewClassification.isInterview ? 'interview' : 'other',
+        confidence: interviewClassification.confidence,
+        stage: interviewClassification.stage,
+        reasons: interviewClassification.reasons
+      },
       start,
       end,
+      startAt: start,
+      endAt: end,
+      normalizedStartAt: start,
+      normalizedEndAt: end,
       timezone,
+      sourceTimezone,
+      sourceTzid: rawData.sourceTzid || sourceTimezone,
+      displayTimezone,
+      timezoneAmbiguous: Boolean(rawData.timezoneAmbiguous),
+      rawDtStart: rawData.rawDtStart || rawData.rawDtstart || null,
+      rawDtEnd: rawData.rawDtEnd || rawData.rawDtend || null,
+      startAtSource: rawData.startAtSource || (rawData.parserUsed === 'ICS' ? 'ics' : rawData.parserUsed || 'source'),
       location,
       meetingUrl: meetingUrl || '',
+      meetingProvider,
+      meetingUrlSource: rawData.meetingUrlSource || (rawData.meetingUrl ? 'ics' : meetingUrl ? 'description' : null),
       priority: rawData.priority || (category === 'INTERVIEW' ? 'HIGH' : 'NORMAL'),
       status: rawData.status || 'CONFIRMED',
       source: rawData.source || 'EMAIL_INTAKE',
@@ -63,9 +100,12 @@ class EventNormalizer {
       icalUid: rawData.icalUid || null,
       icalSequence: rawData.icalSequence || 0,
       organizer: rawData.organizer || '',
-      interviewStage: rawData.interviewStage || interviewData.stage || (category === 'INTERVIEW' ? 'TECHNICAL' : null),
-      interviewType: rawData.interviewType || interviewData.format || (meetingUrl ? 'Google Meet' : 'Other'),
-      notes: description,
+      organizerName: rawData.organizerName || rawData.recruiter || '',
+      organizerEmail: String(rawData.organizerEmail || rawData.recruiterEmail || rawData.organizer || '').replace(/^mailto:/i, ''),
+      organizerSource: rawData.organizerSource || (rawData.organizer || rawData.organizerName || rawData.organizerEmail ? 'ics' : null),
+      interviewStage: interviewClassification.stage || rawData.interviewStage || interviewData.stage || (category === 'INTERVIEW' ? 'Interview' : null),
+      interviewType: rawData.interviewType || meetingProvider || interviewData.format || 'Other',
+      notes: this.buildConciseNotes(description, meetingUrl),
       confidence,
       needsReview,
       parserUsed: rawData.parserUsed || 'Deterministic',
@@ -150,6 +190,28 @@ class EventNormalizer {
     if (!text) return null;
     const match = text.match(/https:\/\/(?:meet\.google\.com\/[a-z0-9\-]+|[a-z0-9\-\.]*zoom\.us\/[jw]\/[0-9\?&=a-z]+|teams\.microsoft\.com\/l\/meetup-join\/[^\s>"']+)/i);
     return match ? match[0] : null;
+  }
+
+  static detectMeetingProvider(meetingUrl, location, explicitType) {
+    const value = `${explicitType || ''} ${meetingUrl || ''} ${location || ''}`;
+    if (/teams\.microsoft\.com|microsoft teams/i.test(value)) return 'Microsoft Teams';
+    if (/zoom\.us|\bzoom\b/i.test(value)) return 'Zoom';
+    if (/meet\.google\.com|google meet/i.test(value)) return 'Google Meet';
+    if (/webex\.com|\bwebex\b/i.test(value)) return 'Webex';
+    if (/\bphone\b/i.test(value)) return 'Phone';
+    return explicitType || (meetingUrl ? 'Virtual Meeting' : 'Other');
+  }
+
+  static buildConciseNotes(description, meetingUrl) {
+    if (!description) return '';
+    return description
+      .replace(meetingUrl || /$^/, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter((line, index, lines) => line && lines.indexOf(line) === index)
+      .join('\n')
+      .slice(0, 1200);
   }
 }
 

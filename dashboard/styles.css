@@ -709,6 +709,21 @@ textarea {
   line-height: 1.55;
 }
 
+.event-detail-hero {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.event-detail-hero > strong { font-size: 1.1rem; }
+.event-detail-hero > span { color: var(--text-secondary); }
+.event-detail-hero > b { margin-top: 0.35rem; font-size: 1rem; }
+.event-detail-hero > em { color: #93c5fd; font-style: normal; font-weight: 700; }
+.event-detail-value > strong { display: block; }
+.event-detail-value > a { display: inline-block; color: var(--primary); }
+
 /* FullCalendar Customization */
 #calendarEl {
   background-color: var(--bg-card);
@@ -857,3 +872,226 @@ textarea {
   }
 }
 
+/* ==========================================================================
+   NOTIFICATIONS & ALERTS STYLES
+   ========================================================================== */
+
+/* Alert Banner — fixed top, above everything */
+.gcc-alert-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  border-bottom: 2px solid #6366f1;
+  animation: alertSlideDown 0.3s ease-out;
+  padding: 0.875rem 1.5rem;
+}
+
+@keyframes alertSlideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.gcc-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gcc-alert-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.gcc-alert-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.gcc-alert-title {
+  font-weight: 700;
+  color: #e0e7ff;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gcc-alert-sub {
+  font-size: 0.8125rem;
+  color: #a5b4fc;
+  margin-top: 0.125rem;
+}
+
+.gcc-alert-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Toggle row in settings */
+.gcc-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+}
+
+.gcc-toggle-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.gcc-toggle-row span {
+  flex: 1;
+}
+
+/* Event detail reminders row */
+.event-detail-field {
+  margin-bottom: 0.75rem;
+}
+
+.event-detail-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.event-detail-value {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.event-detail-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.event-detail-notes summary {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.event-detail-notes div {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: var(--radius-sm);
+  margin-top: 0.25rem;
+}
+
+/* Interview timing hierarchy */
+.next-interview-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: #151e2e;
+  border: 1px solid #334155;
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-md);
+}
+
+.next-interview-copy h2 { font-size: 1.15rem; margin: 0.15rem 0; }
+.next-interview-copy p { color: var(--text-secondary); font-size: 0.875rem; }
+.next-interview-copy small { display: block; margin-top: 0.3rem; color: var(--text-secondary); }
+.interview-eyebrow, .interview-section-label { color: #93c5fd; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; }
+.next-interview-countdown { min-width: 150px; text-align: right; }
+.next-interview-countdown > span { display: block; color: var(--text-muted); font-size: 0.68rem; font-weight: 800; }
+.next-interview-countdown strong { display: block; font-size: 1.05rem; color: #f8fafc; }
+.next-interview-countdown small { color: var(--warning); }
+.interview-section-label { margin-bottom: 0.65rem; }
+.interview-card-list { display: grid; gap: 0.85rem; }
+.interview-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  padding: 1rem;
+  background: #101827;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.interview-card-next { border-color: #3b82f6; }
+.interview-card h3 { margin: 0.15rem 0; font-size: 1.05rem; }
+.interview-card h3 span { color: var(--text-secondary); font-weight: 500; }
+.interview-stage { color: #c4b5fd; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+.interview-date-block { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0.55rem; margin: 0.8rem 0 0.25rem; }
+.interview-date-block strong { color: #f8fafc; font-size: 0.78rem; letter-spacing: 0.05em; }
+.interview-date-block span { color: #e2e8f0; font-size: 0.9rem; font-weight: 700; }
+.interview-date-block b { color: #fff; font-size: 1rem; }
+.interview-countdown { color: #93c5fd; font-weight: 800; }
+.interview-countdown[data-state="urgent"], .interview-countdown[data-state="now"] { color: #fbbf24; }
+.interview-countdown[data-state="live"] { color: #34d399; }
+.interview-preparation { display: flex; gap: 0.5rem; margin-top: 0.75rem; color: var(--text-secondary); font-size: 0.82rem; }
+.interview-preparation strong { color: #e2e8f0; }
+.interview-prep-status { margin-top: 0.65rem; color: var(--success); font-size: 0.78rem; }
+.interview-conflict { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem; margin-top: 0.65rem; padding: 0.55rem 0.7rem; border-radius: var(--radius-sm); font-size: 0.78rem; }
+.interview-conflict-warning { color: #fbbf24; background: var(--warning-bg); border: 1px solid rgba(245, 158, 11, 0.35); }
+.interview-conflict-critical { color: #fca5a5; background: var(--danger-bg); border: 1px solid rgba(239, 68, 68, 0.45); }
+.interview-meta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.75rem; color: var(--text-muted); font-size: 0.77rem; }
+.phone-alert-active { color: var(--success); }
+.phone-alert-warning, .today-conflict { color: var(--warning); }
+.interview-card-actions { display: flex; align-items: flex-start; gap: 0.5rem; flex-wrap: wrap; }
+.past-interviews { margin-top: 1.25rem; color: var(--text-secondary); }
+.past-interviews summary { cursor: pointer; margin-bottom: 0.75rem; font-size: 0.8rem; font-weight: 700; }
+.today-interview-summary { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 0.8rem; background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: var(--radius-sm); font-size: 0.8rem; }
+.today-interview-summary strong { display: block; }
+.today-interview-time { font-size: 0.9rem; font-weight: 700; }
+.today-interview-time .interview-countdown { display: block; font-size: 0.78rem; }
+.conflict-detail-summary { display: grid; gap: 0.35rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border-color); }
+.conflict-detail-summary strong { color: var(--warning); }
+.conflict-detail-item { padding: 0.8rem 0; border-bottom: 1px solid var(--border-color); }
+.conflict-detail-item p { color: var(--text-secondary); font-size: 0.82rem; }
+.settings-email-reminder { margin-top: 0.75rem; }
+.settings-preparation-window { margin-top: 1rem; }
+.interview-conflict-dialog { max-width: 520px; }
+
+@media (max-width: 768px) {
+  .next-interview-summary, .interview-card, .today-interview-summary { grid-template-columns: 1fr; }
+  .next-interview-countdown { text-align: left; }
+  .interview-date-block { grid-template-columns: 1fr; gap: 0.15rem; }
+  .interview-date-block b { font-size: 0.95rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gcc-alert-banner, .toast { animation: none; }
+}
+
+/* Toast info type */
+.toast-warning { border-left: 4px solid var(--warning); }
+
+/* Notification permission banner */
+.gcc-notif-prompt {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--warning);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}

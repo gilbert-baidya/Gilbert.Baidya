@@ -1,6 +1,7 @@
 const IntakeProcessor = require('../../services/gmail/intakeProcessor');
 const GmailClient = require('../../services/gmail/gmailClient');
 const ServerStore = require('../../services/firebase/serverStore');
+const { processInterviewEmailReminders } = require('../../services/notifications/interviewEmailReminder');
 
 async function processLabeledMessages(client, processor, existingEvents = [], maxResults = 5, store = null) {
   const { labelId, labelIds = { intake: labelId }, messages } = await client.listIntakeMessages(maxResults);
@@ -39,6 +40,22 @@ async function processLabeledMessages(client, processor, existingEvents = [], ma
   }
 
   return { labelId, messages, results };
+}
+
+async function processOptionalEmailReminders(client, store) {
+  if (!store) return { status: 'DISABLED', processed: 0 };
+  const settings = await store.loadNotificationSettings();
+  if (!settings.personalEmailReminders) return { status: 'DISABLED', processed: 0 };
+  const events = await store.loadExistingEvents();
+  const results = await processInterviewEmailReminders({
+    events,
+    settings,
+    recipient: client.intakeAccount,
+    claim: (id, reminder) => store.claimEmailReminder(id, reminder),
+    send: email => client.sendEmail(email),
+    complete: (id, status, error) => store.completeEmailReminder(id, status, error)
+  });
+  return { status: 'SUCCESS', processed: results.filter(result => result.status === 'SENT').length, results };
 }
 
 exports.handler = async (event, context) => {
@@ -89,6 +106,7 @@ exports.handler = async (event, context) => {
       persistenceError = error.message;
     }
     const { messages, results } = await processLabeledMessages(client, processor, existingEvents, 5, store);
+    const emailReminders = await processOptionalEmailReminders(client, store);
     if (messages.length === 0) {
       return {
         statusCode: 200,
@@ -97,7 +115,8 @@ exports.handler = async (event, context) => {
           status: 'NO_INTAKE_MESSAGES',
           processed: 0,
           processedCount: 0,
-          items: []
+          items: [],
+          emailReminders
         })
       };
     }
@@ -111,7 +130,8 @@ exports.handler = async (event, context) => {
         processedCount: persistenceError ? 0 : results.length,
         parsedCount: results.length,
         configurationError: persistenceError,
-        items: results
+        items: results,
+        emailReminders
       })
     };
   } catch (err) {
@@ -124,3 +144,4 @@ exports.handler = async (event, context) => {
 };
 
 exports.processLabeledMessages = processLabeledMessages;
+exports.processOptionalEmailReminders = processOptionalEmailReminders;

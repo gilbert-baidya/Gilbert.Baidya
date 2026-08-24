@@ -27,9 +27,11 @@ class GmailClient {
       throw new Error(`Gmail OAuth configuration missing: ${missing.join(', ')}`);
     }
 
-    // Request minimal required scope: gmail.modify covers read/label/modify needs
+    // Sending remains opt-in; users must explicitly reconnect before gmail.send is granted.
     const scopes = encodeURIComponent([
-      'https://www.googleapis.com/auth/gmail.modify'
+      'https://www.googleapis.com/auth/gmail.modify',
+      'https://www.googleapis.com/auth/calendar.events',
+      'https://www.googleapis.com/auth/gmail.send'
     ].join(' '));
 
     return `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.redirectUri)}&response_type=code&scope=${scopes}&access_type=offline&prompt=consent`;
@@ -263,6 +265,31 @@ class GmailClient {
     if (action === 'IGNORED_PAST' || action === 'IGNORED') destinationLabelId = labelIds.ignored;
     const updated = await this.markProcessed(messageId, [labelIds.intake], [destinationLabelId]);
     if (!updated) throw new Error(`Failed to update Gmail labels for message ${messageId}`);
+  }
+
+  async sendEmail({ to, subject, body }) {
+    if (!to || to.toLowerCase() !== this.intakeAccount.toLowerCase()) {
+      throw new Error('Reminder recipient must match the configured personal notification account.');
+    }
+    const accessToken = await this.getAccessToken();
+    const message = [
+      `To: ${to}`,
+      `Subject: ${subject}`,
+      'Content-Type: text/plain; charset="UTF-8"',
+      '',
+      body
+    ].join('\r\n');
+    const raw = Buffer.from(message).toString('base64url');
+    const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ raw })
+    });
+    if (!res.ok) throw new Error(`Gmail reminder send failed: ${await res.text()}`);
+    return await res.json();
   }
 }
 

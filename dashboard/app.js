@@ -14,6 +14,9 @@ let auth = null;
 let currentUser = null;
 let calendar = null;
 let currentTaskFilter = 'ALL';
+let currentDashboardEvents = [];
+let currentDashboardInterviews = [];
+let interviewCountdownTimer = null;
 
 // ==========================================================================
 // UTILITY SERVICES: Date, Conflict Detection, Priorities, Duplicate Engine
@@ -36,7 +39,7 @@ const DateUtils = {
     }
   },
 
-  formatTimePacific(isoString) {
+  formatTimePacific(isoString, includeTimeZone = false) {
     if (!isoString) return '—';
     try {
       const d = new Date(isoString);
@@ -44,7 +47,8 @@ const DateUtils = {
         timeZone: DEFAULT_TIMEZONE,
         hour: 'numeric',
         minute: '2-digit',
-        hour12: true
+        hour12: true,
+        ...(includeTimeZone ? { timeZoneName: 'short' } : {})
       });
     } catch (e) {
       return isoString;
@@ -55,31 +59,20 @@ const DateUtils = {
     if (!startIso) return '—';
     const dateStr = this.formatDatePacific(startIso);
     const startStr = this.formatTimePacific(startIso);
-    const endStr = endIso ? this.formatTimePacific(endIso) : '';
-    return endStr ? `${dateStr} · ${startStr} – ${endStr} (PT)` : `${dateStr} · ${startStr} (PT)`;
+    const endStr = endIso ? this.formatTimePacific(endIso, true) : '';
+    return endStr ? `${dateStr} · ${startStr} – ${endStr}` : `${dateStr} · ${this.formatTimePacific(startIso, true)}`;
   },
 
   combineDateAndTimeToISO(dateStr, timeStr) {
     if (!dateStr || !timeStr) return null;
-    // Assemble local date time object in Pacific context
     const [year, month, day] = dateStr.split('-').map(Number);
     const [hours, minutes] = timeStr.split(':').map(Number);
-    const localDate = new Date(year, month - 1, day, hours, minutes, 0);
-    return localDate.toISOString();
+    return InterviewTimeEngine.zonedDateTimeToIso({ year, month, day, hour: hours, minute: minutes, second: 0 }, DEFAULT_TIMEZONE);
   },
 
   splitISOToDateAndTime(isoString) {
     if (!isoString) return { date: '', time: '' };
-    const d = new Date(isoString);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hours = String(d.getHours()).padStart(2, '0');
-    const minutes = String(d.getMinutes()).padStart(2, '0');
-    return {
-      date: `${year}-${month}-${day}`,
-      time: `${hours}:${minutes}`
-    };
+    return InterviewTimeEngine.formatLocalDateTime(isoString, DEFAULT_TIMEZONE);
   }
 };
 
@@ -247,6 +240,12 @@ const ICSParser = {
     // Extract meeting URL if present in location or description
     const urlMatch = (location + ' ' + description).match(/https?:\/\/[^\s]+/);
     const meetingUrl = urlMatch ? urlMatch[0] : '';
+    const classification = InterviewClassifier.classifyInterviewIntent({
+      title: summary,
+      description,
+      location,
+      meetingUrl
+    });
 
     return {
       iCalUid: uid,
@@ -256,7 +255,10 @@ const ICSParser = {
       location: location.replace(/\\,/g, ','),
       meetingUrl: meetingUrl,
       notes: description.replace(/\\n/g, '\n'),
-      category: summary.toLowerCase().includes('interview') ? 'INTERVIEW' : 'OTHER',
+      category: classification.category,
+      isInterview: classification.isInterview,
+      classification,
+      interviewStage: classification.stage,
       status: 'CONFIRMED'
     };
   }
@@ -289,16 +291,20 @@ const AIService = {
       const lines = emailText.split('\n');
       const title = lines[0] || 'Meeting Request';
       const urlMatch = emailText.match(/https?:\/\/[^\s]+/);
+      const classification = InterviewClassifier.classifyInterviewIntent({ title, description: emailText });
       return {
         title: title.slice(0, 80),
-        company: emailText.includes('interview') ? 'Company' : '',
-        position: '',
+        company: classification.company,
+        position: classification.position,
         date: new Date().toISOString().split('T')[0],
         startTime: '10:00',
         endTime: '11:00',
         timezone: DEFAULT_TIMEZONE,
         meetingUrl: urlMatch ? urlMatch[0] : '',
-        category: emailText.toLowerCase().includes('interview') ? 'INTERVIEW' : 'OTHER',
+        category: classification.category,
+        isInterview: classification.isInterview,
+        classification,
+        interviewStage: classification.stage,
         priority: 'NORMAL',
         confidence: 0.85,
         notes: emailText
@@ -341,14 +347,22 @@ function showToast(message, type = 'success') {
 }
 
 const ModalManager = {
+  _previousFocus: null,
+
   open(modalId) {
     const el = document.getElementById(modalId);
-    if (el) el.classList.add('active');
+    if (!el) return;
+    this._previousFocus = document.activeElement;
+    el.classList.add('active');
+    const focusable = el.querySelector('button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])');
+    focusable?.focus();
   },
 
   close(modalId) {
     const el = document.getElementById(modalId);
     if (el) el.classList.remove('active');
+    if (this._previousFocus?.focus) this._previousFocus.focus();
+    this._previousFocus = null;
   },
 
   confirm(message, onConfirm, title = 'Confirm Action') {
@@ -392,7 +406,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+      document.querySelectorAll('.modal-overlay.active').forEach(modal => ModalManager.close(modal.id));
+    }
+    if (e.key === 'Tab') {
+      const modal = document.querySelector('.modal-overlay.active');
+      if (!modal) return;
+      const focusable = [...modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
   });
 
@@ -530,12 +554,17 @@ function setupNavigation() {
 
 async function startApp() {
   await setupCalendar();
+  await NotificationService.loadSettings();
   await refreshDashboard();
   checkOllamaStatus();
+  checkCalendarSyncStatus();
+  NotificationService.scheduleUpcomingAlerts();
+  loadNotificationSettings();
+  renderFollowUps();
 }
 
 async function refreshDashboard() {
-  const [events, tasks, interviews, jobs, intakeItems] = await Promise.all([
+  let [events, tasks, interviews, jobs, intakeItems] = await Promise.all([
     fetchCollection('events'),
     fetchCollection('tasks'),
     fetchCollection('interviews'),
@@ -543,23 +572,158 @@ async function refreshDashboard() {
     fetchCollection('emailIntake')
   ]);
 
+  const reclassification = await reclassifyInterviewEvents(events, tasks);
+  events = reclassification.events;
+  tasks = reclassification.tasks;
+  const allInterviews = mergeInterviewRecords(interviews, events);
+  currentDashboardEvents = events;
+  currentDashboardInterviews = allInterviews;
+
   renderTodaySchedule(events);
-  renderPriorities(tasks, events, interviews);
-  renderUpcomingInterviews(interviews);
+  renderPriorities(tasks, events, allInterviews);
+  renderUpcomingInterviews(allInterviews);
   renderConflicts(events);
   renderTasks(tasks);
-  renderInterviews(interviews);
+  renderInterviews(allInterviews, events);
   renderJobs(jobs);
   renderEmailIntake(intakeItems);
 
   if (calendar) calendar.refetchEvents();
+  ensureInterviewCalendarReminders(events);
+
+  // Reschedule notification alerts with refreshed event data
+  if (typeof NotificationService !== 'undefined') NotificationService.rescheduleOnRefresh();
+}
+
+function eventAsInterview(event) {
+  return {
+    ...event,
+    sourceType: 'EVENT',
+    interviewDate: event.start,
+    stage: event.interviewStage || event.classification?.stage || 'Interview',
+    interviewType: event.interviewType || (/teams\.microsoft\.com/i.test(event.meetingUrl || '') ? 'Microsoft Teams' : 'Virtual Meeting'),
+    recruiter: event.recruiter || event.organizer || '',
+    position: event.position || 'Role not specified'
+  };
+}
+
+function mergeInterviewRecords(interviews, events) {
+  const eventInterviews = (events || [])
+    .filter(event => event.isInterview === true || event.category === 'INTERVIEW')
+    .map(eventAsInterview);
+  const manualInterviews = (interviews || []).filter(item => !eventInterviews.some(event => {
+    if (item.sourceEventId && item.sourceEventId === event.id) return true;
+    if (item.icalUid && item.icalUid === event.icalUid) return true;
+    const sameStart = item.interviewDate && new Date(item.interviewDate).getTime() === new Date(event.interviewDate).getTime();
+    const sameCompany = String(item.company || '').toLowerCase() === String(event.company || '').toLowerCase();
+    return sameStart && sameCompany;
+  }));
+  return [...eventInterviews, ...manualInterviews.map(item => ({ ...item, sourceType: 'INTERVIEW_RECORD' }))];
+}
+
+async function reclassifyInterviewEvents(events, tasks) {
+  if (!currentUser || typeof InterviewClassifier === 'undefined') return { events, tasks };
+
+  const updatedEvents = [...(events || [])];
+  const updatedTasks = [...(tasks || [])];
+  const writes = [];
+
+  for (let index = 0; index < updatedEvents.length; index++) {
+    const event = updatedEvents[index];
+    const classification = InterviewClassifier.classifyInterviewIntent(event);
+    if (!classification.isInterview) continue;
+
+    const patch = {
+      category: 'INTERVIEW',
+      isInterview: true,
+      interviewStage: classification.stage,
+      sourceTimezone: event.sourceTimezone || event.timezone || null,
+      displayTimezone: DEFAULT_TIMEZONE,
+      classification: {
+        type: 'interview',
+        confidence: classification.confidence,
+        stage: classification.stage,
+        reasons: classification.reasons
+      }
+    };
+    if (!event.company && classification.company) patch.company = classification.company;
+    if (!event.position && classification.position) patch.position = classification.position;
+
+    const changed = event.category !== patch.category ||
+      event.isInterview !== true ||
+      event.interviewStage !== patch.interviewStage ||
+      event.sourceTimezone !== patch.sourceTimezone ||
+      event.displayTimezone !== patch.displayTimezone ||
+      JSON.stringify(event.classification || {}) !== JSON.stringify(patch.classification) ||
+      Boolean(patch.company) || Boolean(patch.position);
+
+    updatedEvents[index] = { ...event, ...patch };
+    if (changed) {
+      writes.push(db.collection('users').doc(currentUser.uid).collection('events').doc(event.id).set({
+        ...patch,
+        classificationUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true }));
+    }
+
+    if (event.status !== 'CANCELLED') {
+      const taskId = `interview-prep-${event.id}`;
+      const existingTask = updatedTasks.find(task => task.id === taskId || task.sourceEventId === event.id);
+      const interview = updatedEvents[index];
+      const preparation = InterviewTimeEngine.calculatePreparationWindow(interview, getInterviewPreparationMinutes());
+      const due = preparation?.start || null;
+      const dueAt = due && !isNaN(due.getTime()) ? due.toISOString() : null;
+      const localDue = InterviewTimeEngine.formatLocalDateTime(due, DEFAULT_TIMEZONE);
+      const hasTask = Boolean(existingTask);
+      if (!hasTask) {
+        const task = {
+          id: taskId,
+          title: `Prepare: ${interview.company || 'Interview'} — ${interview.interviewStage || 'Interview'}`,
+          description: interview.position ? `Role: ${interview.position}` : 'Review the role and prepare interview notes.',
+          dueDate: localDue.date,
+          dueTime: localDue.time,
+          dueAt: due && !isNaN(due.getTime()) ? due.toISOString() : null,
+          interviewStart: interview.start || null,
+          interviewPreparationMinutes: preparation?.minutes || 30,
+          priority: 'HIGH',
+          status: 'TODO',
+          generatedBy: 'INTERVIEW_CLASSIFICATION',
+          sourceEventId: event.id,
+          sourceIcalUid: event.icalUid || null
+        };
+        updatedTasks.push(task);
+        writes.push(db.collection('users').doc(currentUser.uid).collection('tasks').doc(taskId).set({
+          ...task,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }));
+      } else if (existingTask.generatedBy === 'INTERVIEW_CLASSIFICATION' && (
+        existingTask.dueAt !== dueAt || existingTask.dueDate !== localDue.date || existingTask.dueTime !== localDue.time
+      )) {
+        const taskPatch = {
+          dueDate: localDue.date,
+          dueTime: localDue.time,
+          dueAt,
+          interviewStart: interview.start || null,
+          interviewPreparationMinutes: preparation?.minutes || 30
+        };
+        Object.assign(existingTask, taskPatch);
+        writes.push(db.collection('users').doc(currentUser.uid).collection('tasks').doc(existingTask.id || taskId).set({
+          ...taskPatch,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true }));
+      }
+    }
+  }
+
+  if (writes.length) await Promise.all(writes);
+  return { events: updatedEvents, tasks: updatedTasks };
 }
 
 async function fetchCollection(collectionName) {
   if (!currentUser) return [];
   try {
     const snap = await db.collection('users').doc(currentUser.uid).collection(collectionName).get();
-    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
   } catch (err) {
     console.error(`Error fetching collection ${collectionName}:`, err);
     return [];
@@ -569,6 +733,14 @@ async function fetchCollection(collectionName) {
 // ==========================================================================
 // CALENDAR SETUP & FULLCALENDAR BINDINGS
 // ==========================================================================
+
+let lastCalendarEventClickTimestamp = 0;
+
+function logCalendarRouting(message, value) {
+  if (!['localhost', '127.0.0.1', '::1'].includes(window.location.hostname)) return;
+  if (arguments.length > 1) console.log(message, value);
+  else console.log(message);
+}
 
 async function setupCalendar() {
   const el = document.getElementById('calendarEl');
@@ -589,8 +761,9 @@ async function setupCalendar() {
       try {
         const events = await fetchCollection('events');
         const formatted = events.map(e => {
+          const firestoreId = EventViewModel.getCanonicalEventId(e) || e.id || '';
           let color = '#2563eb';
-          if (e.category === 'INTERVIEW') color = '#8b5cf6';
+          if (e.category === 'INTERVIEW' || e.isInterview) color = '#8b5cf6';
           else if (e.category === 'PERSONAL') color = '#10b981';
           else if (e.category === 'CHURCH') color = '#ec4899';
           else if (e.category === 'FOCUS') color = '#f59e0b';
@@ -602,13 +775,18 @@ async function setupCalendar() {
               : '✍';
 
           return {
-            id: e.id,
-            title: `${sourceIndicator} ${e.title || '(No Title)'}`,
-            start: e.start,
-            end: e.end,
+            id: firestoreId,
+            title: EventViewModel.getCalendarTitle(e),
+            start: EventViewModel.getStart(e),
+            end: EventViewModel.getEnd(e),
             backgroundColor: color,
             borderColor: color,
-            extendedProps: e
+            extendedProps: {
+              ...e,
+              firestoreId: firestoreId,
+              id: firestoreId,
+              sourceIndicator
+            }
           };
         });
         successCallback(formatted);
@@ -617,17 +795,50 @@ async function setupCalendar() {
       }
     },
     dateClick: (info) => {
-      openAddEventModal(info.dateStr);
+      // 1. If an event was clicked within the last 500ms, ignore dateClick completely
+      if (Date.now() - lastCalendarEventClickTimestamp < 500) {
+        return;
+      }
+      // 2. If the click target originated inside any calendar event element, ignore dateClick
+      if (info.jsEvent && info.jsEvent.target) {
+        const isInsideEvent = info.jsEvent.target.closest('.fc-event, .fc-daygrid-event, .fc-timegrid-event');
+        if (isInsideEvent) {
+          return;
+        }
+      }
+      logCalendarRouting('[FC] DATE CLICK');
+      openCreateEventModal(info.dateStr);
     },
-    eventClick: (info) => {
-      const eventData = {
-        ...info.event.extendedProps,
-        id: info.event.id,
-        title: info.event.extendedProps.title || info.event.title,
-        start: info.event.start?.toISOString() || info.event.extendedProps.start,
-        end: info.event.end?.toISOString() || info.event.extendedProps.end
-      };
-      openEventDetailsModal(eventData);
+    select: (info) => {
+      // Drag selection is intentionally not a create route. Creation is limited
+      // to a single empty-date click or the Manual Event button.
+      logCalendarRouting('[FC] SELECT');
+      calendar?.unselect();
+    },
+    eventClick: async (info) => {
+      lastCalendarEventClickTimestamp = Date.now();
+      if (info.jsEvent) {
+        info.jsEvent.preventDefault();
+        info.jsEvent.stopPropagation();
+        info.jsEvent.stopImmediatePropagation?.();
+      }
+      const interaction = EventViewModel.getCalendarEventInteraction(info.event);
+      logCalendarRouting('[FC] EVENT CLICK');
+      logCalendarRouting('[FC] EVENT ID:', info.event.id || '');
+      logCalendarRouting('[FC] EVENT TITLE:', info.event.title || '');
+      logCalendarRouting('[FC] FIRESTORE ID:', info.event.extendedProps?.firestoreId || '');
+      if (interaction.mode === 'DETAILS' && interaction.eventId) {
+        await openEventDetailsModalById(interaction.eventId);
+      } else {
+        console.error('[FullCalendar eventClick] Could not resolve canonical event ID:', info.event);
+        showToast('Could not load this existing event.', 'error');
+      }
+    },
+    eventDidMount: (info) => {
+      const event = { id: info.event.id, ...info.event.extendedProps };
+      const dateTime = InterviewTimeEngine.formatInterviewDateTime(event, DEFAULT_TIMEZONE);
+      const provider = EventViewModel.getMeetingProvider(event);
+      info.el.title = [event.company || event.title, event.position, dateTime?.label, provider].filter(Boolean).join('\n');
     }
   });
 
@@ -649,19 +860,23 @@ function renderTodaySchedule(events) {
     return eventDate === todayStr;
   }).sort((a, b) => new Date(a.start) - new Date(b.start));
 
+  const todayInterview = todayEvents.find(event => event.isInterview || event.category === 'INTERVIEW');
+  const interviewSummary = todayInterview ? buildTodayInterviewSummary(eventAsInterview(todayInterview), events) : '';
+
   if (todayEvents.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📅</div><div class="empty-state-text">No events scheduled today. Enjoy your day or schedule focus time!</div></div>`;
     return;
   }
 
   container.innerHTML = `
+    ${interviewSummary}
     <div class="item-list">
       ${todayEvents.map(e => `
         <div class="list-item">
           <div class="list-item-main">
             <div class="list-item-title">${escapeHtml(e.title)}</div>
             <div class="list-item-sub">
-              <span>🕒 ${DateUtils.formatTimePacific(e.start)} – ${DateUtils.formatTimePacific(e.end)}</span>
+              <span>🕒 ${DateUtils.formatTimePacific(e.start)} – ${DateUtils.formatTimePacific(e.end, true)}</span>
               ${e.company ? `<span>🏢 ${escapeHtml(e.company)}</span>` : ''}
               ${e.meetingUrl ? `<span>🔗 <a href="${escapeHtml(e.meetingUrl)}" target="_blank" style="color:var(--primary);">Join Meeting</a></span>` : ''}
             </div>
@@ -705,10 +920,11 @@ function renderUpcomingInterviews(interviews) {
   const container = document.getElementById('upcomingInterviewsContainer');
   if (!container) return;
 
-  const upcoming = (interviews || []).filter(i => {
+  const upcoming = InterviewTimeEngine.sortInterviews((interviews || []).filter(i => {
     if (!i.interviewDate) return false;
-    return new Date(i.interviewDate) >= new Date(new Date().setHours(0,0,0,0));
-  }).sort((a, b) => new Date(i.interviewDate) - new Date(b.interviewDate)).slice(0, 5);
+    const end = i.end ? new Date(i.end) : new Date(new Date(i.interviewDate).getTime() + 30 * 60000);
+    return end >= new Date();
+  })).slice(0, 5);
 
   if (upcoming.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="empty-state-text">No upcoming interviews scheduled.</div></div>`;
@@ -721,7 +937,7 @@ function renderUpcomingInterviews(interviews) {
         <div class="list-item" style="padding: 0.5rem 0.75rem;">
           <div class="list-item-main">
             <div class="list-item-title" style="font-size: 0.85rem;">${escapeHtml(i.company)}</div>
-            <div class="list-item-sub">${escapeHtml(i.position || 'Interview')} · ${DateUtils.formatDatePacific(i.interviewDate)}</div>
+            <div class="list-item-sub">${escapeHtml(i.position || 'Interview')} · ${DateUtils.formatDatePacific(i.interviewDate)} · <strong class="interview-countdown" data-interview-start="${escapeHtml(i.interviewDate)}" data-interview-end="${escapeHtml(i.end || '')}">${InterviewTimeEngine.calculateInterviewCountdown(i).label}</strong></div>
           </div>
           <span class="badge badge-interview">${i.stage || 'TECHNICAL'}</span>
         </div>
@@ -778,7 +994,7 @@ function renderTasks(tasks) {
           <div class="list-item-main">
             <div class="list-item-title" style="${t.status === 'DONE' ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${escapeHtml(t.title)}</div>
             <div class="list-item-sub">
-              ${t.dueDate ? `<span>📅 Due: ${t.dueDate} ${t.dueTime || ''}</span>` : ''}
+              ${t.dueAt ? `<span>Due: ${DateUtils.formatDatePacific(t.dueAt)} ${DateUtils.formatTimePacific(t.dueAt, true)}</span>` : t.dueDate ? `<span>Due: ${t.dueDate} ${t.dueTime || ''}</span>` : ''}
               ${t.description ? `<span>📝 ${escapeHtml(t.description.slice(0, 60))}</span>` : ''}
             </div>
           </div>
@@ -827,37 +1043,137 @@ function deleteTaskConfirm(taskId) {
 // INTERVIEWS MODULE CRUD
 // ==========================================================================
 
-function renderInterviews(interviews) {
+function getInterviewPreparationMinutes() {
+  return Number(NotificationService?._settings?.interviewPreparationMinutes) || InterviewTimeEngine.DEFAULT_PREPARATION_MINUTES;
+}
+
+function getInterviewPhoneAlertStatus(interview) {
+  const configured = interview.reminderMinutes || [];
+  const hasPreparationAlert = configured.map(Number).includes(30);
+  if (interview.calendarSyncStatus === 'SYNCED' && hasPreparationAlert) return { active: true, label: 'Phone alerts active' };
+  return { active: false, label: 'Phone alerts need setup' };
+}
+
+function buildConflictStatus(interview, events) {
+  const result = InterviewTimeEngine.detectInterviewConflict(interview, events, getInterviewPreparationMinutes());
+  if (result.level === 'INTERVIEW') {
+    return `<div class="interview-conflict interview-conflict-critical"><strong>TIME CONFLICT</strong><span>Another event overlaps this interview.</span><button class="btn btn-secondary btn-sm" onclick="openInterviewConflictModal('${interview.id}')">View Conflict</button></div>`;
+  }
+  if (result.level === 'PREPARATION') {
+    const message = result.availablePreparationMinutes === 0
+      ? 'The protected preparation window is unavailable.'
+      : `Only ${result.availablePreparationMinutes} minutes available to prepare.`;
+    return `<div class="interview-conflict interview-conflict-warning"><strong>PREP TIME CONFLICT</strong><span>${message}</span><button class="btn btn-secondary btn-sm" onclick="openInterviewConflictModal('${interview.id}')">View Conflict</button></div>`;
+  }
+  if (result.boundaryEvents?.length) {
+    return `<div class="interview-prep-status">Preparation window begins immediately after previous interview.</div>`;
+  }
+  return `<div class="interview-prep-status">Full ${result.availablePreparationMinutes}-minute preparation window available</div>`;
+}
+
+function buildTodayInterviewSummary(interview, events) {
+  const preparation = InterviewTimeEngine.calculatePreparationWindow(interview, getInterviewPreparationMinutes());
+  const conflict = InterviewTimeEngine.detectInterviewConflict(interview, events, getInterviewPreparationMinutes());
+  const conflictText = conflict.level === 'INTERVIEW'
+    ? 'Time conflict detected'
+    : conflict.level === 'PREPARATION'
+      ? `Only ${conflict.availablePreparationMinutes} minutes prep time available`
+      : '';
+  return `<div class="today-interview-summary">
+    <div><span class="interview-eyebrow">NEXT INTERVIEW</span><strong>${escapeHtml(interview.company || 'Interview')} — ${escapeHtml(interview.stage || 'Interview')}</strong></div>
+    <div class="today-interview-time">${DateUtils.formatTimePacific(interview.interviewDate, true)} <span class="interview-countdown" data-interview-start="${escapeHtml(interview.interviewDate)}" data-interview-end="${escapeHtml(interview.end || '')}">${InterviewTimeEngine.calculateInterviewCountdown(interview).label}</span></div>
+    <div>Prep starts: ${DateUtils.formatTimePacific(preparation?.start?.toISOString(), true)}${conflictText ? ` · <span class="today-conflict">${conflictText}</span>` : ''}</div>
+    ${interview.meetingUrl ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(interview.meetingUrl)}" target="_blank" rel="noopener noreferrer">Join</a>` : ''}
+  </div>`;
+}
+
+function buildNextInterviewSummary(interview, events) {
+  const dateTime = InterviewTimeEngine.formatInterviewDateTime(interview, DEFAULT_TIMEZONE);
+  const preparation = InterviewTimeEngine.calculatePreparationWindow(interview, getInterviewPreparationMinutes());
+  const conflict = InterviewTimeEngine.detectInterviewConflict(interview, events, getInterviewPreparationMinutes());
+  return `<div class="next-interview-summary">
+    <div class="next-interview-copy"><span class="interview-eyebrow">NEXT INTERVIEW</span><h2>${escapeHtml(interview.company || 'Interview')}</h2><p>${escapeHtml(interview.stage || 'Interview')} — ${escapeHtml(interview.position || 'Role not specified')}</p><strong>${dateTime.weekday.slice(0, 3)} ${dateTime.date} · ${dateTime.startTime} ${dateTime.timeZone}</strong><small>Preparation begins ${DateUtils.formatTimePacific(preparation.start.toISOString(), true)}</small></div>
+    <div class="next-interview-countdown"><span>STARTS IN</span><strong class="interview-countdown" data-interview-start="${escapeHtml(interview.interviewDate)}" data-interview-end="${escapeHtml(interview.end || '')}">${InterviewTimeEngine.calculateInterviewCountdown(interview).label.replace(/^Starts in /i, '')}</strong>${conflict.level !== 'NONE' ? `<small>${conflict.level === 'INTERVIEW' ? 'Time' : 'Prep-time'} conflict detected</small>` : ''}</div>
+    ${interview.meetingUrl ? `<a class="btn btn-primary" href="${escapeHtml(interview.meetingUrl)}" target="_blank" rel="noopener noreferrer">Join Meeting</a>` : ''}
+  </div>`;
+}
+
+function renderInterviews(interviews, events = currentDashboardEvents) {
   const container = document.getElementById('interviewsListContainer');
+  const summary = document.getElementById('nextInterviewSummary');
   if (!container) return;
 
   if (!interviews || interviews.length === 0) {
+    if (summary) summary.innerHTML = '';
     container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💼</div><div class="empty-state-text">No interviews currently in pipeline. Add an upcoming interview round!</div></div>`;
     return;
   }
 
+  const now = new Date();
+  const sorted = InterviewTimeEngine.sortInterviews(interviews);
+  const upcoming = sorted.filter(interview => {
+    const end = interview.end ? new Date(interview.end) : new Date(new Date(interview.interviewDate).getTime() + 30 * 60000);
+    return end >= now && interview.status !== 'CANCELLED';
+  });
+  const past = sorted.filter(interview => !upcoming.includes(interview));
+  if (summary) summary.innerHTML = upcoming[0] ? buildNextInterviewSummary(upcoming[0], events) : '';
+
   container.innerHTML = `
-    <div class="item-list">
-      ${interviews.map(i => `
-        <div class="list-item">
-          <div class="list-item-main">
-            <div class="list-item-title">${escapeHtml(i.company)} — <span style="font-weight:400; color:var(--text-secondary);">${escapeHtml(i.position)}</span></div>
-            <div class="list-item-sub">
-              <span>📅 ${i.interviewDate ? DateUtils.formatDatePacific(i.interviewDate) : 'Date TBD'}</span>
-              <span>🗣️ Format: ${i.interviewType || 'Google Meet'}</span>
-              ${i.recruiter ? `<span>👤 Recruiter: ${escapeHtml(i.recruiter)}</span>` : ''}
-              ${i.meetingUrl ? `<span>🔗 <a href="${escapeHtml(i.meetingUrl)}" target="_blank" style="color:var(--primary);">Meeting Link</a></span>` : ''}
-            </div>
-          </div>
-          <div class="list-item-actions">
-            <span class="badge badge-interview">${i.stage || 'TECHNICAL'}</span>
-            <button class="btn btn-secondary btn-sm" onclick='editInterviewModal("${i.id}")'>Edit</button>
-            <button class="btn btn-danger btn-sm" onclick='deleteInterviewConfirm("${i.id}")'>Delete</button>
-          </div>
-        </div>
-      `).join('')}
+    <div class="interview-section-label">UPCOMING</div>
+    <div class="interview-card-list">
+      ${upcoming.map((interview, index) => buildInterviewCard(interview, events, index === 0)).join('') || '<div class="empty-state"><div class="empty-state-text">No upcoming interviews.</div></div>'}
     </div>
+    ${past.length ? `<details class="past-interviews"><summary>Past interviews (${past.length})</summary><div class="interview-card-list">${past.map(interview => buildInterviewCard(interview, events, false)).join('')}</div></details>` : ''}
   `;
+  scheduleInterviewCountdownRefresh();
+}
+
+function buildInterviewCard(interview, events, isNext) {
+  const dateTime = InterviewTimeEngine.formatInterviewDateTime(interview, DEFAULT_TIMEZONE) || { weekday: 'DATE', date: 'TBD', label: 'Time TBD' };
+  const preparation = InterviewTimeEngine.calculatePreparationWindow(interview, getInterviewPreparationMinutes());
+  const countdown = InterviewTimeEngine.calculateInterviewCountdown(interview);
+  const context = InterviewTimeEngine.getContextLabel(interview, new Date(), DEFAULT_TIMEZONE);
+  const phone = getInterviewPhoneAlertStatus(interview);
+  return `<article class="interview-card interview-state-${countdown.state.toLowerCase()}${isNext ? ' interview-card-next' : ''}">
+    <div class="interview-card-main">
+      <div class="interview-eyebrow">${context}${isNext ? ' · NEXT INTERVIEW' : ''}</div>
+      <h3>${escapeHtml(interview.company || 'Interview')} — <span>${escapeHtml(interview.position || 'Role not specified')}</span></h3>
+      <div class="interview-stage">${escapeHtml(interview.stage || 'Interview')}</div>
+      <div class="interview-date-block"><strong>${dateTime.weekday}</strong><span>${dateTime.date}</span><b>${dateTime.label}</b></div>
+      <div class="interview-countdown" data-interview-start="${escapeHtml(interview.interviewDate)}" data-interview-end="${escapeHtml(interview.end || '')}">${countdown.label}</div>
+      ${preparation ? `<div class="interview-preparation"><span>Preparation</span><strong>${DateUtils.formatTimePacific(preparation.start.toISOString())} – ${DateUtils.formatTimePacific(preparation.end.toISOString(), true)}</strong></div>` : ''}
+      ${buildConflictStatus(interview, events)}
+      <div class="interview-meta"><span>${escapeHtml(interview.interviewType || 'Virtual Meeting')}</span>${interview.recruiter ? `<span>Recruiter: ${escapeHtml(interview.recruiter)}</span>` : ''}${interview.status ? `<span>${escapeHtml(interview.status)}</span>` : ''}<span class="${phone.active ? 'phone-alert-active' : 'phone-alert-warning'}">${phone.label}</span></div>
+    </div>
+    <div class="interview-card-actions">${interview.meetingUrl ? `<a class="btn btn-primary" href="${escapeHtml(interview.meetingUrl)}" target="_blank" rel="noopener noreferrer">Join Meeting</a>` : ''}${interview.sourceType === 'EVENT' ? `<button class="btn btn-secondary btn-sm" onclick='openEventDetailsModalById("${interview.id}")'>Details</button>` : `<button class="btn btn-secondary btn-sm" onclick='editInterviewModal("${interview.id}")'>Edit</button><button class="btn btn-danger btn-sm" onclick='deleteInterviewConfirm("${interview.id}")'>Delete</button>`}</div>
+  </article>`;
+}
+
+function scheduleInterviewCountdownRefresh() {
+  if (interviewCountdownTimer) clearTimeout(interviewCountdownTimer);
+  const update = () => {
+    document.querySelectorAll('.interview-countdown[data-interview-start]').forEach(element => {
+      const countdown = InterviewTimeEngine.calculateInterviewCountdown({ start: element.dataset.interviewStart, end: element.dataset.interviewEnd || null });
+      element.textContent = countdown.label;
+      element.dataset.state = countdown.state;
+    });
+    const hasNearInterview = currentDashboardInterviews.some(interview => {
+      const difference = new Date(interview.interviewDate).getTime() - Date.now();
+      return difference > -3600000 && difference < 86400000;
+    });
+    interviewCountdownTimer = setTimeout(update, hasNearInterview ? 30000 : 60000);
+  };
+  update();
+}
+
+function openInterviewConflictModal(interviewId) {
+  const interview = currentDashboardInterviews.find(item => item.id === interviewId);
+  if (!interview) return;
+  const result = InterviewTimeEngine.detectInterviewConflict(interview, currentDashboardEvents, getInterviewPreparationMinutes());
+  const body = document.getElementById('interviewConflictBody');
+  if (!body) return;
+  body.innerHTML = `<div class="conflict-detail-summary"><strong>${result.level === 'INTERVIEW' ? 'TIME CONFLICT' : 'PREP TIME CONFLICT'}</strong><span>Available preparation: ${result.availablePreparationMinutes} minutes</span><span>Required preparation: ${result.preparation.minutes} minutes</span></div>${result.conflicts.map(conflict => `<div class="conflict-detail-item"><h4>${escapeHtml(conflict.event.title || 'Calendar event')}</h4><p>${DateUtils.formatTimePacific(conflict.event.start)} – ${DateUtils.formatTimePacific(conflict.event.end, true)}</p><p>Source: ${escapeHtml(conflict.event.source || 'Command Center')}</p><p>${conflict.interviewOverlapMinutes ? `${conflict.interviewOverlapMinutes} minutes overlap with interview` : `${conflict.preparationOverlapMinutes} minutes overlap with preparation`}</p></div>`).join('')}`;
+  ModalManager.open('interviewConflictModal');
 }
 
 function deleteInterviewConfirm(interviewId) {
@@ -1033,7 +1349,7 @@ async function approveIntakeItem(itemId) {
     }
 
     // Add as new calendar event
-    await db.collection('users').doc(currentUser.uid).collection('events').add({
+    const newDocRef = await db.collection('users').doc(currentUser.uid).collection('events').add({
       title: item.title,
       start: item.start,
       end: item.end,
@@ -1050,6 +1366,19 @@ async function approveIntakeItem(itemId) {
       sourceEmail: item.sourceEmail || 'gilbert.cgpt@gmail.com',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+
+    // Sync to Google Calendar (fire-and-forget, non-blocking)
+    CalendarSyncService.syncEvent({
+      id: newDocRef.id,
+      title: item.title,
+      start: item.start,
+      end: item.end,
+      category: item.category,
+      isInterview: item.isInterview,
+      timezone: item.timezone || DEFAULT_TIMEZONE,
+      meetingUrl: item.meetingUrl || '',
+      notes: item.notes || ''
+    }).catch(() => {});
 
     await db.collection('users').doc(currentUser.uid).collection('emailIntake').doc(itemId).update({
       status: 'AUTO_ADD',
@@ -1188,6 +1517,7 @@ function setupEventListeners() {
 
     try {
       const eventId = document.getElementById('eventId').value;
+      const saveOperation = EventViewModel.getSaveOperation(eventId);
       const title = document.getElementById('eventTitle').value.trim();
       const date = document.getElementById('eventDate').value;
       const startTime = document.getElementById('eventStartTime').value;
@@ -1206,6 +1536,10 @@ function setupEventListeners() {
         title,
         start: startIso,
         end: endIso,
+        startAt: startIso,
+        endAt: endIso,
+        normalizedStartAt: startIso,
+        normalizedEndAt: endIso,
         category: document.getElementById('eventCategory').value,
         priority: document.getElementById('eventPriority').value,
         company: document.getElementById('eventCompany').value.trim(),
@@ -1214,6 +1548,7 @@ function setupEventListeners() {
         status: document.getElementById('eventStatus').value,
         notes: document.getElementById('eventNotes').value.trim(),
         timezone: DEFAULT_TIMEZONE,
+        displayTimezone: DEFAULT_TIMEZONE,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
@@ -1223,13 +1558,19 @@ function setupEventListeners() {
         payload.recruiter = document.getElementById('eventRecruiter').value.trim();
       }
 
-      if (eventId) {
-        await db.collection('users').doc(currentUser.uid).collection('events').doc(eventId).update(payload);
+      if (saveOperation.type === 'UPDATE') {
+        await db.collection('users').doc(currentUser.uid).collection('events').doc(saveOperation.eventId).update(payload);
         showToast('Event updated successfully');
+        // Sync update to Google Calendar (idempotent \u2014 reuses existing googleCalendarEventId)
+        const evDoc = await db.collection('users').doc(currentUser.uid).collection('events').doc(saveOperation.eventId).get();
+        const existingGcalId = evDoc.exists ? evDoc.data().googleCalendarEventId : null;
+        CalendarSyncService.syncEvent({ id: saveOperation.eventId, ...payload, googleCalendarEventId: existingGcalId || null }).catch(() => {});
       } else {
         payload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-        await db.collection('users').doc(currentUser.uid).collection('events').add(payload);
+        const docRef = await db.collection('users').doc(currentUser.uid).collection('events').add(payload);
         showToast('Event created successfully');
+        // Sync new event to Google Calendar
+        CalendarSyncService.syncEvent({ id: docRef.id, ...payload }).catch(() => {});
       }
 
       ModalManager.close('eventModal');
@@ -1415,7 +1756,7 @@ function setupEventListeners() {
         showToast(`Calendar event automatically updated: ${normalized.title}`);
       } else if (normalized.confidence >= 0.85 && !normalized.needsReview) {
         // High confidence: AUTO ADD DIRECTLY TO CALENDAR
-        await db.collection('users').doc(currentUser.uid).collection('events').add({
+        const autoDocRef = await db.collection('users').doc(currentUser.uid).collection('events').add({
           ...normalized,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -1425,6 +1766,8 @@ function setupEventListeners() {
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         showToast(`New calendar event automatically added: ${normalized.title}`);
+        // Sync to Google Calendar (fire-and-forget)
+        CalendarSyncService.syncEvent({ id: autoDocRef.id, ...normalized }).catch(() => {});
       } else {
         // Low / Medium confidence: Route to Needs Review queue
         await db.collection('users').doc(currentUser.uid).collection('emailIntake').add({
@@ -1482,10 +1825,12 @@ function parseDeterministicText(text) {
 
 function normalizeCandidate(cand, parserUsed) {
   const combined = `${cand.title || ''} ${cand.notes || ''} ${cand.location || ''}`;
+  const classification = InterviewClassifier.classifyInterviewIntent(cand);
   let category = cand.category;
-  if (!category) {
-    if (/interview|screening|recruiter|technical/i.test(combined)) category = 'INTERVIEW';
-    else if (/church|worship|service/i.test(combined)) category = 'CHURCH';
+  if (classification.isInterview) {
+    category = 'INTERVIEW';
+  } else if (!category) {
+    if (/church|worship|service/i.test(combined)) category = 'CHURCH';
     else if (/focus|deep work/i.test(combined)) category = 'FOCUS';
     else if (/doctor|dentist|appointment/i.test(combined)) category = 'PERSONAL';
     else category = 'OTHER';
@@ -1493,12 +1838,20 @@ function normalizeCandidate(cand, parserUsed) {
 
   return {
     title: cand.title || 'Forwarded Event',
-    company: cand.company || '',
-    position: cand.position || '',
+    company: cand.company || classification.company || '',
+    position: cand.position || classification.position || '',
     category,
+    isInterview: classification.isInterview,
+    classification: {
+      type: classification.isInterview ? 'interview' : 'other',
+      confidence: classification.confidence,
+      stage: classification.stage,
+      reasons: classification.reasons
+    },
+    interviewStage: classification.stage || cand.interviewStage || null,
     start: cand.start,
     end: cand.end,
-    timezone: cand.timezone || DEFAULT_TIMEZONE,
+    timezone: InterviewTimeEngine.normalizeTimeZone(cand.timezone || DEFAULT_TIMEZONE),
     location: cand.location || '',
     meetingUrl: cand.meetingUrl || '',
     priority: cand.priority || (category === 'INTERVIEW' ? 'HIGH' : 'NORMAL'),
@@ -1513,7 +1866,17 @@ function normalizeCandidate(cand, parserUsed) {
   };
 }
 
-function openAddEventModal(dateStr = '') {
+const ModalMode = {
+  CREATE: 'create',
+  VIEW: 'view',
+  EDIT: 'edit'
+};
+let currentEventModalMode = null;
+
+function openCreateEventModal(dateStr = '') {
+  currentEventModalMode = ModalMode.CREATE;
+  logCalendarRouting('[MODAL] CREATE');
+  logCalendarRouting('[MODAL] modalMode:', currentEventModalMode);
   document.getElementById('eventForm').reset();
   document.getElementById('eventId').value = '';
   document.getElementById('eventModalTitle').innerText = 'Add Event';
@@ -1521,111 +1884,178 @@ function openAddEventModal(dateStr = '') {
   document.getElementById('eventCategory').value = 'OTHER';
   document.getElementById('eventPriority').value = 'NORMAL';
   document.getElementById('eventStatus').value = 'CONFIRMED';
+  document.getElementById('eventTitle').value = '';
+  document.getElementById('eventStartTime').value = '';
+  document.getElementById('eventEndTime').value = '';
+  document.getElementById('eventCompany').value = '';
+  document.getElementById('eventPosition').value = '';
+  document.getElementById('eventMeetingUrl').value = '';
+  document.getElementById('eventNotes').value = '';
   document.getElementById('interviewSpecificFields').style.display = 'none';
   ModalManager.open('eventModal');
 }
 
+function openAddEventModal(dateStr = '') {
+  openCreateEventModal(dateStr);
+}
+
 async function openEventDetailsModalById(eventId) {
-  const doc = await db.collection('users').doc(currentUser.uid).collection('events').doc(eventId).get();
-  if (!doc.exists) {
-    showToast('Event no longer exists.', 'error');
+  const canonicalId = EventViewModel.getCanonicalEventId(eventId);
+  if (!canonicalId) {
+    console.error('[openEventDetailsModalById] Missing or invalid event ID for event details modal:', eventId);
+    showToast('Could not load this existing event.', 'error');
     return;
   }
-  openEventDetailsModal({ id: doc.id, ...doc.data() });
+  try {
+    if (!currentUser?.uid) {
+      console.error('[openEventDetailsModalById] No authenticated user found when loading event:', canonicalId);
+      showToast('Could not load this existing event.', 'error');
+      return;
+    }
+    const doc = await db.collection('users').doc(currentUser.uid).collection('events').doc(canonicalId).get();
+    if (!doc.exists) {
+      console.error(`[openEventDetailsModalById] Event "${canonicalId}" not found in Firestore collection users/${currentUser.uid}/events`);
+      showToast('Could not load this existing event.', 'error');
+      return;
+    }
+    openEventDetailsModal({ ...doc.data(), id: doc.id, firestoreId: doc.id });
+  } catch (err) {
+    console.error('[openEventDetailsModalById] Error loading event from Firestore:', err);
+    showToast('Could not load this existing event.', 'error');
+  }
 }
 
 function openEventDetailsModal(eventData) {
-  if (!eventData?.id) {
-    showToast('Unable to open event details.', 'error');
+  const canonicalId = EventViewModel.getCanonicalEventId(eventData);
+  if (!canonicalId) {
+    console.error('[openEventDetailsModal] Missing canonical ID for event data:', eventData);
+    showToast('Could not load this existing event.', 'error');
     return;
   }
+
+  currentEventModalMode = ModalMode.VIEW;
+  logCalendarRouting('[MODAL] VIEW');
+  logCalendarRouting('[MODAL] modalMode:', currentEventModalMode);
 
   const optionalRow = (label, value, renderedValue = '') => value ? `
     <div class="event-detail-field">
       <div class="event-detail-label">${escapeHtml(label)}</div>
       <div class="event-detail-value">${renderedValue || escapeHtml(String(value))}</div>
     </div>` : '';
-  const meetingUrl = /^https?:\/\//i.test(eventData.meetingUrl || '') ? eventData.meetingUrl : '';
+  const view = EventViewModel.getFormValues(eventData);
+  const meetingUrl = /^https?:\/\//i.test(view.meetingUrl || '') ? view.meetingUrl : '';
   const locationUrl = /^https?:\/\//i.test(eventData.location || '') ? eventData.location : '';
-  const organizerEmail = String(eventData.organizer || '').replace(/^mailto:/i, '');
-  const notes = eventData.notes || eventData.description || '';
-  const imported = eventData.source === 'EMAIL_INTAKE';
+  const organizer = view.organizer;
+  const notes = view.notes;
+  const sourceLabel = EventViewModel.getSourceLabel(eventData);
+  const isInterview = view.category === 'INTERVIEW';
+  const dateTime = InterviewTimeEngine.formatInterviewDateTime(eventData, DEFAULT_TIMEZONE) || { label: 'Time not available' };
+  const preparation = isInterview ? InterviewTimeEngine.calculatePreparationWindow(eventData, getInterviewPreparationMinutes()) : null;
+  const countdown = isInterview ? InterviewTimeEngine.calculateInterviewCountdown(eventData) : null;
+  const phone = isInterview ? getInterviewPhoneAlertStatus(eventData) : null;
 
-  document.getElementById('detailsTitle').innerText = eventData.title || 'Event Details';
+  document.getElementById('detailsTitle').innerText = view.title || 'Event Details';
   document.getElementById('eventDetailsBody').innerHTML = `
+    ${isInterview ? `<div class="event-detail-hero"><strong>${escapeHtml(eventData.company || 'Interview')}</strong><span>${escapeHtml(EventViewModel.getInterviewStage(eventData))} — ${escapeHtml(eventData.position || 'Role not specified')}</span><b>${dateTime.label}</b><em>${countdown.label}</em></div>` : ''}
     <div class="event-detail-badges">
-      <span class="badge badge-${escapeHtml((eventData.category || 'other').toLowerCase())}">${escapeHtml(eventData.category || 'OTHER')}</span>
-      <span class="badge badge-normal">${escapeHtml(eventData.status || 'CONFIRMED')}</span>
-      ${imported ? '<span class="badge badge-normal">Email Imported</span>' : '<span class="badge badge-normal">Manual</span>'}
+      <span class="badge badge-${escapeHtml(view.category.toLowerCase())}">${escapeHtml(view.category)}</span>
+      <span class="badge badge-normal">${escapeHtml(view.status.charAt(0) + view.status.slice(1).toLowerCase())}</span>
+      <span class="badge badge-normal">${escapeHtml(sourceLabel)}</span>
       ${eventData.parserUsed ? `<span class="badge badge-normal">${escapeHtml(eventData.parserUsed)}</span>` : ''}
     </div>
     <div class="form-row-3">
-      ${optionalRow('Date', DateUtils.formatDatePacific(eventData.start))}
-      ${optionalRow('Start Time', DateUtils.formatTimePacific(eventData.start))}
-      ${optionalRow('End Time', DateUtils.formatTimePacific(eventData.end))}
+      ${optionalRow('Date', DateUtils.formatDatePacific(EventViewModel.getStart(eventData)))}
+      ${optionalRow('Start Time', DateUtils.formatTimePacific(EventViewModel.getStart(eventData), true))}
+      ${optionalRow('End Time', DateUtils.formatTimePacific(EventViewModel.getEnd(eventData), true))}
     </div>
     <div class="form-row">
-      ${optionalRow('Priority', eventData.priority)}
+      ${optionalRow('Priority', view.priority)}
       ${optionalRow('Company', eventData.company)}
     </div>
-    ${optionalRow('Position / Role', eventData.position)}
+    ${optionalRow('Position / Role', view.position)}
     ${optionalRow('Location', eventData.location, locationUrl ? `<a href="${escapeHtml(locationUrl)}" target="_blank" rel="noopener noreferrer">Open location</a>` : '')}
     <div class="form-row">
-      ${optionalRow('Interview Stage', eventData.interviewStage)}
-      ${optionalRow('Interview Format', eventData.interviewType)}
+      ${optionalRow('Interview Stage', EventViewModel.getInterviewStage(eventData))}
+      ${optionalRow('Interview Format', view.interviewType)}
     </div>
-    ${optionalRow('Organizer', eventData.organizer, organizerEmail ? `<a href="mailto:${escapeHtml(organizerEmail)}">${escapeHtml(organizerEmail)}</a>` : '')}
-    ${optionalRow('Source', imported ? 'Email Imported' : eventData.source || 'Manual')}
+    ${optionalRow('Recruiter', organizer.name || organizer.email, `${organizer.name ? `<strong>${escapeHtml(organizer.name)}</strong>` : ''}${organizer.email ? `<a href="mailto:${escapeHtml(organizer.email)}">${escapeHtml(organizer.email)}</a>` : ''}`)}
+    ${preparation ? optionalRow('Preparation', preparation.start.toISOString(), `${DateUtils.formatTimePacific(preparation.start.toISOString())} – ${DateUtils.formatTimePacific(preparation.end.toISOString(), true)}`) : ''}
+    ${phone ? optionalRow('Phone Alerts', phone.label) : ''}
+    ${optionalRow('Source', sourceLabel)}
     ${optionalRow('Original Subject', eventData.originalSubject)}
     ${optionalRow('Received', eventData.receivedAt ? DateUtils.formatDateTimeRange(eventData.receivedAt, null) : '')}
     ${optionalRow('Processed', eventData.processedAt ? DateUtils.formatDateTimeRange(eventData.processedAt, null) : '')}
     ${notes ? `<details class="event-detail-notes"><summary>Notes / Preparation</summary><div>${escapeHtml(notes)}</div></details>` : ''}
     ${meetingUrl ? `<a class="btn btn-primary" href="${escapeHtml(meetingUrl)}" target="_blank" rel="noopener noreferrer">Join Meeting</a>` : ''}
+    ${typeof buildRemindersSection === 'function' ? buildRemindersSection(eventData) : ''}
   `;
 
   document.getElementById('detailsEditBtn').onclick = () => {
     ModalManager.close('eventDetailsModal');
-    editEventModal(eventData);
+    openEditEventModal(eventData);
   };
   document.getElementById('detailsDeleteBtn').onclick = () => {
     ModalManager.close('eventDetailsModal');
-    deleteEvent(eventData.id, eventData.title);
+    deleteEvent(canonicalId, eventData.title);
   };
   ModalManager.open('eventDetailsModal');
 }
 
-function editEventModal(eventData) {
-  document.getElementById('eventForm').reset();
-  document.getElementById('eventId').value = eventData.id;
-  document.getElementById('eventModalTitle').innerText = 'Edit Event';
-  document.getElementById('eventTitle').value = eventData.title || '';
-
-  if (eventData.start) {
-    const start = DateUtils.splitISOToDateAndTime(eventData.start);
-    document.getElementById('eventDate').value = start.date;
-    document.getElementById('eventStartTime').value = start.time;
+function openEditEventModal(eventData) {
+  const canonicalId = EventViewModel.getCanonicalEventId(eventData);
+  if (!canonicalId) {
+    console.error('[openEditEventModal] Missing canonical ID for event:', eventData);
+    showToast('Could not load this existing event.', 'error');
+    return;
   }
-  if (eventData.end) document.getElementById('eventEndTime').value = DateUtils.splitISOToDateAndTime(eventData.end).time;
 
-  document.getElementById('eventCategory').value = eventData.category || 'OTHER';
-  document.getElementById('eventPriority').value = eventData.priority || 'NORMAL';
-  document.getElementById('eventCompany').value = eventData.company || '';
-  document.getElementById('eventPosition').value = eventData.position || '';
-  document.getElementById('eventMeetingUrl').value = eventData.meetingUrl || '';
-  document.getElementById('eventStatus').value = eventData.status || 'CONFIRMED';
-  document.getElementById('eventNotes').value = eventData.notes || eventData.description || '';
-  document.getElementById('eventInterviewStage').value = eventData.interviewStage || 'TECHNICAL';
-  document.getElementById('eventInterviewType').value = eventData.interviewType || 'Other';
-  document.getElementById('eventRecruiter').value = eventData.recruiter || '';
-  document.getElementById('interviewSpecificFields').style.display = eventData.category === 'INTERVIEW' ? 'block' : 'none';
+  currentEventModalMode = ModalMode.EDIT;
+  logCalendarRouting('[MODAL] EDIT');
+  logCalendarRouting('[MODAL] modalMode:', currentEventModalMode);
+  const view = EventViewModel.getFormValues(eventData);
+  document.getElementById('eventForm').reset();
+  document.getElementById('eventId').value = view.id || canonicalId;
+  document.getElementById('eventModalTitle').innerText = 'Edit Event';
+  document.getElementById('eventTitle').value = view.title;
+  document.getElementById('eventDate').value = view.date;
+  document.getElementById('eventStartTime').value = view.startTime;
+  document.getElementById('eventEndTime').value = view.endTime;
+  document.getElementById('eventCategory').value = view.category;
+  document.getElementById('eventPriority').value = view.priority;
+  document.getElementById('eventCompany').value = view.company;
+  document.getElementById('eventPosition').value = view.position;
+  document.getElementById('eventMeetingUrl').value = view.meetingUrl;
+  document.getElementById('eventStatus').value = view.status;
+  document.getElementById('eventNotes').value = view.notes;
+  document.getElementById('eventInterviewStage').value = view.interviewStage;
+  document.getElementById('eventInterviewType').value = view.interviewType;
+  document.getElementById('eventRecruiter').value = view.recruiter;
+  document.getElementById('interviewSpecificFields').style.display = view.category === 'INTERVIEW' ? 'block' : 'none';
   ModalManager.open('eventModal');
 }
 
+function editEventModal(eventData) {
+  openEditEventModal(eventData);
+}
+
 function deleteEvent(eventId, title) {
+  const canonicalId = EventViewModel.getCanonicalEventId(eventId);
+  if (!canonicalId) {
+    showToast('Could not delete event: Missing ID', 'error');
+    return;
+  }
   ModalManager.confirm(`Delete "${title || 'this event'}"? This action cannot be undone.`, async () => {
     try {
-      await db.collection('users').doc(currentUser.uid).collection('events').doc(eventId).delete();
+      // Get googleCalendarEventId before deleting
+      const evDoc = await db.collection('users').doc(currentUser.uid).collection('events').doc(canonicalId).get();
+      const gcalId = evDoc.exists ? evDoc.data().googleCalendarEventId : null;
+
+      await db.collection('users').doc(currentUser.uid).collection('events').doc(canonicalId).delete();
       showToast('Event deleted');
+
+      // Remove from Google Calendar too (fire-and-forget)
+      if (gcalId) CalendarSyncService.deleteEvent(gcalId).catch(() => {});
+
       await refreshDashboard();
     } catch (error) {
       showToast('Failed to delete event: ' + error.message, 'error');
@@ -1754,8 +2184,634 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+// ==========================================================================
+// NOTIFICATIONS, ALARMS & CALENDAR SYNC
+// Phases 1-15: Google Calendar sync, browser alerts, follow-up reminders,
+// settings persistence, sound, idempotency, timezone correctness
+// ==========================================================================
+
+// --------------------------------------------------------------------------
+// CALENDAR SYNC SERVICE
+// Calls /.netlify/functions/calendar-sync (server-side, secrets never exposed)
+// --------------------------------------------------------------------------
+const CalendarSyncService = {
+  /**
+   * Create or update a Google Calendar event.
+   * If event already has googleCalendarEventId -> UPDATE, else CREATE.
+   * Idempotent: same event synced twice results in one calendar event.
+   */
+  async syncEvent(eventData) {
+    const settings = await NotificationService.loadSettings();
+    if (!settings.calendarSync) return { status: 'DISABLED' };
+
+    try {
+      const action = eventData.googleCalendarEventId ? 'UPDATE' : 'CREATE';
+      const configuredMinutes = settings.reminderMinutes || [1440, 60, 30, 15, 5];
+      const reminderMinutes = [...new Set([
+        ...configuredMinutes,
+        ...(eventData.isInterview || eventData.category === 'INTERVIEW' ? [30] : [])
+      ])];
+
+      const res = await fetch('/.netlify/functions/calendar-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action,
+          title: eventData.title,
+          start: eventData.start,
+          end: eventData.end,
+          timezone: eventData.timezone || DEFAULT_TIMEZONE,
+          meetingUrl: eventData.meetingUrl || '',
+          description: eventData.notes || '',
+          reminderMinutes,
+          googleCalendarEventId: eventData.googleCalendarEventId || null
+        })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      if (data.status === 'STANDBY') {
+        console.info('[CalendarSync] Credentials not configured — Firestore-only mode');
+        return data;
+      }
+
+      // Persist googleCalendarEventId back to Firestore
+      if (data.googleCalendarEventId && eventData.id && currentUser) {
+        await db.collection('users').doc(currentUser.uid).collection('events').doc(eventData.id).update({
+          googleCalendarEventId: data.googleCalendarEventId,
+          googleCalendarLink: data.calendarLink || '',
+          calendarSyncStatus: 'SYNCED',
+          reminderMinutes,
+          calendarSyncedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      console.info(`[CalendarSync] ${action}: ${data.googleCalendarEventId}`);
+      return data;
+    } catch (err) {
+      console.warn('[CalendarSync] Sync failed, event saved to Firestore only:', err.message);
+      if (eventData.id && currentUser) {
+        await db.collection('users').doc(currentUser.uid).collection('events').doc(eventData.id).update({
+          calendarSyncStatus: 'PENDING'
+        }).catch(() => {});
+      }
+      return { status: 'PENDING', error: err.message };
+    }
+  },
+
+  async deleteEvent(googleCalendarEventId) {
+    if (!googleCalendarEventId) return;
+    const settings = await NotificationService.loadSettings();
+    if (!settings.calendarSync) return;
+
+    try {
+      await fetch('/.netlify/functions/calendar-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'DELETE', googleCalendarEventId })
+      });
+    } catch (err) {
+      console.warn('[CalendarSync] Delete failed:', err.message);
+    }
+  }
+};
+
+function ensureInterviewCalendarReminders(events) {
+  (events || []).filter(event =>
+    (event.isInterview || event.category === 'INTERVIEW') &&
+    event.googleCalendarEventId &&
+    event.calendarSyncStatus === 'SYNCED' &&
+    !(event.reminderMinutes || []).map(Number).includes(30)
+  ).forEach(event => CalendarSyncService.syncEvent(event).catch(() => {}));
+}
+
+// --------------------------------------------------------------------------
+// NOTIFICATION SERVICE
+// Browser Web Notifications + Audio Chime + Alert Banner
+// --------------------------------------------------------------------------
+const NotificationService = {
+  _settings: null,
+  _alertTimers: [],
+  _muteKey: 'gcc_sound_muted',
+  _snoozeKey: 'gcc_alert_snoozed',
+
+  async init() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      setTimeout(async () => {
+        try {
+          await Notification.requestPermission();
+        } catch (e) {
+          console.info('[Notifications] Permission request deferred');
+        }
+      }, 3000);
+    }
+  },
+
+  async loadSettings() {
+    if (this._settings) return this._settings;
+    if (!currentUser) {
+      this._settings = this._defaultSettings();
+      return this._settings;
+    }
+    try {
+      const doc = await db.collection('users').doc(currentUser.uid).collection('settings').doc('notifications').get();
+      this._settings = doc.exists ? { ...this._defaultSettings(), ...doc.data() } : this._defaultSettings();
+    } catch (e) {
+      this._settings = this._defaultSettings();
+    }
+    return this._settings;
+  },
+
+  _defaultSettings() {
+    return {
+      calendarSync: true,
+      browserNotifications: true,
+      soundAlerts: true,
+      reminderMinutes: [1440, 60, 30, 15, 5],
+      interviewPreparationMinutes: 30,
+      personalEmailReminders: false,
+      emailReminderMinutes: [30],
+      followUpSuggestions: true
+    };
+  },
+
+  async saveSettings(newSettings) {
+    this._settings = { ...this._defaultSettings(), ...newSettings };
+    if (!currentUser) return;
+    await db.collection('users').doc(currentUser.uid).collection('settings').doc('notifications').set(this._settings);
+    showToast('Notification settings saved', 'success');
+  },
+
+  isMuted() {
+    return localStorage.getItem(this._muteKey) === '1';
+  },
+
+  toggleMute() {
+    const newMuted = !this.isMuted();
+    localStorage.setItem(this._muteKey, newMuted ? '1' : '0');
+    return newMuted;
+  },
+
+  isSnoozed(eventId) {
+    try {
+      const snoozeData = JSON.parse(localStorage.getItem(this._snoozeKey) || '{}');
+      const until = snoozeData[eventId];
+      return until && Date.now() < until;
+    } catch (e) {
+      return false;
+    }
+  },
+
+  snooze(eventId, minutes = 10) {
+    try {
+      const snoozeData = JSON.parse(localStorage.getItem(this._snoozeKey) || '{}');
+      snoozeData[eventId] = Date.now() + minutes * 60 * 1000;
+      localStorage.setItem(this._snoozeKey, JSON.stringify(snoozeData));
+    } catch (e) {}
+  },
+
+  // Sound Chime using Web Audio API
+  playChime() {
+    if (this.isMuted()) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+      oscillator.frequency.setValueAtTime(1108.73, ctx.currentTime + 0.15);
+      oscillator.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.3);
+
+      gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.8);
+    } catch (e) {
+      console.info('[Sound] Web Audio API unavailable');
+    }
+  },
+
+  showBrowserNotification(title, body, eventId, meetingUrl) {
+    if (!('Notification' in window)) return;
+    if (Notification.permission !== 'granted') return;
+
+    const n = new Notification(title, {
+      body,
+      icon: '/favicon.ico',
+      tag: eventId || 'gcc-alert',
+      requireInteraction: true
+    });
+
+    if (meetingUrl) {
+      n.addEventListener('click', () => {
+        window.open(meetingUrl, '_blank');
+        n.close();
+      });
+    }
+  },
+
+  showAlertBanner(event, minutesBefore) {
+    if (this.isSnoozed(event.id)) return;
+
+    const existing = document.getElementById('gcc-alert-banner');
+    if (existing) existing.remove();
+
+    const whenStr = minutesBefore === 0
+      ? 'NOW'
+      : minutesBefore < 60
+        ? `in ${minutesBefore}m`
+        : minutesBefore < 1440
+          ? `in ${Math.round(minutesBefore / 60)}h`
+          : 'tomorrow';
+
+    const banner = document.createElement('div');
+    banner.id = 'gcc-alert-banner';
+    banner.className = 'gcc-alert-banner';
+    banner.innerHTML = `
+      <div class="gcc-alert-content">
+        <div class="gcc-alert-icon">🔔</div>
+        <div class="gcc-alert-text">
+          <div class="gcc-alert-title">${escapeHtml(event.title || 'Event Reminder')}</div>
+          <div class="gcc-alert-sub">${whenStr} &bull; ${DateUtils.formatTimePacific(event.start, true)}${event.company ? ' &bull; ' + escapeHtml(event.company) : ''}</div>
+        </div>
+        <div class="gcc-alert-actions">
+          ${event.meetingUrl ? `<a href="${escapeHtml(event.meetingUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Join</a>` : ''}
+          <button class="btn btn-secondary btn-sm" onclick="NotificationService.snooze('${event.id}', 10); document.getElementById('gcc-alert-banner')?.remove(); showToast('Snoozed 10 minutes');">Snooze 10m</button>
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('gcc-alert-banner')?.remove();">Dismiss</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 60000);
+
+    const settings = this._settings || this._defaultSettings();
+    if (settings.soundAlerts) this.playChime();
+  },
+
+  scheduleUpcomingAlerts() {
+    this._alertTimers.forEach(t => clearTimeout(t));
+    this._alertTimers = [];
+
+    if (!currentUser) return;
+
+    fetchCollection('events').then(events => {
+      const now = Date.now();
+      const settings = this._settings || this._defaultSettings();
+      const configuredMinutes = settings.reminderMinutes || [1440, 60, 30, 15, 5];
+
+      const upcoming = (events || []).filter(e => {
+        if (!e.start || e.status === 'CANCELLED') return false;
+        const diff = new Date(e.start).getTime() - now;
+        return diff > 0 && diff <= 25 * 60 * 60 * 1000;
+      });
+
+      upcoming.forEach(event => {
+        const eventTime = new Date(event.start).getTime();
+        const minutes = [...new Set([
+          ...configuredMinutes,
+          ...(event.isInterview || event.category === 'INTERVIEW' ? [30] : [])
+        ])];
+
+        minutes.forEach(m => {
+          const alertAt = eventTime - m * 60 * 1000;
+          const delay = alertAt - now;
+
+          if (delay >= 0 && delay < 25 * 60 * 60 * 1000) {
+            const timer = setTimeout(() => {
+              this.fireAlert(event, m);
+            }, delay);
+            this._alertTimers.push(timer);
+          }
+
+          if (delay > -60000 && delay <= 60000 && !this.isSnoozed(event.id)) {
+            this.fireAlert(event, m);
+          }
+        });
+      });
+    }).catch(err => console.warn('[NotificationService] scheduleUpcomingAlerts error:', err));
+  },
+
+  fireAlert(event, minutesBefore) {
+    const settings = this._settings || this._defaultSettings();
+    const label = minutesBefore === 0 ? 'Starting now'
+      : minutesBefore < 60 ? `In ${minutesBefore} minutes`
+      : minutesBefore < 1440 ? `In ${Math.round(minutesBefore / 60)} hour(s)`
+      : 'Tomorrow';
+
+    const isInterview = event.isInterview || event.category === 'INTERVIEW';
+    const alertTitle = isInterview && minutesBefore === 30
+      ? `${event.company || 'Interview'} preparation starts now`
+      : isInterview && minutesBefore === 15
+        ? 'INTERVIEW IN 15 MINUTES'
+        : isInterview && minutesBefore === 5
+          ? 'INTERVIEW IN 5 MINUTES — JOIN NOW'
+          : `🔔 ${event.title || 'Upcoming Event'}`;
+    const body = `${label} • ${DateUtils.formatTimePacific(event.start, true)}${event.company ? ' • ' + event.company : ''}`;
+
+    this.showAlertBanner({ ...event, title: alertTitle }, minutesBefore);
+
+    if (settings.browserNotifications) {
+      this.showBrowserNotification(alertTitle, body, event.id, event.meetingUrl);
+    }
+  },
+
+  rescheduleOnRefresh() {
+    this.scheduleUpcomingAlerts();
+  }
+};
+
+// --------------------------------------------------------------------------
+// FOLLOW-UP REMINDER SERVICE
+// --------------------------------------------------------------------------
+const FollowUpService = {
+  PRESETS: [
+    { id: '2h', label: 'Later Today (2h)', hours: 2 },
+    { id: 'morning', label: 'Tomorrow Morning (9 AM)', hours: null, slot: 'morning' },
+    { id: 'afternoon', label: 'Tomorrow Afternoon (2 PM)', hours: null, slot: 'afternoon' },
+    { id: '2d', label: 'In 2 Days', hours: 48 },
+    { id: '3d', label: 'In 3 Days', hours: 72 },
+    { id: '1w', label: 'In 1 Week', hours: 168 }
+  ],
+
+  computeDueDate(presetId) {
+    const now = new Date();
+    const preset = this.PRESETS.find(p => p.id === presetId);
+    if (!preset) return new Date(now.getTime() + 24 * 3600000).toISOString();
+
+    if (preset.hours) {
+      return new Date(now.getTime() + preset.hours * 3600000).toISOString();
+    }
+
+    const target = new Date(now);
+    target.setDate(target.getDate() + 1);
+    if (preset.slot === 'morning') { target.setHours(9, 0, 0, 0); }
+    else if (preset.slot === 'afternoon') { target.setHours(14, 0, 0, 0); }
+    return target.toISOString();
+  },
+
+  async createFollowUp(eventId, type, presetId, customNote) {
+    if (!currentUser) return;
+    const dueDate = this.computeDueDate(presetId);
+
+    const followUp = {
+      eventId,
+      type,
+      note: customNote || '',
+      dueDate,
+      presetId,
+      status: 'PENDING',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await db.collection('users').doc(currentUser.uid).collection('followUps').add(followUp);
+    showToast(`Follow-up reminder set: ${this.PRESETS.find(p => p.id === presetId)?.label || presetId}`);
+    renderFollowUps();
+  },
+
+  async markComplete(followUpId) {
+    if (!currentUser) return;
+    await db.collection('users').doc(currentUser.uid).collection('followUps').doc(followUpId).update({
+      status: 'COMPLETED',
+      completedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    renderFollowUps();
+  },
+
+  async deleteFollowUp(followUpId) {
+    if (!currentUser) return;
+    await db.collection('users').doc(currentUser.uid).collection('followUps').doc(followUpId).delete();
+    renderFollowUps();
+  }
+};
+
+// --------------------------------------------------------------------------
+// RENDER FOLLOW-UPS
+// --------------------------------------------------------------------------
+async function renderFollowUps() {
+  const container = document.getElementById('followUpsContainer');
+  if (!container) return;
+
+  if (!currentUser) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-text">Sign in to view follow-ups.</div></div>';
+    return;
+  }
+
+  try {
+    const snap = await db.collection('users').doc(currentUser.uid).collection('followUps')
+      .where('status', '==', 'PENDING')
+      .orderBy('dueDate', 'asc')
+      .get();
+
+    const items = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    if (items.length === 0) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✅</div><div class="empty-state-text">No pending follow-ups. All caught up!</div></div>';
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="item-list">
+        ${items.map(fu => {
+          const overdue = new Date(fu.dueDate) < new Date();
+          return `
+          <div class="list-item" style="border-left: 4px solid ${overdue ? 'var(--danger)' : 'var(--warning)'}; background: ${overdue ? 'rgba(239,68,68,0.05)' : 'rgba(245,158,11,0.05)'}">
+            <div class="list-item-main">
+              <div class="list-item-title">${escapeHtml(fu.note || fu.type)}</div>
+              <div class="list-item-sub">
+                <span>${overdue ? '⚠️ Overdue' : '📅'} Due: ${DateUtils.formatDatePacific(fu.dueDate)} · ${DateUtils.formatTimePacific(fu.dueDate)}</span>
+                ${fu.type ? `<span>Type: ${escapeHtml(fu.type.replace('_', ' '))}</span>` : ''}
+              </div>
+            </div>
+            <div class="list-item-actions">
+              <button class="btn btn-primary btn-sm" onclick="FollowUpService.markComplete('${fu.id}')">✓ Done</button>
+              <button class="btn btn-danger btn-sm" onclick="FollowUpService.deleteFollowUp('${fu.id}')">Remove</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-text">Error loading follow-ups: ${escapeHtml(err.message)}</div></div>`;
+  }
+}
+
+function openFollowUpModal(eventId, eventTitle) {
+  const modal = document.getElementById('followUpModal');
+  if (!modal) return;
+
+  document.getElementById('followUpEventId').value = eventId || '';
+  document.getElementById('followUpEventTitle').innerText = eventTitle || 'Event';
+  document.getElementById('followUpNote').value = '';
+  document.getElementById('followUpPreset').value = 'morning';
+  ModalManager.open('followUpModal');
+}
+
+// --------------------------------------------------------------------------
+// SETTINGS: Load & Save Notification Settings to Firestore
+// --------------------------------------------------------------------------
+async function loadNotificationSettings() {
+  const settings = await NotificationService.loadSettings();
+  const el = id => document.getElementById(id);
+
+  if (el('settingCalendarSync')) el('settingCalendarSync').checked = settings.calendarSync !== false;
+  if (el('settingBrowserNotifications')) el('settingBrowserNotifications').checked = settings.browserNotifications !== false;
+  if (el('settingSoundAlerts')) el('settingSoundAlerts').checked = settings.soundAlerts !== false;
+  if (el('settingFollowUpSuggestions')) el('settingFollowUpSuggestions').checked = settings.followUpSuggestions !== false;
+  if (el('settingPersonalEmailReminders')) el('settingPersonalEmailReminders').checked = settings.personalEmailReminders === true;
+  if (el('interviewPreparationMinutes')) el('interviewPreparationMinutes').value = String(settings.interviewPreparationMinutes || 30);
+
+  const mins = settings.reminderMinutes || [1440, 60, 30, 15, 5];
+  if (el('reminder1440')) el('reminder1440').checked = mins.includes(1440);
+  if (el('reminder60')) el('reminder60').checked = mins.includes(60);
+  if (el('reminder30')) el('reminder30').checked = mins.includes(30);
+  if (el('reminder15')) el('reminder15').checked = mins.includes(15);
+  if (el('reminder5')) el('reminder5').checked = mins.includes(5);
+
+  updateNotificationSettingsStatus(settings);
+}
+
+async function saveNotificationSettings() {
+  const el = id => document.getElementById(id);
+
+  const reminderMinutes = [];
+  if (el('reminder1440')?.checked) reminderMinutes.push(1440);
+  if (el('reminder60')?.checked) reminderMinutes.push(60);
+  if (el('reminder30')?.checked) reminderMinutes.push(30);
+  if (el('reminder15')?.checked) reminderMinutes.push(15);
+  if (el('reminder5')?.checked) reminderMinutes.push(5);
+
+  const newSettings = {
+    calendarSync: el('settingCalendarSync')?.checked ?? true,
+    browserNotifications: el('settingBrowserNotifications')?.checked ?? true,
+    soundAlerts: el('settingSoundAlerts')?.checked ?? true,
+    followUpSuggestions: el('settingFollowUpSuggestions')?.checked ?? true,
+    personalEmailReminders: el('settingPersonalEmailReminders')?.checked === true,
+    emailReminderMinutes: [30],
+    interviewPreparationMinutes: Number(el('interviewPreparationMinutes')?.value) || 30,
+    reminderMinutes: reminderMinutes.length > 0 ? [...new Set(reminderMinutes)] : [60, 30, 15]
+  };
+
+  NotificationService._settings = null;
+  await NotificationService.saveSettings(newSettings);
+  updateNotificationSettingsStatus(newSettings);
+
+  await NotificationService.loadSettings();
+  NotificationService.scheduleUpcomingAlerts();
+  await refreshDashboard();
+}
+
+function updateNotificationSettingsStatus(settings) {
+  const calStatus = document.getElementById('calSyncStatus');
+  const notifStatus = document.getElementById('browserNotifStatus');
+
+  if (calStatus) {
+    calStatus.innerText = settings.calendarSync ? 'Enabled' : 'Disabled';
+    calStatus.style.background = settings.calendarSync ? 'var(--success-bg)' : 'rgba(107,114,128,0.2)';
+    calStatus.style.color = settings.calendarSync ? 'var(--success)' : '#9ca3af';
+  }
+
+  if (notifStatus) {
+    const granted = 'Notification' in window && Notification.permission === 'granted';
+    notifStatus.innerText = settings.browserNotifications && granted ? 'Active' : settings.browserNotifications ? 'Permission Needed' : 'Disabled';
+    notifStatus.style.background = settings.browserNotifications && granted ? 'var(--success-bg)' : 'var(--warning-bg)';
+    notifStatus.style.color = settings.browserNotifications && granted ? 'var(--success)' : 'var(--warning)';
+  }
+}
+
+// --------------------------------------------------------------------------
+// CALENDAR SYNC STATUS CHECK
+// --------------------------------------------------------------------------
+async function checkCalendarSyncStatus() {
+  const badge = document.getElementById('calendarSyncStatusBadge');
+  const text = document.getElementById('calendarSyncStatusText');
+
+  if (!badge || !text) return;
+
+  badge.innerText = 'Checking...';
+  text.innerText = 'Verifying Google Calendar connection...';
+
+  try {
+    const res = await fetch('/.netlify/functions/calendar-sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'PING' })
+    });
+    const data = await res.json();
+
+    if (data.status === 'STANDBY') {
+      badge.innerText = 'Not Configured';
+      badge.style.background = 'rgba(107,114,128,0.2)';
+      badge.style.color = '#9ca3af';
+      text.innerText = 'Google Calendar scope not authorized. Re-run OAuth with calendar.events scope.';
+    } else if (data.error && data.error.includes('PING')) {
+      badge.innerText = 'Connected';
+      badge.style.background = 'var(--success-bg)';
+      badge.style.color = 'var(--success)';
+      text.innerText = 'Google Calendar API ready';
+    } else {
+      badge.innerText = 'Standby';
+      badge.style.background = 'rgba(107,114,128,0.2)';
+      badge.style.color = '#9ca3af';
+      text.innerText = data.message || data.error || 'Ready for OAuth';
+    }
+  } catch (err) {
+    badge.innerText = 'Unavailable';
+    badge.style.background = 'rgba(107,114,128,0.2)';
+    badge.style.color = '#9ca3af';
+    text.innerText = 'Netlify function unreachable (run locally with netlify dev)';
+  }
+}
+
+// --------------------------------------------------------------------------
+// EVENT DETAILS MODAL — REMINDERS SECTION BUILDER
+// --------------------------------------------------------------------------
+function buildRemindersSection(eventData) {
+  const settings = NotificationService._settings || NotificationService._defaultSettings();
+  const mins = settings.reminderMinutes || [1440, 60, 30, 15, 5];
+
+  const indicators = mins.map(m => {
+    const label = m === 1440 ? '24h' : m === 60 ? '1h' : m === 15 ? '15m' : m === 5 ? '5m' : `${m}m`;
+    return `<span class="badge badge-normal" style="font-size:0.7rem;">${label} before</span>`;
+  }).join(' ');
+
+  const syncStatus = eventData.calendarSyncStatus;
+  const syncBadge = syncStatus === 'SYNCED'
+    ? '<span class="badge" style="background:var(--success-bg);color:var(--success);">📅 Calendar Synced</span>'
+    : syncStatus === 'PENDING'
+      ? '<span class="badge" style="background:var(--warning-bg);color:var(--warning);">⏳ Sync Pending</span>'
+      : '<span class="badge" style="background:rgba(107,114,128,0.2);color:#9ca3af;">Calendar: Not Synced</span>';
+
+  const isInterview = eventData.category === 'INTERVIEW';
+
+  return `
+    <div class="event-detail-field" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-color);">
+      <div class="event-detail-label">Reminders</div>
+      <div class="event-detail-value" style="display:flex;flex-wrap:wrap;gap:0.375rem;align-items:center;">
+        ${indicators}
+        ${syncBadge}
+      </div>
+    </div>
+    ${isInterview ? `
+    <div class="event-detail-field" style="margin-top:0.75rem;">
+      <div class="event-detail-label">Follow-up Actions</div>
+      <div class="event-detail-value" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+        <button class="btn btn-secondary btn-sm" onclick="openFollowUpModal('${eventData.id}', ${JSON.stringify(escapeHtml(eventData.title))}); ModalManager.close('eventDetailsModal');">+ Schedule Follow-up</button>
+      </div>
+    </div>` : ''}
+  `;
+}
+
 // Window load init
 window.addEventListener('DOMContentLoaded', () => {
-  init().then(() => setupRealtimeListeners()).catch(err => console.error('Dashboard init failed:', err));
+  init().then(() => {
+    setupRealtimeListeners();
+    NotificationService.init();
+  }).catch(err => console.error('Dashboard init failed:', err));
 });
-

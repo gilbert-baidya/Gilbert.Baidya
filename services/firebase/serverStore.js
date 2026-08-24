@@ -1,5 +1,6 @@
 const { cert, getApps, initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+const InterviewTimeEngine = require('../calendar/interviewTimeEngine');
 
 class ServerStore {
   constructor(config = {}) {
@@ -35,6 +36,38 @@ class ServerStore {
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
 
+  async loadNotificationSettings() {
+    const snapshot = await this.userRef.collection('settings').doc('notifications').get();
+    return snapshot.exists ? snapshot.data() : {};
+  }
+
+  async claimEmailReminder(reminderId, reminder) {
+    const ref = this.userRef.collection('emailReminders').doc(reminderId);
+    return this.db.runTransaction(async transaction => {
+      const snapshot = await transaction.get(ref);
+      const existing = snapshot.exists ? snapshot.data() : null;
+      if (existing && (existing.status !== 'FAILED' || Number(existing.attempts || 1) >= 3)) return false;
+      transaction.set(ref, this.clean({
+        status: 'PROCESSING',
+        sourceEventId: reminder.event.id,
+        scheduledAt: reminder.scheduledAt,
+        minutesBefore: reminder.minutesBefore,
+        attempts: Number(existing?.attempts || 0) + 1,
+        createdAt: existing?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }), { merge: true });
+      return true;
+    });
+  }
+
+  async completeEmailReminder(reminderId, status, errorMessage = '') {
+    await this.userRef.collection('emailReminders').doc(reminderId).set(this.clean({
+      status,
+      error: errorMessage || null,
+      completedAt: new Date().toISOString()
+    }), { merge: true });
+  }
+
   async persistGmailResult(gmailMessage, result) {
     const gmailMessageId = gmailMessage.id;
     const intakeRef = this.userRef.collection('emailIntake').doc(gmailMessageId);
@@ -57,6 +90,19 @@ class ServerStore {
       await eventRef.set({ ...eventWithAudit, id: eventId });
     } else if ((result.action === 'AUTO_UPDATE' || result.action === 'AUTO_CANCEL') && eventId) {
       await this.userRef.collection('events').doc(eventId).set(eventWithAudit, { merge: true });
+    }
+
+    if (
+      eventId &&
+      eventWithAudit.isInterview &&
+      eventWithAudit.status !== 'CANCELLED' &&
+      (result.action === 'AUTO_ADD' || result.action === 'AUTO_UPDATE')
+    ) {
+      const settings = await this.loadNotificationSettings();
+      await this.ensureInterviewPreparationTask(eventId, {
+        ...eventWithAudit,
+        interviewPreparationMinutes: settings.interviewPreparationMinutes || InterviewTimeEngine.DEFAULT_PREPARATION_MINUTES
+      });
     }
 
     const needsReview = result.action === 'NEEDS_REVIEW' || Boolean(result.event?.needsReview);
@@ -89,6 +135,36 @@ class ServerStore {
 
   clean(value) {
     return JSON.parse(JSON.stringify(value));
+  }
+
+  async ensureInterviewPreparationTask(eventId, event) {
+    const taskRef = this.userRef.collection('tasks').doc(`interview-prep-${eventId}`);
+    const existing = await taskRef.get();
+    const preparation = InterviewTimeEngine.calculatePreparationWindow(event, event.interviewPreparationMinutes);
+    const due = preparation?.start || null;
+    const dueAt = due && !isNaN(due.getTime()) ? due.toISOString() : null;
+    const localDue = InterviewTimeEngine.formatLocalDateTime(due, InterviewTimeEngine.DEFAULT_TIME_ZONE);
+    if (existing.exists) {
+      const existingTask = typeof existing.data === 'function' ? existing.data() : null;
+      if (!existingTask || existingTask.dueAt === dueAt || existingTask.generatedBy !== 'INTERVIEW_CLASSIFICATION') return;
+    }
+    const task = this.clean({
+      title: `Prepare: ${event.company || 'Interview'} — ${event.interviewStage || 'Interview'}`,
+      description: event.position ? `Role: ${event.position}` : 'Review the role and prepare interview notes.',
+      dueDate: localDue.date,
+      dueTime: localDue.time,
+      dueAt,
+      interviewStart: event.start || null,
+      interviewPreparationMinutes: preparation?.minutes || InterviewTimeEngine.DEFAULT_PREPARATION_MINUTES,
+      priority: 'HIGH',
+      status: 'TODO',
+      generatedBy: 'INTERVIEW_CLASSIFICATION',
+      sourceEventId: eventId,
+      sourceIcalUid: event.icalUid || null,
+      updatedAt: new Date().toISOString()
+    });
+    if (!existing.exists) task.createdAt = new Date().toISOString();
+    await taskRef.set(task, { merge: true });
   }
 }
 
