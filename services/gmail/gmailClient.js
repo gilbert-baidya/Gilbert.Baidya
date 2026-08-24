@@ -6,10 +6,11 @@
 
 class GmailClient {
   constructor(config = {}) {
-    this.clientId = config.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID;
-    this.clientSecret = config.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
-    this.redirectUri = config.GOOGLE_REDIRECT_URI || process.env.GOOGLE_REDIRECT_URI;
-    this.refreshToken = config.GMAIL_REFRESH_TOKEN || process.env.GMAIL_REFRESH_TOKEN;
+    // Trim to guard against trailing whitespace/newlines pasted into env var storage, which Google rejects as invalid_grant
+    this.clientId = (config.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID || '').trim();
+    this.clientSecret = (config.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET || '').trim();
+    this.redirectUri = (config.GOOGLE_REDIRECT_URI || process.env.GOOGLE_REDIRECT_URI || '').trim();
+    this.refreshToken = (config.GMAIL_REFRESH_TOKEN || process.env.GMAIL_REFRESH_TOKEN || '').trim();
     this.intakeAccount = config.GMAIL_INTAKE_ACCOUNT || process.env.GMAIL_INTAKE_ACCOUNT || 'gilbert.cgpt@gmail.com';
     this.calendarIntakeAddress = config.GMAIL_CALENDAR_INTAKE_ADDRESS || process.env.GMAIL_CALENDAR_INTAKE_ADDRESS || 'gilbert.cgpt+calendar@gmail.com';
     this.intakeLabel = config.GMAIL_INTAKE_LABEL || process.env.GMAIL_INTAKE_LABEL || 'Command Center Intake';

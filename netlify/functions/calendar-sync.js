@@ -13,13 +13,24 @@ const CALENDAR_ID = 'primary';
 const InterviewTimeEngine = require('../../services/calendar/interviewTimeEngine');
 
 async function getAccessToken() {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const refreshToken = process.env.GMAIL_REFRESH_TOKEN; // reuse same refresh token — scopes merged
+  // Trim to guard against trailing whitespace/newlines pasted into env var storage, which Google rejects as invalid_grant
+  const clientId = (process.env.GOOGLE_CLIENT_ID || '').trim();
+  const clientSecret = (process.env.GOOGLE_CLIENT_SECRET || '').trim();
+  const refreshToken = (process.env.GMAIL_REFRESH_TOKEN || '').trim(); // reuse same refresh token — scopes merged
 
   if (!clientId || !clientSecret || !refreshToken) {
     throw new Error('Google Calendar credentials not configured (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GMAIL_REFRESH_TOKEN)');
   }
+
+  // Safe, secret-free diagnostics for invalid_grant troubleshooting — never log actual credential values
+  console.debug('[calendar-sync] OAuth diagnostics', {
+    GOOGLE_CLIENT_ID_configured: Boolean(clientId),
+    GOOGLE_CLIENT_ID_suffix: clientId.slice(-6),
+    GOOGLE_CLIENT_SECRET_configured: Boolean(clientSecret),
+    GMAIL_REFRESH_TOKEN_configured: Boolean(refreshToken),
+    GMAIL_REFRESH_TOKEN_length: refreshToken.length,
+    GMAIL_REFRESH_TOKEN_rawEnvLength: (process.env.GMAIL_REFRESH_TOKEN || '').length
+  });
 
   const res = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
