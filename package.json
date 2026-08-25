@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "node tests/pipeline_test.js && node tests/gmail_label_filter_test.js && node tests/gmail_live_intake_test.js && node tests/hands_free_automation_test.js && node tests/interview_classifier_test.js && node tests/interview_time_engine_test.js && node tests/event_details_binding_test.js && node tests/interview_automation_test.js && node tests/interview_email_reminder_test.js && node tests/notifications_test.js"
+    "test": "node tests/pipeline_test.js && node tests/gmail_label_filter_test.js && node tests/gmail_live_intake_test.js && node tests/hands_free_automation_test.js && node tests/interview_classifier_test.js && node tests/interview_time_engine_test.js && node tests/event_details_binding_test.js && node tests/calendar_grid_timezone_test.js && node tests/interview_automation_test.js && node tests/interview_email_reminder_test.js && node tests/notifications_test.js"
   },
   "repository": {
     "type": "git",
